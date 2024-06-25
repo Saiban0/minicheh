@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:13:38 by tom               #+#    #+#             */
-/*   Updated: 2024/06/25 20:52:32 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/06/25 21:42:00 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,13 @@ typedef enum s_cmd_and_op
 
 typedef struct s_ast_content
 {
-	bool	is_op;
-	char	*cmd_op;
-	bool	builtins;
-	bool	flags;
-	char	*file_name;
+	bool			is_op;
+	t_cmd_and_op	cmd_op;
+	char			*cmd;
+	char			*cmd_op;
+	bool			builtins;
+	bool			flags;
+	char			*file_name;
 }	t_ast_content;
 
 typedef struct s_ast

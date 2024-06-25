@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   error_management.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 16:19:25 by tom               #+#    #+#             */
-/*   Updated: 2024/06/25 21:22:54 by bchedru          ###   ########.fr       */
+/*   Created: 2024/06/25 21:21:40 by bchedru           #+#    #+#             */
+/*   Updated: 2024/06/25 21:59:33 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef ERROR_MANAGEMENT_H
+# define ERROR_MANAGEMENT_H
 
-# include "libamoa.h"
-# include "struct.h"
-# include "executing.h"
-# include "error_management.h"
-# include <sys/wait.h>
-# include <sys/stat.h>
-# include <errno.h>
+#include "minishell.h"
 
+typedef enum s_error_management
+{
+	e_command_not_found
+}	t_error;
+
+void	error_management(int error_code, t_ast *cmd);
 
 #endif
