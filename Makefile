@@ -5,7 +5,7 @@ LIBAMOA = libamoa/libamoa.a
 CC = cc
 
 CFLAGS =	-Wall -Wextra -Werror -g \
-			-Iinclude
+			-IInclude
 
 LFLAGS =	-Llibamoa \
 			-lamoa
