@@ -1,5 +1,7 @@
 *.o
 a.out
+minishell
 *.txt
 .vscode/
 temp
+libamoa/libamoa.a
