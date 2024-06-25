@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+         #
+#    By: tom <tom@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/16 16:02:49 by ttaquet           #+#    #+#              #
-#    Updated: 2024/06/25 16:37:59 by bchedru          ###   ########.fr        #
+#    Updated: 2024/06/25 17:00:39 by tom              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,9 +15,13 @@ NAME = minicheh
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -Iinclude
 
-FILES = main
+MAIN = main
 
-SRC_FILES = $(addprefix src/ $(FILES))
+BUILTINS = 
+
+FILE = $(BUILTINS)
+
+SRC_FILES = $(addprefix src/BUILTINS/, $(BUILTINS))
 
 OBJ_DIR = obj/
 
