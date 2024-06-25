@@ -6,11 +6,11 @@
 #    By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/16 16:02:49 by ttaquet           #+#    #+#              #
-#    Updated: 2024/06/25 16:28:30 by bchedru          ###   ########.fr        #
+#    Updated: 2024/06/25 16:37:59 by bchedru          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libamoa.a
+NAME = minicheh
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -Iinclude
