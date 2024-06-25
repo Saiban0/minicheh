@@ -116,6 +116,13 @@ int				ft_toupper(int c);
 /******************************************************************************/
 
 /**
+ * @brief This function simply prints every char * of a char **
+ * 
+ * @param str The array
+ */
+void			ft_print_double_array(char **str);
+
+/**
  * @brief This function return the size y of an double dimensions array
  * 
  * @param double_array The array
