@@ -52,7 +52,4 @@ $(OBJ_DIR):
 obj/%.o: src/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-obj/%.o: bonus/%.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
 .PHONY: all clean fclean re bonus
