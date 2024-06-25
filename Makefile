@@ -52,4 +52,4 @@ $(OBJ_DIR):
 obj/%.o: src/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re
