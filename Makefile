@@ -15,11 +15,15 @@ BUILTINS =
 
 MAIN = main
 
+EXECUTING = exec_simple exec_utils
+
 FILES = $(BUILTINS) \
-$(MAIN)
+$(MAIN) \
+$(EXECUTING)
 
 SRC_FILES = $(addprefix src/BUILTINS/, $(BUILTINS)) \
-$(addprefix src/MAIN/, $(MAIN))
+$(addprefix src/MAIN/, $(MAIN)) \
+$(addprefix src/EXECUTING/, $(EXECUTING))
 
 OBJ_DIR = obj/
 
@@ -49,7 +53,7 @@ $(LIBAMOA):
 $(OBJ_DIR):
 	mkdir $@
 
-obj/%.o: src/%.c
+obj/%.o: src/*/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 .PHONY: all clean fclean re
