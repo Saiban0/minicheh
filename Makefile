@@ -1,51 +1,58 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: tom <tom@student.42.fr>                    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/10/16 16:02:49 by ttaquet           #+#    #+#              #
-#    Updated: 2024/06/25 17:00:39 by tom              ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME = minishell
 
-NAME = minicheh
+LIBAMOA = libamoa/libamoa.a
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Iinclude
+
+CFLAGS =	-Wall -Wextra -Werror -g \
+			-Iinclude
+
+LFLAGS =	-Llibamoa \
+			-lamoa
+
+
+BUILTINS =
 
 MAIN = main
 
-BUILTINS = 
+FILES = $(BUILTINS) \
+$(MAIN)
 
-FILE = $(BUILTINS)
-
-SRC_FILES = $(addprefix src/BUILTINS/, $(BUILTINS))
+SRC_FILES = $(addprefix src/BUILTINS/, $(BUILTINS)) \
+$(addprefix src/MAIN/, $(MAIN))
 
 OBJ_DIR = obj/
 
 SRCS = $(addsuffix .c, $(SRC_FILES))
 OBJS = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(FILES)))
 
-.PHONY = all clean fclean re
+all: $(NAME)
 
-all: $(OBJ_DIR) $(OBJS)
-	@echo "\033[32m✔ Compilation des fichiers objets...\033[37m"
-	@ar -rcs $(NAME) $(OBJS)
-	@echo "\033[32m✔ Lib créee.\033[37m"
+bonus: $(NAME_BONUS)
 
-clean:
-	@echo "\033[32m✔ Suppression des fichiers objets...\033[37m"
-	@rm -rf $(OBJ_DIR)
+clean :
+	rm -rf $(OBJ_DIR)
+	make fclean -C libamoa
 
-fclean: clean
-	@rm -rf $(NAME)
+fclean : clean
+	rm -rf $(NAME)
+	make fclean -C libamoa
 
 re: fclean all
 
-obj/%.o: src/*/%.c
-	@$(CC) $(CFLAGS) -c $< -o $@
+$(NAME): $(OBJ_DIR) $(OBJS) $(LIBAMOA)
+	$(CC) -o $@ $(OBJS) $(LFLAGS)
+
+$(LIBAMOA):
+	make -C libamoa
 
 $(OBJ_DIR):
-	@mkdir -p $@
+	mkdir $@
+
+obj/%.o: src/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+obj/%.o: bonus/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+.PHONY: all clean fclean re bonus
