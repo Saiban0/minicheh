@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   executing.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 16:19:25 by tom               #+#    #+#             */
-/*   Updated: 2024/06/25 20:56:41 by bchedru          ###   ########.fr       */
+/*   Created: 2024/06/25 19:44:47 by bchedru           #+#    #+#             */
+/*   Updated: 2024/06/25 20:06:35 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef EXECUTING_H
+# define EXECUTING_H
 
-# include "libamoa.h"
-# include "struct.h"
-# include "executing.h"
-# include <sys/wait.h>
-# include <sys/stat.h>
-# include <errno.h>
-
+void	exec_simple(char *cmd, char **envp);
+int		open_file(char *file, int in_or_out);
+int		check_dir(char *cmd);
+char	*ft_getpath(char *cmd);
 
 #endif

@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_print_double_array.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 16:19:25 by tom               #+#    #+#             */
-/*   Updated: 2024/06/25 20:56:41 by bchedru          ###   ########.fr       */
+/*   Created: 2024/06/25 20:15:46 by bchedru           #+#    #+#             */
+/*   Updated: 2024/06/25 20:19:02 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libamoa.h"
 
-# include "libamoa.h"
-# include "struct.h"
-# include "executing.h"
-# include <sys/wait.h>
-# include <sys/stat.h>
-# include <errno.h>
+void	ft_print_double_array(char **str)
+{
+	int	i;
 
-
-#endif
+	i = -1;
+	while (str[++i])
+		ft_printf("%s\n", str[i]);
+}
