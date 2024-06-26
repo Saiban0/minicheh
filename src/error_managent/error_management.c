@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:04 by bchedru           #+#    #+#             */
-/*   Updated: 2024/06/25 22:01:48 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/06/26 16:54:19 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,10 @@ static void	error_free(t_ast *cmd)
 		error_free(cmd->left);
 	if (cmd->right)
 		error_free(cmd->right);
-	if (!cmd->base)
+	if (cmd->base)
 	{
 		free(cmd->base->cmd);
-		if (!cmd->base->cmd_op)
-			free(cmd->base->cmd_op);
-		if (!cmd->base->file_name)
+		if (cmd->base->file_name)
 			free(cmd->base->file_name);
 		free(cmd->base);
 	}

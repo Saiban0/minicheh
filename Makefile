@@ -17,13 +17,17 @@ MAIN = main
 
 EXECUTING = exec_simple exec_utils
 
+ERROR_MANAGEMENT = error_management
+
 FILES = $(BUILTINS) \
 $(MAIN) \
-$(EXECUTING)
+$(EXECUTING) \
+$(ERROR_MANAGEMENT)
 
 SRC_FILES = $(addprefix src/BUILTINS/, $(BUILTINS)) \
 $(addprefix src/MAIN/, $(MAIN)) \
-$(addprefix src/EXECUTING/, $(EXECUTING))
+$(addprefix src/EXECUTING/, $(EXECUTING)) \
+$(addprefix src/ERROR_MANAGEMENT/, $(ERROR_MANAGEMENT))
 
 OBJ_DIR = obj/
 
