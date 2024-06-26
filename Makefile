@@ -10,20 +10,23 @@ CFLAGS =	-Wall -Wextra -Werror -g \
 LFLAGS =	-Llibamoa \
 			-lamoa
 
-
 BUILTINS =
-
-MAIN = main
 
 EXECUTING = exec_simple exec_utils
 
+MAIN = main
+
+PARSE = parse
+
 FILES = $(BUILTINS) \
+$(EXECUTING) \
 $(MAIN) \
-$(EXECUTING)
+$(PARSE)
 
 SRC_FILES = $(addprefix src/BUILTINS/, $(BUILTINS)) \
+$(addprefix src/EXECUTING/, $(EXECUTING)) \
 $(addprefix src/MAIN/, $(MAIN)) \
-$(addprefix src/EXECUTING/, $(EXECUTING))
+$(addprefix src/PARSE/, $(PARSE))
 
 OBJ_DIR = obj/
 
