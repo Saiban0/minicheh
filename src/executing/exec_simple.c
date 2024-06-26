@@ -6,26 +6,22 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:16:54 by bchedru           #+#    #+#             */
-/*   Updated: 2024/06/25 20:07:05 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/06/26 18:32:14 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_simple(char *cmd, char **envp)
+void	exec_simple(t_ast *cmd, char **envp)
 {
-	char	**s_cmd;
-	char	*path;
+	char	*cmd_path;
 
-	if (cmd[0] == '\0')
+	if (cmd->base->cmd[0][0] == '\0')
 		exit(0);
-	s_cmd = ft_split(cmd, ' ');
-	path = ft_getpath(s_cmd[0]);
-	if (execve(path, s_cmd, envp) == -1)
+	cmd_path = ft_getpath(cmd->base->cmd[0]);
+	if (execve(cmd_path, cmd->base->cmd, envp) == -1)
 	{
-		ft_putstr_fd("minicheh: command not found: ", 2);
-		ft_putendl_fd(s_cmd[0], 2);
-		ft_free_double_array(s_cmd);
-		exit(0);
+		free(cmd_path);
+		error_management(e_command_not_found, cmd);
 	}
 }
