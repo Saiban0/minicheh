@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:13:38 by tom               #+#    #+#             */
-/*   Updated: 2024/06/25 21:42:00 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/06/26 16:59:33 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ typedef struct s_ast_content
 	bool			is_op;
 	t_cmd_and_op	cmd_op;
 	char			*cmd;
-	char			*cmd_op;
 	bool			builtins;
 	bool			flags;
 	char			*file_name;
@@ -66,9 +65,8 @@ typedef struct s_ast_content
 typedef struct s_ast
 {
 	t_ast_content	*base;
-	struct t_ast	*left;
-	struct t_ast	*right;
+	struct s_ast	*left;
+	struct s_ast	*right;
 }	t_ast;
-
 
 #endif
