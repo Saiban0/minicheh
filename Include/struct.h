@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:13:38 by tom               #+#    #+#             */
-/*   Updated: 2024/06/26 16:59:33 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/06/26 18:28:24 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_ast_content
 {
 	bool			is_op;
 	t_cmd_and_op	cmd_op;
-	char			*cmd;
+	char			**cmd;
 	bool			builtins;
 	bool			flags;
 	char			*file_name;
