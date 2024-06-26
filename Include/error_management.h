@@ -6,14 +6,12 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:40 by bchedru           #+#    #+#             */
-/*   Updated: 2024/06/25 21:59:33 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/06/26 17:27:41 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ERROR_MANAGEMENT_H
 # define ERROR_MANAGEMENT_H
-
-#include "minishell.h"
 
 typedef enum s_error_management
 {
