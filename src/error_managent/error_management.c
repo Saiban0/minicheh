@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:04 by bchedru           #+#    #+#             */
-/*   Updated: 2024/06/26 16:54:19 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/06/26 18:33:09 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ static void	error_free(t_ast *cmd)
 		error_free(cmd->right);
 	if (cmd->base)
 	{
-		free(cmd->base->cmd);
+		if (cmd->base->cmd)
+			ft_free_double_array(cmd->base->cmd);
 		if (cmd->base->file_name)
 			free(cmd->base->file_name);
 		free(cmd->base);
@@ -33,7 +34,7 @@ void	error_management(int error_code, t_ast *cmd)
 	if (error_code == 0)
 	{
 		ft_putstr_fd("minicheh: command not found: ", 2);
-		ft_putstr_fd(cmd->base->cmd, 2);
+		ft_putstr_fd(cmd->base->cmd[0], 2);
 		error_free(cmd);
 	}
 	exit(0);
