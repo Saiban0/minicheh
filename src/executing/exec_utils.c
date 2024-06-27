@@ -6,13 +6,13 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:25:44 by bchedru           #+#    #+#             */
-/*   Updated: 2024/06/25 21:01:42 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/06/27 13:55:07 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	open_file(char *file, int in_or_out)
+int	open_file(char *file, int in_or_out, t_ast *cmd)
 {
 	int	ret;
 
@@ -21,10 +21,7 @@ int	open_file(char *file, int in_or_out)
 	if (in_or_out == 1)
 		ret = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0777);
 	if (ret == -1)
-	{
-		ft_putstr_fd("pipex: file not found: ", 2);
-		ft_putendl_fd(file, 2);
-	}
+		error_management(e_file_not_found, cmd);
 	return (ret);
 }
 
