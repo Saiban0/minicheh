@@ -5,25 +5,28 @@ LIBAMOA = libamoa/libamoa.a
 CC = cc
 
 CFLAGS =	-Wall -Wextra -Werror -g \
-			-IInclude
+			-IInclude 
 
 LFLAGS =	-Llibamoa \
 			-lamoa
 
-
 BUILTINS =
-
-MAIN = main
 
 EXECUTING = exec_simple exec_utils
 
+MAIN = main
+
+PARSE = parse_utils parse parsing_test pipe_handler redirect_output_handler
+
 FILES = $(BUILTINS) \
+$(EXECUTING) \
 $(MAIN) \
-$(EXECUTING)
+$(PARSE)
 
 SRC_FILES = $(addprefix src/BUILTINS/, $(BUILTINS)) \
+$(addprefix src/EXECUTING/, $(EXECUTING)) \
 $(addprefix src/MAIN/, $(MAIN)) \
-$(addprefix src/EXECUTING/, $(EXECUTING))
+$(addprefix src/PARSE/, $(PARSE))
 
 OBJ_DIR = obj/
 
