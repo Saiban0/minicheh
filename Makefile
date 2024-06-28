@@ -5,7 +5,7 @@ LIBAMOA = libamoa/libamoa.a
 CC = cc
 
 CFLAGS =	-Wall -Wextra -Werror -g \
-			-IInclude
+			-IInclude 
 
 LFLAGS =	-Llibamoa \
 			-lamoa
@@ -16,7 +16,7 @@ EXECUTING = exec_simple exec_utils
 
 MAIN = main
 
-PARSE = parse
+PARSE = parse parsing_test
 
 FILES = $(BUILTINS) \
 $(EXECUTING) \

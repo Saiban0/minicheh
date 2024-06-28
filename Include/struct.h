@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:13:38 by tom               #+#    #+#             */
-/*   Updated: 2024/06/25 20:52:32 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/06/26 18:28:30 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,13 @@
  */
 typedef enum s_cmd_and_op
 {
+	e_empty,
 	e_external_control,
 	e_pipe,
 	e_redirect_input,
 	e_redirect_output,
 	e_db_fle_g,
 	e_db_fle_d,
-	e_env_variable,
-	e_mref_pipe,
 	e_echo,
 	e_cd,
 	e_pwd,
@@ -54,18 +53,19 @@ typedef enum s_cmd_and_op
 
 typedef struct s_ast_content
 {
-	bool	is_op;
-	char	*cmd_op;
-	bool	builtins;
-	bool	flags;
-	char	*file_name;
+	bool			is_op;
+	t_cmd_and_op	cmd_op;
+	bool			builtins;
+	bool			flags;
+	char			**cmd;
+	char			*file_name;
 }	t_ast_content;
 
 typedef struct s_ast
 {
 	t_ast_content	*base;
-	struct t_ast	*left;
-	struct t_ast	*right;
+	struct s_ast	*left;
+	struct s_ast	*right;
 }	t_ast;
 
 
