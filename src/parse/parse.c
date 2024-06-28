@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/06/28 02:53:07 by tom              ###   ########.fr       */
+/*   Updated: 2024/06/28 03:15:13 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,18 @@ void	first_base(char	*commande, char	*line, t_ast	**ast, int	*operator)
 	free(tmp);
 }
 
+void	add_new_head(t_ast	**ast)
+{
+	t_ast	*new_head;
+	
+	new_head = malloc(sizeof(t_ast *));
+	new_head->base = malloc(sizeof(t_ast_content *));
+	new_head->base->cmd_op = e_pipe;
+	new_head->base->is_op = true;
+	new_head->left = *ast;
+	(*ast) = new_head;
+}
+
 void	ast_pipe(char	*line, int	i, t_ast	**ast)
 {
 	char	*commande;
@@ -80,10 +92,7 @@ void	ast_pipe(char	*line, int	i, t_ast	**ast)
 	if ((*ast)->base->cmd_op == e_empty)
 		first_base(commande, line, ast, operator);
 	else
-	{
-		ft_printf("a faire");
-		exit(0);
-	}
+		add_new_head(ast);
 	line += i + 1;
 	tmp = ft_calloc(operator[1] - i + 1, sizeof(char));
 	ft_strlcat(tmp, line, operator[1] - i);
@@ -111,8 +120,8 @@ t_ast	*parse(char *line)
 			ast_pipe(line, i, &ast);
 			line += i;
 			i = 0;
-			return (NULL);
 		}
 	}
+	ft_printf("%d / %d\n", 	ast->left->base->cmd_op, ast->right->base->cmd_op);
 	return (NULL);
 }
