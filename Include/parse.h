@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 20:06:37 by tom               #+#    #+#             */
-/*   Updated: 2024/06/28 18:37:40 by tom              ###   ########.fr       */
+/*   Updated: 2024/06/30 17:50:48 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_cmd_and_op	is_builtins(char *command);
  * @param line The command line.
  * @return t_ast* The ast that is returned.
  */
-t_ast	*parse(char *line);
+void	parse(char *line, t_ast	**ast);
 
 /******************************************************************************/
 /*                                                                            */

@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/06/28 18:37:01 by tom              ###   ########.fr       */
+/*   Updated: 2024/06/30 18:29:24 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,28 +32,35 @@ t_cmd_and_op	is_builtins(char *command)
 	return (e_external_control);
 }
 
-t_ast	*parse(char *line)
+void	last_command(char *line, t_ast	**ast)
 {
-	t_ast	*ast;
+	(*ast)->base->cmd = ft_split(line, ' ');
+	(*ast)->base->cmd_op = is_builtins((*ast)->base->cmd[0]);
+}
+
+void	parse(char *line, t_ast	**ast)
+{
 	int		i;
 
 	i = -1;
-	ast = malloc(sizeof(t_ast *));
-	ast->base = malloc(sizeof(t_ast_content *));
-	ast->base->cmd_op = e_empty;
-	ast->left = NULL;
-	ast->right = NULL;
+	(*ast) = malloc(sizeof(t_ast *));
+	(*ast)->base = malloc(sizeof(t_ast_content *));
+	(*ast)->base->cmd_op = e_empty;
+	(*ast)->left = NULL;
+	(*ast)->right = NULL;
 	while (line[++i])
 	{
 		if (is_op(line[i]))
 		{
 			if (line[i] == '|')
-				ast_pipe(line, i, &ast);
+				ast_pipe(line, i, ast);
 			if (line[i] == '>')
-				ast_redirect_output(line, i, &ast);
+				ast_redirect_output(line, i, ast);
 			line += i;
 			i = 0;
+			ft_printf("here");
 		}
 	}
-	return (ast);
+	if ((*ast)->base->cmd_op == e_empty)
+		last_command(line, ast);
 }
