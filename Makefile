@@ -16,7 +16,7 @@ EXECUTING = exec_simple exec_utils
 
 MAIN = main
 
-PARSE = parse_utils parse parsing_test pipe_handler redirect_output_handler
+PARSE = parse_utils parse parsing_test pipe_handler redirect_handler
 
 FILES = $(BUILTINS) \
 $(EXECUTING) \
