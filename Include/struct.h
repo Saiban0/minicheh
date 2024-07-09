@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:13:38 by tom               #+#    #+#             */
-/*   Updated: 2024/06/26 18:28:30 by tom              ###   ########.fr       */
+/*   Updated: 2024/07/09 11:49:16 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ typedef enum s_cmd_and_op
 	e_pipe,
 	e_redirect_input,
 	e_redirect_output,
-	e_db_fle_g,
-	e_db_fle_d,
+	e_here_doc,
+	e_redirect_output_write_mod,
 	e_echo,
 	e_cd,
 	e_pwd,
