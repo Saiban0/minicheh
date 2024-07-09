@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 20:06:37 by tom               #+#    #+#             */
-/*   Updated: 2024/06/30 17:50:48 by tom              ###   ########.fr       */
+/*   Updated: 2024/07/09 11:58:52 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	ast_pipe(char	*line, int	i, t_ast	**ast);
 
 /******************************************************************************/
 /*                                                                            */
-/* Redirect_Output_Handler                                                    */
+/* Redirect_Handler                                                    */
 /*                                                                            */
 /******************************************************************************/
 
@@ -92,5 +92,5 @@ void	ast_pipe(char	*line, int	i, t_ast	**ast);
  * @param i The position of '>'.
  * @param ast The ast that is returned in the parse function.
  */
-void	ast_redirect_output(char	*line, int	i, t_ast	**ast);
+void	ast_redirect(char	*line, int	i, t_ast	**ast, t_cmd_and_op op);
 

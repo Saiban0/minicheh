@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/06/30 18:29:24 by tom              ###   ########.fr       */
+/*   Updated: 2024/07/09 11:59:26 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,18 @@ void	parse(char *line, t_ast	**ast)
 	{
 		if (is_op(line[i]))
 		{
-			if (line[i] == '|')
+			if (line[i] == '<' && line[i + 1] == '<')
+				ast_redirect(line, i + 1, ast, e_here_doc);
+			else if (line[i] == '>' && line[i + 1] == '>')
+				ast_redirect(line, i + 1, ast, e_redirect_output_write_mod);
+			else if (line[i] == '|')
 				ast_pipe(line, i, ast);
-			if (line[i] == '>')
-				ast_redirect_output(line, i, ast);
+			else if (line[i] == '>')
+				ast_redirect(line, i, ast, e_redirect_output);
+			else if (line[i] == '<')
+				ast_redirect(line, i, ast, e_redirect_input);
 			line += i;
 			i = 0;
-			ft_printf("here");
 		}
 	}
 	if ((*ast)->base->cmd_op == e_empty)

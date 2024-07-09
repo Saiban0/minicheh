@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirect_output_handler.c                          :+:      :+:    :+:   */
+/*   redirect_handler.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:43 by tom               #+#    #+#             */
-/*   Updated: 2024/06/28 18:38:36 by tom              ###   ########.fr       */
+/*   Updated: 2024/07/09 11:56:48 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	add_new_redirect_output(t_ast	*node, char	*right_cmd)
+void	add_new_redirect(t_ast	*node, char	*right_cmd, t_cmd_and_op op)
 {
 	t_ast	*new_node;
 
@@ -20,7 +20,7 @@ void	add_new_redirect_output(t_ast	*node, char	*right_cmd)
 	new_node->base = malloc(sizeof(t_ast_content *));
 	new_node->right = malloc(sizeof(t_ast *));
 	new_node->right->base = malloc(sizeof(t_ast_content *));
-	new_node->base->cmd_op = e_redirect_output;
+	new_node->base->cmd_op = op;
 	new_node->base->is_op = true;
 	new_node->left = NULL;
 	new_node->right->base->cmd = ft_split(right_cmd, ' ');
@@ -28,13 +28,12 @@ void	add_new_redirect_output(t_ast	*node, char	*right_cmd)
 	node->right = new_node;
 }
 
-void	ast_redirect_output(char	*line, int	i, t_ast	**ast)
+void	ast_redirect(char	*line, int	i, t_ast	**ast, t_cmd_and_op	op)
 {
 	char	*command;
 	t_ast	*node;
 
 	node = *ast;
-	(void)ast;
 	if (node->base->cmd_op == e_empty)
 	{
 		command = ft_calloc(i + 1, sizeof(char));
@@ -51,6 +50,6 @@ void	ast_redirect_output(char	*line, int	i, t_ast	**ast)
 		i++;
 	command = ft_calloc(i + 1, sizeof(char));
 	ft_strlcat(command, line, i);
-	add_new_redirect_output(node, command);
+	add_new_redirect(node, command, op);
 	node = node->right;
 }
