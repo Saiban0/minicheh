@@ -6,13 +6,13 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 09:04:41 by tom               #+#    #+#             */
-/*   Updated: 2024/07/10 09:05:32 by tom              ###   ########.fr       */
+/*   Updated: 2024/07/10 12:23:04 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-
+char	*ft_echo(char **arg);
 
 #endif

@@ -10,7 +10,7 @@ CFLAGS =	-Wall -Wextra -Werror -g \
 LFLAGS =	-Llibamoa \
 			-lamoa
 
-BUILTINS =
+BUILTINS = ft_echo
 
 EXECUTING = exec_simple exec_utils
 
