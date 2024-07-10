@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/07/09 11:59:26 by tom              ###   ########.fr       */
+/*   Updated: 2024/07/10 08:51:23 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,15 @@ void	parse(char *line, t_ast	**ast)
 		if (is_op(line[i]))
 		{
 			if (line[i] == '<' && line[i + 1] == '<')
-				ast_redirect(line, i + 1, ast, e_here_doc);
+				ast_else(line, i + 1, ast, e_here_doc);
 			else if (line[i] == '>' && line[i + 1] == '>')
-				ast_redirect(line, i + 1, ast, e_redirect_output_write_mod);
+				ast_else(line, i + 1, ast, e_redirect_output_write_mod);
 			else if (line[i] == '|')
 				ast_pipe(line, i, ast);
 			else if (line[i] == '>')
-				ast_redirect(line, i, ast, e_redirect_output);
+				ast_else(line, i, ast, e_redirect_output);
 			else if (line[i] == '<')
-				ast_redirect(line, i, ast, e_redirect_input);
+				ast_else(line, i, ast, e_redirect_input);
 			line += i;
 			i = 0;
 		}

@@ -6,13 +6,13 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:43 by tom               #+#    #+#             */
-/*   Updated: 2024/07/09 11:56:48 by tom              ###   ########.fr       */
+/*   Updated: 2024/07/10 08:50:52 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	add_new_redirect(t_ast	*node, char	*right_cmd, t_cmd_and_op op)
+void	add_new_operator(t_ast	*node, char	*right_cmd, t_cmd_and_op op)
 {
 	t_ast	*new_node;
 
@@ -28,7 +28,7 @@ void	add_new_redirect(t_ast	*node, char	*right_cmd, t_cmd_and_op op)
 	node->right = new_node;
 }
 
-void	ast_redirect(char	*line, int	i, t_ast	**ast, t_cmd_and_op	op)
+void	ast_else(char	*line, int	i, t_ast	**ast, t_cmd_and_op	op)
 {
 	char	*command;
 	t_ast	*node;
@@ -50,6 +50,6 @@ void	ast_redirect(char	*line, int	i, t_ast	**ast, t_cmd_and_op	op)
 		i++;
 	command = ft_calloc(i + 1, sizeof(char));
 	ft_strlcat(command, line, i);
-	add_new_redirect(node, command, op);
+	add_new_operator(node, command, op);
 	node = node->right;
 }
