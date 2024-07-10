@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/07/10 08:51:23 by tom              ###   ########.fr       */
+/*   Updated: 2024/07/10 09:00:46 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,20 @@ void	last_command(char *line, t_ast	**ast)
 	(*ast)->base->cmd_op = is_builtins((*ast)->base->cmd[0]);
 }
 
+void	select_operator(char	*line, int	i, t_ast	**ast)
+{
+	if (line[i] == '<' && line[i + 1] == '<')
+		ast_else(line, i + 1, ast, e_here_doc);
+	else if (line[i] == '>' && line[i + 1] == '>')
+		ast_else(line, i + 1, ast, e_redirect_output_write_mod);
+	else if (line[i] == '|')
+		ast_pipe(line, i, ast);
+	else if (line[i] == '>')
+		ast_else(line, i, ast, e_redirect_output);
+	else if (line[i] == '<')
+		ast_else(line, i, ast, e_redirect_input);
+}
+
 void	parse(char *line, t_ast	**ast)
 {
 	int		i;
@@ -52,16 +66,6 @@ void	parse(char *line, t_ast	**ast)
 	{
 		if (is_op(line[i]))
 		{
-			if (line[i] == '<' && line[i + 1] == '<')
-				ast_else(line, i + 1, ast, e_here_doc);
-			else if (line[i] == '>' && line[i + 1] == '>')
-				ast_else(line, i + 1, ast, e_redirect_output_write_mod);
-			else if (line[i] == '|')
-				ast_pipe(line, i, ast);
-			else if (line[i] == '>')
-				ast_else(line, i, ast, e_redirect_output);
-			else if (line[i] == '<')
-				ast_else(line, i, ast, e_redirect_input);
 			line += i;
 			i = 0;
 		}
