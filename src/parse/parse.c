@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/07/10 09:00:46 by tom              ###   ########.fr       */
+/*   Updated: 2024/07/11 12:21:15 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ void	last_command(char *line, t_ast	**ast)
 
 void	select_operator(char	*line, int	i, t_ast	**ast)
 {
-	if (line[i] == '<' && line[i + 1] == '<')
+	if (line[i] == '|')
+		ast_pipe(line, i, ast);
+	else if (line[i] == '<' && line[i + 1] == '<')
 		ast_else(line, i + 1, ast, e_here_doc);
 	else if (line[i] == '>' && line[i + 1] == '>')
 		ast_else(line, i + 1, ast, e_redirect_output_write_mod);
-	else if (line[i] == '|')
-		ast_pipe(line, i, ast);
 	else if (line[i] == '>')
 		ast_else(line, i, ast, e_redirect_output);
 	else if (line[i] == '<')
@@ -66,6 +66,7 @@ void	parse(char *line, t_ast	**ast)
 	{
 		if (is_op(line[i]))
 		{
+			select_operator(line, i, ast);
 			line += i;
 			i = 0;
 		}
