@@ -1,26 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 16:19:25 by tom               #+#    #+#             */
-/*   Updated: 2024/07/10 12:23:17 by tom              ###   ########.fr       */
+/*   Created: 2024/07/10 09:04:41 by tom               #+#    #+#             */
+/*   Updated: 2024/07/10 12:23:04 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef BUILTINS_H
+# define BUILTINS_H
 
-# include "libamoa.h"
-# include "struct.h"
-# include "parse.h"
-# include "executing.h"
-# include "builtins.h"
-# include <sys/wait.h>
-# include <sys/stat.h>
-# include <errno.h>
-# include <stdio.h>
+char	*ft_echo(char **arg);
 
 #endif
