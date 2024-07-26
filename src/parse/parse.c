@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/07/11 12:21:15 by tom              ###   ########.fr       */
+/*   Updated: 2024/07/26 14:07:42 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,30 @@ void	select_operator(char	*line, int	i, t_ast	**ast)
 		ast_else(line, i, ast, e_redirect_input);
 }
 
-void	parse(char *line, t_ast	**ast)
+int		add_env(t_env	**env_start, t_ast	**ast)
+{
+	int	res ;
+
+	res = 0;
+	res += ((*ast)->base->cmd_op != e_empty);
+	(*ast)->t_env = env_start;
+	if ((*ast)->left)
+		res = (add_env(env_start, &(*ast)->left));
+	if ((*ast)->right)
+		res = (add_env(env_start, &(*ast)->right));
+	return (res);
+}
+
+void	parse(char *line, t_ast	**ast, t_env	*env_start)
 {
 	int		i;
 
 	i = -1;
-	(*ast) = malloc(sizeof(t_ast *));
-	(*ast)->base = malloc(sizeof(t_ast_content *));
+	(void)env_start;
 	(*ast)->base->cmd_op = e_empty;
 	(*ast)->left = NULL;
 	(*ast)->right = NULL;
+	(*ast)->t_env = NULL;
 	while (line[++i])
 	{
 		if (is_op(line[i]))
@@ -73,4 +87,6 @@ void	parse(char *line, t_ast	**ast)
 	}
 	if ((*ast)->base->cmd_op == e_empty)
 		last_command(line, ast);
+	// env_start->ast_size = add_env(&env_start, ast);
+	// ft_printf("%d", (*(*ast)->t_env)->ast_size);
 }

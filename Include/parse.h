@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 20:06:37 by tom               #+#    #+#             */
-/*   Updated: 2024/07/10 09:06:29 by tom              ###   ########.fr       */
+/*   Updated: 2024/07/26 10:57:50 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,11 @@ t_cmd_and_op	is_builtins(char *command);
  * She read the command line and redirect to the right function.
  * 
  * @param line The command line.
+ * @param ast The ast.
+ * @param env_start A struct that contains the basic environment variables.
  * @return t_ast* The ast that is returned.
  */
-void	parse(char *line, t_ast	**ast);
+void	parse(char *line, t_ast	**ast, t_env	*env_start);
 
 /******************************************************************************/
 /*                                                                            */
