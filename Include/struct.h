@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:13:38 by tom               #+#    #+#             */
-/*   Updated: 2024/07/09 11:49:16 by tom              ###   ########.fr       */
+/*   Updated: 2024/07/26 11:22:50 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,18 @@ typedef struct s_ast_content
 	char			*file_name;
 }	t_ast_content;
 
+typedef struct s_minishell_env
+{
+	char			*pwd;
+	int				ast_size;
+}	t_env;
+
 typedef struct s_ast
 {
+	t_env			**t_env;
 	t_ast_content	*base;
 	struct s_ast	*left;
 	struct s_ast	*right;
 }	t_ast;
-
 
 #endif
