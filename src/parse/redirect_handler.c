@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:43 by tom               #+#    #+#             */
-/*   Updated: 2024/07/26 14:05:17 by tom              ###   ########.fr       */
+/*   Updated: 2024/08/04 13:10:23 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	ast_else(char	*line, int	i, t_ast	**ast, t_cmd_and_op	op)
 		(*ast)->base->cmd = ft_split(command, ' ');
 		(*ast)->base->cmd_op = is_builtins((*ast)->base->cmd[0]);
 		free(command);
+
 	}
 	while (node->right)
 		node = node->right;
