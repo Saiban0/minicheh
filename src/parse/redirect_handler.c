@@ -41,7 +41,6 @@ void	ast_else(char	*line, int	i, t_ast	**ast, t_cmd_and_op	op)
 		(*ast)->base->cmd = ft_split(command, ' ');
 		(*ast)->base->cmd_op = is_builtins((*ast)->base->cmd[0]);
 		free(command);
-
 	}
 	while (node->right)
 		node = node->right;

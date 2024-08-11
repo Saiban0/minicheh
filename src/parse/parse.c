@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/08/04 13:16:15 by tom              ###   ########.fr       */
+/*   Updated: 2024/08/11 16:37:44 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	select_operator(char	*line, int	i, t_ast	**ast)
 
 void		add_env(t_env	**env_start, t_ast	**ast)
 {
-	(*env_start)->ast_size += (*ast)->base->cmd_op != e_empty;
+	(*env_start)->ast_size += ((*ast)->base->cmd_op != e_empty);
 	(*ast)->t_env = env_start;
 	if ((*ast)->left)
 		add_env(env_start, &(*ast)->left);
@@ -49,6 +49,7 @@ void	parse(char *line, t_ast	**ast, t_env	*env_start)
 	i = -1;
 	(*ast)->base->cmd_op = e_empty;
 	(*ast)->left = NULL;
+	(void)env_start;
 	(*ast)->right = NULL;
 	(*ast)->t_env = NULL;
 	while (line[++i])
@@ -62,6 +63,7 @@ void	parse(char *line, t_ast	**ast, t_env	*env_start)
 	}
 	if ((*ast)->base->cmd_op == e_empty)
 		last_command(line, ast);
-	env_start->ast_size = 0;
-	add_env(&env_start, ast);
+	// env_start->ast_size = 0;
+	// add_env(&env_start, ast);
+	//fonctionne mais leak a régler (l 38).
 }

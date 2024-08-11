@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:34:23 by tom               #+#    #+#             */
-/*   Updated: 2024/07/26 14:09:20 by tom              ###   ########.fr       */
+/*   Updated: 2024/08/11 15:58:31 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	first_base( char	*line, t_ast	**ast, int	*operator)
 {
 	char	*tmp;
 
-	tmp = ft_calloc(operator[0] + 2, sizeof(char));
-	ft_strlcat(tmp, line, operator[0] + 1);
+	tmp = ft_calloc(operator[0] + 1, sizeof(char));
+	ft_strlcat(tmp, line, operator[0]);
 	tmp = rem_wspace(tmp);
 	(*ast)->base->cmd_op = e_pipe;
 	(*ast)->base->is_op = true;
