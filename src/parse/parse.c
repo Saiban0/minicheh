@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/08/11 16:37:44 by tom              ###   ########.fr       */
+/*   Updated: 2024/08/13 18:37:28 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	parse(char *line, t_ast	**ast, t_env	*env_start)
 	}
 	if ((*ast)->base->cmd_op == e_empty)
 		last_command(line, ast);
-	// env_start->ast_size = 0;
-	// add_env(&env_start, ast);
-	//fonctionne mais leak a régler (l 38).
+	env_start->ast_size = 0;
+	add_env(&env_start, ast);
+	ft_printf("%d", (*(*ast)->t_env)->ast_size);
 }
