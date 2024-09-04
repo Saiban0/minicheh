@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:13:38 by tom               #+#    #+#             */
-/*   Updated: 2024/06/26 18:28:24 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/06/28 16:02:55 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_ast
 	t_ast_content	*base;
 	struct s_ast	*left;
 	struct s_ast	*right;
+	int				nb_commands;
 }	t_ast;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:04 by bchedru           #+#    #+#             */
-/*   Updated: 2024/06/27 15:39:37 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/06/28 16:22:26 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,26 @@ void	error_management(int error_code, t_ast *cmd)
 {
 	if (error_code == 1)
 	{
-		ft_putstr_fd("minicheh: command not found: ", 2);
-		ft_putendl_fd(cmd->base->cmd[0], 2);
+		ft_putstr_fd("minicheh: command not found: ", STDERR_FILENO);
+		ft_putendl_fd(cmd->base->cmd[0], STDERR_FILENO);
 	}
 	if (error_code == 2)
 	{
-		ft_putstr_fd("minicheh: file not found: ", 2);
-		ft_putendl_fd(cmd->base->cmd[0], 2);
+		ft_putstr_fd("minicheh: file not found: ", STDERR_FILENO);
+		ft_putendl_fd(cmd->base->cmd[0], STDERR_FILENO);
 	}
 	if (error_code == 3)
-		ft_putstr_fd("minicheh : empty command\n", 2);
+		ft_putstr_fd("minicheh : empty command\n", STDERR_FILENO);
 	if (error_code == 4)
 	{
-		ft_putstr_fd("minicheh : fork failure on command: ", 2);
-		ft_putendl_fd(cmd->base->cmd[0], 2);
+		ft_putstr_fd("minicheh : fork failure on command: ", STDERR_FILENO);
+		ft_putendl_fd(cmd->base->cmd[0], STDERR_FILENO);
+		error_free(cmd);
+		exit(-1);
+	}
+	if (error_code == 5)
+	{
+		ft_putstr_fd("minicheh : pipe failure\n", STDERR_FILENO);
 		error_free(cmd);
 		exit(-1);
 	}

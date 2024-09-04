@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:25:44 by bchedru           #+#    #+#             */
-/*   Updated: 2024/06/27 13:55:07 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/07/13 15:22:18 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,12 @@ char	*ft_getpath(char *cmd)
 	ft_free_double_array(allpath);
 	ft_free_double_array(curr_cmd);
 	return (cmd);
+}
+
+void	ft_pipex_init(t_pipex *pipex)
+{
+	pipex->temp_fd = -1;
+	pipex->pid = -1;
+	pipex->pipe_fd[0] = -1;
+	pipex->pipe_fd[1] = -1;
 }
