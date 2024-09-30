@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:13:38 by tom               #+#    #+#             */
-/*   Updated: 2024/06/28 16:02:55 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/09/24 19:39:42 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ typedef struct s_ast_content
 	bool			builtins;
 	bool			flags;
 	char			*file_name;
+	char			*path;
+	pid_t			pid;
 }	t_ast_content;
 
 typedef struct s_ast
