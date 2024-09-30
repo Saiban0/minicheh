@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/09/30 18:00:28 by tom              ###   ########.fr       */
+/*   Updated: 2024/09/30 18:09:23 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ bool	select_operator(char	*line, int	i, t_ast	**ast)
 		j++;
 	if (line[j])
 		return (false);
+	// A gérer le cas ou c'est un pipe en fin de ligne
+	// Même fonctionnement que avec un " en fin de ligne
+	// (Ouvrir les guillemets)
 	if (line[i] == '|')
 		ast_pipe(line, i, ast);
 	else if (line[i] == '<' && line[i + 1] == '<')
