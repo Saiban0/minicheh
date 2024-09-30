@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/08/13 18:37:28 by tom              ###   ########.fr       */
+/*   Updated: 2024/09/30 14:59:19 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,7 @@ void	parse(char *line, t_ast	**ast, t_env	*env_start)
 		last_command(line, ast);
 	env_start->ast_size = 0;
 	add_env(&env_start, ast);
-	ft_printf("%d", (*(*ast)->t_env)->ast_size);
+	// Problème de size avec '<<' et '>>'
+	// rajoute 2 à la taille total (problème qui viens de la création de l'ast)
+	// ft_printf("%d", (*(*ast)->t_env)->ast_size);
 }
