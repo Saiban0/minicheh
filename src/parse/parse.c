@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/09/30 14:59:19 by tom              ###   ########.fr       */
+/*   Updated: 2024/09/30 18:00:28 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,15 @@ void	last_command(char *line, t_ast	**ast)
 	(*ast)->base->cmd_op = is_builtins((*ast)->base->cmd[0]);
 }
 
-void	select_operator(char	*line, int	i, t_ast	**ast)
+bool	select_operator(char	*line, int	i, t_ast	**ast)
 {
+	int	j;
+
+	j = 0;
+	while (line[j] && is_whitespace(line[j]))
+		j++;
+	if (line[j])
+		return (false);
 	if (line[i] == '|')
 		ast_pipe(line, i, ast);
 	else if (line[i] == '<' && line[i + 1] == '<')
@@ -30,6 +37,7 @@ void	select_operator(char	*line, int	i, t_ast	**ast)
 		ast_else(line, i, ast, e_redirect_output);
 	else if (line[i] == '<')
 		ast_else(line, i, ast, e_redirect_input);
+	return (true);
 }
 
 void		add_env(t_env	**env_start, t_ast	**ast)
@@ -49,14 +57,18 @@ void	parse(char *line, t_ast	**ast, t_env	*env_start)
 	i = -1;
 	(*ast)->base->cmd_op = e_empty;
 	(*ast)->left = NULL;
-	(void)env_start;
 	(*ast)->right = NULL;
-	(*ast)->t_env = NULL;
+	(*ast)->t_env = &env_start;
 	while (line[++i])
 	{
 		if (is_op(line[i]))
 		{
-			select_operator(line, i, ast);
+			if (select_operator(line, i, ast) == false)
+			{
+				write(1, "minishell: ", 12);
+				write(1, "syntax error near unexpected token `newline'\n", 46);
+				return ;
+			}
 			line += i;
 			i = 0;
 		}
@@ -68,4 +80,7 @@ void	parse(char *line, t_ast	**ast, t_env	*env_start)
 	// Problème de size avec '<<' et '>>'
 	// rajoute 2 à la taille total (problème qui viens de la création de l'ast)
 	// ft_printf("%d", (*(*ast)->t_env)->ast_size);
+
+
+
 }
