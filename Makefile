@@ -15,7 +15,7 @@ BUILTINS =
 
 MAIN = main
 
-EXECUTING = exec_simple exec_utils
+EXECUTING = exec_simple exec_utils exec_init exec_pipes
 
 ERROR_MANAGEMENT = error_management
 
