@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:13:38 by tom               #+#    #+#             */
 /*   Updated: 2024/09/24 19:39:42 by bchedru          ###   ########.fr       */
@@ -35,14 +35,13 @@
  */
 typedef enum s_cmd_and_op
 {
+	e_empty,
 	e_external_control,
 	e_pipe,
 	e_redirect_input,
 	e_redirect_output,
-	e_db_fle_g,
-	e_db_fle_d,
-	e_env_variable,
-	e_mref_pipe,
+	e_here_doc,
+	e_redirect_output_write_mod,
 	e_echo,
 	e_cd,
 	e_pwd,
@@ -62,10 +61,19 @@ typedef struct s_ast_content
 	char			*file_name;
 	char			*path;
 	pid_t			pid;
+
 }	t_ast_content;
+
+typedef struct s_minishell_env
+{
+	char			*pwd;
+	int				ast_size;
+	char			**envv;
+}	t_env;
 
 typedef struct s_ast
 {
+	t_env			**t_env;
 	t_ast_content	*base;
 	struct s_ast	*left;
 	struct s_ast	*right;

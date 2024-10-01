@@ -1,27 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 16:19:25 by tom               #+#    #+#             */
-/*   Updated: 2024/10/01 12:08:09 by bchedru          ###   ########.fr       */
+/*   Created: 2024/07/10 09:03:45 by tom               #+#    #+#             */
+/*   Updated: 2024/09/30 16:36:02 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "minishell.h"
 
-# include "libamoa.h"
-# include "struct.h"
-# include "parse.h"
-# include "executing.h"
-# include "error_management.h"
-# include "builtins.h"
-# include <sys/wait.h>
-# include <sys/stat.h>
-# include <errno.h>
-# include <stdio.h>
-
-#endif
+void	ft_echo(char **arg)
+{
+	bool	flag;
+	int		i;
+	
+	arg++;
+	i = -1;
+	flag = false;
+	if (arg[0][0] == '-' && arg[0][1] == 'n')
+	{
+		flag = true;
+		arg++;
+	}
+	while (arg[++i])
+	{
+		write(1, arg[i], ft_strlen(arg[i]));
+		write(1, " ", 1);
+	}
+	if (!flag)
+		write(1, "\n", 1);
+}
