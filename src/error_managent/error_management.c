@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:04 by bchedru           #+#    #+#             */
-/*   Updated: 2024/09/30 16:49:15 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/01 12:03:20 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 void	error_free(t_ast *cmd, t_pipex *pipex)
 {
-	if (pipex)
-	{
-		if (pipex->pipe_fd)
-			ft_free_double_array(((char **)pipex->pipe_fd));
-		if (pipex->path_list)
-			ft_free_double_array(pipex->path_list);
-		free(pipex);
-	}
 	if (cmd->left)
 		error_free(cmd->left, pipex);
 	if (cmd->right)
 		error_free(cmd->right, pipex);
+	if (pipex)
+	{
+		if (pipex->pipe_fd)
+			free(pipex->pipe_fd);
+		if (pipex->path_list)
+			ft_free_double_array(pipex->path_list);
+		free(pipex);
+	}
 	if (cmd->base)
 	{
 		if (cmd->base->cmd)
@@ -37,6 +37,21 @@ void	error_free(t_ast *cmd, t_pipex *pipex)
 		free(cmd->base);
 	}
 	free(cmd);
+}
+
+static void	error_management_bis(int error_code, t_ast *cmd, t_pipex *pipex)
+{
+	if (error_code == 4)
+	{
+		ft_putstr_fd("minicheh : pipe failure\n", STDERR_FILENO);
+		error_free(cmd, pipex);
+		exit(-1);
+	}
+	if (error_code == 6)
+		ft_putstr_fd("minicheh : problem while searching in env\n",
+			STDERR_FILENO);
+	if (error_code == 7)
+		ft_putstr_fd("minicheh : malloc failure\n", STDERR_FILENO);
 }
 
 void	error_management(int error_code, t_ast *cmd, t_pipex *pipex)
@@ -60,17 +75,7 @@ void	error_management(int error_code, t_ast *cmd, t_pipex *pipex)
 		error_free(cmd, pipex);
 		exit(-1);
 	}
-	if (error_code == 5)
-	{
-		ft_putstr_fd("minicheh : pipe failure\n", STDERR_FILENO);
-		error_free(cmd, pipex);
-		exit(-1);
-	}
-	if (error_code == 6)
-		ft_putstr_fd("minicheh : problem while searching in env\n",
-			STDERR_FILENO);
-	if (error_code == 7)
-		ft_putstr_fd("minicheh : malloc failure\n", STDERR_FILENO);
+	error_management_bis(error_code, cmd, pipex);
 	error_free(cmd, pipex);
 	exit(0);
 }

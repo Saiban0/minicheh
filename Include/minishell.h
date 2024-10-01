@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:19:25 by tom               #+#    #+#             */
-/*   Updated: 2024/06/25 21:22:54 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/01 12:08:09 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,5 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <errno.h>
-
 
 #endif

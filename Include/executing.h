@@ -6,13 +6,12 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:44:47 by bchedru           #+#    #+#             */
-/*   Updated: 2024/09/27 11:29:00 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/01 12:08:00 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTING_H
 # define EXECUTING_H
-
 
 typedef struct s_pipex
 {
