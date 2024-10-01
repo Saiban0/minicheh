@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:16:54 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/01 12:07:28 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/01 13:01:40 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	exec_simple(t_ast *cmd, char **envp, t_pipex *pipex)
 	waitpid(cmd->base->pid, &status, 0);
 }
 
-void	exec_only_child(t_ast *cmd, t_pipex *pipex, char **envp)
+static void	exec_only_child(t_ast *cmd, t_pipex *pipex, char **envp)
 {
 	cmd->base->path = ft_getpath(cmd->base->cmd[0]);
 	if (cmd->base->path != NULL)
