@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:13:38 by tom               #+#    #+#             */
-/*   Updated: 2024/09/30 15:04:55 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/01 14:29:52 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,19 @@ typedef struct s_ast_content
 {
 	bool			is_op;
 	t_cmd_and_op	cmd_op;
+	char			**cmd;
 	bool			builtins;
 	bool			flags;
-	char			**cmd;
 	char			*file_name;
 	char			*path;
+	pid_t			pid;
 }	t_ast_content;
 
 typedef struct s_minishell_env
 {
 	char			*pwd;
-	int				ast_size;
 	char			**envv;
+	int				nb_command;
 }	t_env;
 
 typedef struct s_ast
