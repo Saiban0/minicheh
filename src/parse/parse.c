@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/10/01 14:31:07 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/01 17:07:59 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	parse(char *line, t_ast	**ast, t_env	*env_start)
 				write(1, "syntax error near unexpected token `newline'\n", 46);
 				return ;
 			}
-			line += i;
+			line += i + (line[i] == line[i + 1]);
 			i = 0;
 		}
 	}
