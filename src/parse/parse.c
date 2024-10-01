@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/09/30 18:09:23 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/01 14:31:07 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ bool	select_operator(char	*line, int	i, t_ast	**ast)
 {
 	int	j;
 
-	j = 0;
-	while (line[j] && is_whitespace(line[j]))
+	j = i + 1;
+	while (line[j] && is_whitespace(line[j]) == true)
 		j++;
-	if (line[j])
+	if (!line[j])
 		return (false);
 	// A gérer le cas ou c'est un pipe en fin de ligne
 	// Même fonctionnement que avec un " en fin de ligne
@@ -45,7 +45,7 @@ bool	select_operator(char	*line, int	i, t_ast	**ast)
 
 void		add_env(t_env	**env_start, t_ast	**ast)
 {
-	(*env_start)->ast_size += ((*ast)->base->cmd_op != e_empty);
+	(*env_start)->nb_command += ((*ast)->base->cmd_op != e_empty);
 	(*ast)->t_env = env_start;
 	if ((*ast)->left)
 		add_env(env_start, &(*ast)->left);
@@ -78,11 +78,11 @@ void	parse(char *line, t_ast	**ast, t_env	*env_start)
 	}
 	if ((*ast)->base->cmd_op == e_empty)
 		last_command(line, ast);
-	env_start->ast_size = 0;
+	env_start->nb_command = 0;
 	add_env(&env_start, ast);
 	// Problème de size avec '<<' et '>>'
 	// rajoute 2 à la taille total (problème qui viens de la création de l'ast)
-	// ft_printf("%d", (*(*ast)->t_env)->ast_size);
+	ft_printf("%d", (*(*ast)->t_env)->nb_command);
 
 
 
