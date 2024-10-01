@@ -60,14 +60,13 @@ typedef struct s_ast_content
 	char			*file_name;
 	char			*path;
 	pid_t			pid;
-
 }	t_ast_content;
 
 typedef struct s_minishell_env
 {
 	char			*pwd;
-	int				ast_size;
 	char			**envv;
+	int				nb_command;
 }	t_env;
 
 typedef struct s_ast
