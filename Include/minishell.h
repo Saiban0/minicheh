@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:19:25 by tom               #+#    #+#             */
-/*   Updated: 2024/09/30 19:14:13 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/01 12:08:09 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "struct.h"
 # include "parse.h"
 # include "executing.h"
+# include "error_management.h"
 # include "builtins.h"
 # include <sys/wait.h>
 # include <sys/stat.h>
