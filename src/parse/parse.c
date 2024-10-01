@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/10/01 18:28:47 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/01 19:04:20 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,10 @@ bool	select_operator(char	*line, int	i, t_ast	**ast)
 	return (true);
 }
 
-void		add_env(t_env	**env_start, t_ast	**ast)
+void	add_env(t_env	**env_start, t_ast	**ast)
 {
-	(*env_start)->nb_commands += ((*ast)->base->cmd_op != e_empty);
+	(*env_start)->nb_commands += ((*ast)->base->cmd_op == e_external_control)
+		|| ((*ast)->base->cmd_op >= 7);
 	(*ast)->t_env = env_start;
 	if ((*ast)->left)
 		add_env(env_start, &(*ast)->left);
