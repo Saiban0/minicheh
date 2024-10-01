@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/10/01 18:26:04 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/01 18:28:47 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ void	parse(char *line, t_ast	**ast, t_env	*env_start)
 	add_env(&env_start, ast);
 	// Problème de size avec '<<' et '>>'
 	// rajoute 2 à la taille total (problème qui viens de la création de l'ast)
-	ft_printf("%d", (*(*ast)->t_env)->nb_commands);
 
 
 
