@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 16:19:25 by tom               #+#    #+#             */
-/*   Updated: 2024/10/01 12:08:09 by bchedru          ###   ########.fr       */
+/*   Created: 2024/06/28 18:30:08 by tom               #+#    #+#             */
+/*   Updated: 2024/06/30 18:10:52 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "minishell.h"
 
-# include "libamoa.h"
-# include "struct.h"
-# include "parse.h"
-# include "executing.h"
-# include "error_management.h"
-# include "builtins.h"
-# include <sys/wait.h>
-# include <sys/stat.h>
-# include <errno.h>
-# include <stdio.h>
+char	*rem_wspace(char *command)
+{
+	int	i;
 
-#endif
+	i = 0;
+	while(is_whitespace(command[i]))
+		command++;
+	i = ft_strlen(command);
+	if (is_whitespace(command[i]))
+	{
+		while(is_whitespace(command[--i]))
+			continue;
+		command[i] = '\0';
+	}
+	return (command);
+}

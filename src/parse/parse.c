@@ -1,0 +1,89 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
+/*   Updated: 2024/09/30 18:09:23 by tom              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+void	last_command(char *line, t_ast	**ast)
+{
+	(*ast)->base->cmd = ft_split(line, ' ');
+	(*ast)->base->cmd_op = is_builtins((*ast)->base->cmd[0]);
+}
+
+bool	select_operator(char	*line, int	i, t_ast	**ast)
+{
+	int	j;
+
+	j = 0;
+	while (line[j] && is_whitespace(line[j]))
+		j++;
+	if (line[j])
+		return (false);
+	// A gérer le cas ou c'est un pipe en fin de ligne
+	// Même fonctionnement que avec un " en fin de ligne
+	// (Ouvrir les guillemets)
+	if (line[i] == '|')
+		ast_pipe(line, i, ast);
+	else if (line[i] == '<' && line[i + 1] == '<')
+		ast_else(line, i + 1, ast, e_here_doc);
+	else if (line[i] == '>' && line[i + 1] == '>')
+		ast_else(line, i + 1, ast, e_redirect_output_write_mod);
+	else if (line[i] == '>')
+		ast_else(line, i, ast, e_redirect_output);
+	else if (line[i] == '<')
+		ast_else(line, i, ast, e_redirect_input);
+	return (true);
+}
+
+void		add_env(t_env	**env_start, t_ast	**ast)
+{
+	(*env_start)->ast_size += ((*ast)->base->cmd_op != e_empty);
+	(*ast)->t_env = env_start;
+	if ((*ast)->left)
+		add_env(env_start, &(*ast)->left);
+	if ((*ast)->right)
+		add_env(env_start, &(*ast)->right);
+}
+
+void	parse(char *line, t_ast	**ast, t_env	*env_start)
+{
+	int		i;
+
+	i = -1;
+	(*ast)->base->cmd_op = e_empty;
+	(*ast)->left = NULL;
+	(*ast)->right = NULL;
+	(*ast)->t_env = &env_start;
+	while (line[++i])
+	{
+		if (is_op(line[i]))
+		{
+			if (select_operator(line, i, ast) == false)
+			{
+				write(1, "minishell: ", 12);
+				write(1, "syntax error near unexpected token `newline'\n", 46);
+				return ;
+			}
+			line += i;
+			i = 0;
+		}
+	}
+	if ((*ast)->base->cmd_op == e_empty)
+		last_command(line, ast);
+	env_start->ast_size = 0;
+	add_env(&env_start, ast);
+	// Problème de size avec '<<' et '>>'
+	// rajoute 2 à la taille total (problème qui viens de la création de l'ast)
+	// ft_printf("%d", (*(*ast)->t_env)->ast_size);
+
+
+
+}

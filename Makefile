@@ -5,29 +5,35 @@ LIBAMOA = libamoa/libamoa.a
 CC = cc
 
 CFLAGS =	-Wall -Wextra -Werror -g \
-			-IInclude
+			-IInclude 
 
 LFLAGS =	-Llibamoa \
 			-lamoa
 
+BUILTINS = ft_echo ft_env
 
-BUILTINS =
+EXECUTING = exec_simple exec_utils
 
 MAIN = main
 
 EXECUTING = exec_simple exec_utils exec_init exec_pipes
 
 ERROR_MANAGEMENT = error_management
+PARSE = parse_utils parse parsing_test pipe_handler redirect_handler
 
 FILES = $(BUILTINS) \
+$(EXECUTING) \
 $(MAIN) \
 $(EXECUTING) \
 $(ERROR_MANAGEMENT)
+$(PARSE)
 
 SRC_FILES = $(addprefix src/BUILTINS/, $(BUILTINS)) \
+$(addprefix src/EXECUTING/, $(EXECUTING)) \
 $(addprefix src/MAIN/, $(MAIN)) \
 $(addprefix src/EXECUTING/, $(EXECUTING)) \
 $(addprefix src/ERROR_MANAGEMENT/, $(ERROR_MANAGEMENT))
+$(addprefix src/PARSE/, $(PARSE))
 
 OBJ_DIR = obj/
 

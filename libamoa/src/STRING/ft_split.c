@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 16:25:30 by ttaquet           #+#    #+#             */
-/*   Updated: 2024/01/22 17:03:11 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/08/11 15:55:23 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	**ft_split(char const *str, char sep)
 	i = 0;
 	j = 0;
 	len = result_len(str, sep);
-	result = malloc((len + 1) * sizeof(char *));
+	result = ft_calloc((len + 1), sizeof(char *));
 	if (!result)
 		return (NULL);
 	while (str[i] && j < len)
