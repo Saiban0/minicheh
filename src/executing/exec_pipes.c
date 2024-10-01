@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:07:12 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/01 12:08:35 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/01 17:07:14 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,14 @@ void	exec_handle_pipe(t_ast *cmd, t_pipex *pipex, char **envp)
 	{
 		pipex->pipe_i++;
 		cmd->base->path = ft_getpath(cmd->base->cmd[0]);
-		child_execution(cmd->nb_commands - pipex->pipe_i, cmd, pipex, envp);
+		child_execution((*cmd->env)->nb_commands - pipex->pipe_i
+			cmd, pipex, envp);
 	}
 }
 
 void	child_execution(int curr_cmd, t_ast *cmd, t_pipex *pipex, char **envp)
 {
-	if (curr_cmd == cmd->nb_commands - 1)
+	if (curr_cmd == (*cmd->env)->nb_commands - 1)
 	{
 		create_fork(pipex, cmd);
 		if (cmd->base->pid == 0)
