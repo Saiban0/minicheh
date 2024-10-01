@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:13:38 by tom               #+#    #+#             */
-/*   Updated: 2024/10/01 17:31:48 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/01 18:24:43 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ typedef struct s_ast_content
 	char			*file_name;
 	char			*path;
 	pid_t			pid;
-
 }	t_ast_content;
 
 typedef struct s_minishell_env

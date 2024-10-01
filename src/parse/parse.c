@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/10/01 17:33:01 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/01 18:26:04 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ bool	select_operator(char	*line, int	i, t_ast	**ast)
 {
 	int	j;
 
-	j = 0;
-	while (line[j] && is_whitespace(line[j]))
+	j = i + 1;
+	while (line[j] && is_whitespace(line[j]) == true)
 		j++;
-	if (line[j])
+	if (!line[j])
 		return (false);
 	// A gérer le cas ou c'est un pipe en fin de ligne
 	// Même fonctionnement que avec un " en fin de ligne
@@ -72,7 +72,7 @@ void	parse(char *line, t_ast	**ast, t_env	*env_start)
 				write(1, "syntax error near unexpected token `newline'\n", 46);
 				return ;
 			}
-			line += i;
+			line += i + (line[i] == line[i + 1]);
 			i = 0;
 		}
 	}
@@ -82,7 +82,8 @@ void	parse(char *line, t_ast	**ast, t_env	*env_start)
 	add_env(&env_start, ast);
 	// Problème de size avec '<<' et '>>'
 	// rajoute 2 à la taille total (problème qui viens de la création de l'ast)
-	// ft_printf("%d", (*(*ast)->t_env)->nb_commands);
+	ft_printf("%d", (*(*ast)->t_env)->nb_commands);
+
 
 
 

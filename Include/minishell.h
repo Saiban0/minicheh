@@ -23,5 +23,6 @@
 # include <sys/stat.h>
 # include <errno.h>
 # include <stdio.h>
+# include <signal.h>
 
 #endif
