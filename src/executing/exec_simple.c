@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:16:54 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/01 13:01:40 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/01 17:22:55 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,14 @@ void	exec_switch(t_ast *cmd, char **envp)
 	error_management(e_none, cmd, pipex);
 }
 
+static void	exec_only_child(t_ast *cmd, t_pipex *pipex, char **envp)
+{
+	cmd->base->path = ft_getpath(cmd->base->cmd[0]);
+	if (cmd->base->path != NULL)
+		execve(cmd->base->path, cmd->base->cmd, envp);
+	error_management(e_command_not_found, cmd, pipex);
+}
+
 void	exec_simple(t_ast *cmd, char **envp, t_pipex *pipex)
 {
 	int		status;
@@ -46,12 +54,4 @@ void	exec_simple(t_ast *cmd, char **envp, t_pipex *pipex)
 	if (cmd->base->pid == 0)
 		exec_only_child(cmd, pipex, envp);
 	waitpid(cmd->base->pid, &status, 0);
-}
-
-static void	exec_only_child(t_ast *cmd, t_pipex *pipex, char **envp)
-{
-	cmd->base->path = ft_getpath(cmd->base->cmd[0]);
-	if (cmd->base->path != NULL)
-		execve(cmd->base->path, cmd->base->cmd, envp);
-	error_management(e_command_not_found, cmd, pipex);
 }
