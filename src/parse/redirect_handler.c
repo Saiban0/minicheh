@@ -6,24 +6,24 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:43 by tom               #+#    #+#             */
-/*   Updated: 2024/07/10 08:50:52 by tom              ###   ########.fr       */
+/*   Updated: 2024/09/30 14:59:39 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	add_new_operator(t_ast	*node, char	*right_cmd, t_cmd_and_op op)
+void	add_new_operator(t_ast	*node, char	*command, t_cmd_and_op op)
 {
 	t_ast	*new_node;
 
-	new_node = malloc(sizeof(t_ast *));
-	new_node->base = malloc(sizeof(t_ast_content *));
-	new_node->right = malloc(sizeof(t_ast *));
-	new_node->right->base = malloc(sizeof(t_ast_content *));
+	new_node = ft_calloc(1, sizeof(t_ast));
+	new_node->base = ft_calloc(1, sizeof(t_ast_content));
+	new_node->right = ft_calloc(1, sizeof(t_ast));
+	new_node->right->base = ft_calloc(1, sizeof(t_ast_content));
 	new_node->base->cmd_op = op;
 	new_node->base->is_op = true;
 	new_node->left = NULL;
-	new_node->right->base->cmd = ft_split(right_cmd, ' ');
+	new_node->right->base->cmd = ft_split(command, ' ');
 	new_node->right->base->cmd_op = is_builtins(new_node->right->base->cmd[0]);
 	node->right = new_node;
 }

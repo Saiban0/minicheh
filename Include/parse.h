@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 20:06:37 by tom               #+#    #+#             */
-/*   Updated: 2024/07/10 09:06:29 by tom              ###   ########.fr       */
+/*   Updated: 2024/09/30 15:35:32 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,16 @@ char	*rem_wspace(char *command);
 /*                                                                            */
 /******************************************************************************/
 
-t_cmd_and_op	is_builtins(char *command);
 /**
  * @brief This function is the main function of the parse.
  * She read the command line and redirect to the right function.
  * 
  * @param line The command line.
+ * @param ast The ast.
+ * @param env_start A struct that contains the basic environment variables.
  * @return t_ast* The ast that is returned.
  */
-void	parse(char *line, t_ast	**ast);
+void	parse(char *line, t_ast	**ast, t_env	*env_start);
 
 /******************************************************************************/
 /*                                                                            */
@@ -66,6 +67,15 @@ bool	is_op(char	c);
  * @return false The char is not a white space.
  */
 bool	is_whitespace(char	c);
+
+/**
+ * @brief This function return an struct who contain the command's type.
+ * 
+ * @param command The funtion ( first call of the command line ).
+ * @return t_cmd_and_op An enum with the command's type.
+ */
+t_cmd_and_op	is_builtins(char *command);
+
 
 /******************************************************************************/
 /*                                                                            */

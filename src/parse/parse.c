@@ -6,31 +6,11 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/07/11 12:21:15 by tom              ###   ########.fr       */
+/*   Updated: 2024/09/30 18:09:23 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_cmd_and_op	is_builtins(char *command)
-{
-	command = rem_wspace(command);
-	if (ft_strncmp(command,"echo", 4) == 0)
-			return (e_echo);
-	if (ft_strncmp(command,"cd", 2) == 0)
-		return (e_cd);
-	if (ft_strncmp(command,"pwd", 3) == 0)
-			return (e_pwd);
-	if (ft_strncmp(command,"export", 6) == 0)
-			return (e_export);
-	if (ft_strncmp(command,"unset", 5) == 0)
-			return (e_unset);
-	if (ft_strncmp(command,"exit", 4) == 0)
-			return (e_exit);
-	if (ft_strncmp(command,"env", 3) == 0)
-			return (e_env);
-	return (e_external_control);
-}
 
 void	last_command(char *line, t_ast	**ast)
 {
@@ -38,8 +18,18 @@ void	last_command(char *line, t_ast	**ast)
 	(*ast)->base->cmd_op = is_builtins((*ast)->base->cmd[0]);
 }
 
-void	select_operator(char	*line, int	i, t_ast	**ast)
+bool	select_operator(char	*line, int	i, t_ast	**ast)
 {
+	int	j;
+
+	j = 0;
+	while (line[j] && is_whitespace(line[j]))
+		j++;
+	if (line[j])
+		return (false);
+	// A gérer le cas ou c'est un pipe en fin de ligne
+	// Même fonctionnement que avec un " en fin de ligne
+	// (Ouvrir les guillemets)
 	if (line[i] == '|')
 		ast_pipe(line, i, ast);
 	else if (line[i] == '<' && line[i + 1] == '<')
@@ -50,27 +40,50 @@ void	select_operator(char	*line, int	i, t_ast	**ast)
 		ast_else(line, i, ast, e_redirect_output);
 	else if (line[i] == '<')
 		ast_else(line, i, ast, e_redirect_input);
+	return (true);
 }
 
-void	parse(char *line, t_ast	**ast)
+void		add_env(t_env	**env_start, t_ast	**ast)
+{
+	(*env_start)->ast_size += ((*ast)->base->cmd_op != e_empty);
+	(*ast)->t_env = env_start;
+	if ((*ast)->left)
+		add_env(env_start, &(*ast)->left);
+	if ((*ast)->right)
+		add_env(env_start, &(*ast)->right);
+}
+
+void	parse(char *line, t_ast	**ast, t_env	*env_start)
 {
 	int		i;
 
 	i = -1;
-	(*ast) = malloc(sizeof(t_ast *));
-	(*ast)->base = malloc(sizeof(t_ast_content *));
 	(*ast)->base->cmd_op = e_empty;
 	(*ast)->left = NULL;
 	(*ast)->right = NULL;
+	(*ast)->t_env = &env_start;
 	while (line[++i])
 	{
 		if (is_op(line[i]))
 		{
-			select_operator(line, i, ast);
+			if (select_operator(line, i, ast) == false)
+			{
+				write(1, "minishell: ", 12);
+				write(1, "syntax error near unexpected token `newline'\n", 46);
+				return ;
+			}
 			line += i;
 			i = 0;
 		}
 	}
 	if ((*ast)->base->cmd_op == e_empty)
 		last_command(line, ast);
+	env_start->ast_size = 0;
+	add_env(&env_start, ast);
+	// Problème de size avec '<<' et '>>'
+	// rajoute 2 à la taille total (problème qui viens de la création de l'ast)
+	// ft_printf("%d", (*(*ast)->t_env)->ast_size);
+
+
+
 }
