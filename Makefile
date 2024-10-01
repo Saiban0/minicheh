@@ -24,15 +24,13 @@ PARSE = parse_utils parse parsing_test pipe_handler redirect_handler
 FILES = $(BUILTINS) \
 $(EXECUTING) \
 $(MAIN) \
-$(EXECUTING) \
-$(ERROR_MANAGEMENT)
+$(ERROR_MANAGEMENT) \
 $(PARSE)
 
 SRC_FILES = $(addprefix src/BUILTINS/, $(BUILTINS)) \
 $(addprefix src/EXECUTING/, $(EXECUTING)) \
 $(addprefix src/MAIN/, $(MAIN)) \
-$(addprefix src/EXECUTING/, $(EXECUTING)) \
-$(addprefix src/ERROR_MANAGEMENT/, $(ERROR_MANAGEMENT))
+$(addprefix src/ERROR_MANAGEMENT/, $(ERROR_MANAGEMENT)) \
 $(addprefix src/PARSE/, $(PARSE))
 
 OBJ_DIR = obj/
