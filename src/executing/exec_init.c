@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:03:46 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/01 18:22:33 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/02 12:15:55 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ static char	**extract_paths(char **envp)
 	return (list);
 }
 
-void	ft_pipex_init(t_ast *cmd, t_pipex *pipex, char **envp)
+void	ft_pipex_init(t_ast *cmd, t_pipex *pipex)
 {
 	int	i;
 
 	i = 0;
-	pipex->path_list = extract_paths(envp);
+	pipex->path_list = extract_paths((*cmd->t_env)->envv);
 	if (!pipex->path_list)
 		error_management(e_env_error, cmd, pipex);
 	pipex->pipe_i = 0;
