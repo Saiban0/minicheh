@@ -6,16 +6,20 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:44:47 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/02 12:21:11 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/07 12:10:58 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTING_H
 # define EXECUTING_H
 
+
+/**
+ * @brief Supplementary struct for the executing.
+ * 
+ */
 typedef struct s_pipex
 {
-	int		temp_fd;
 	int		pipe_i;
 	char	*in_file;
 	char	*out_file;
@@ -29,16 +33,18 @@ typedef struct s_pipex
  * allocates and initializes the pipex struct and starts the executing process.
  * 
  * @param cmd The starting point of the ast
+ * @param env The env struct initialized in main
  */
-void	exec_switch(t_ast *cmd);
+void	exec_switch(t_ast *cmd, t_env *env);
 /**
  * @brief This function is called upon executing a simple command (only one
  * command, no pipes or redirects)
  * 
  * @param cmd The ast base
  * @param pipex The pipex struct initialized in exec_switch
+ * * @param env The env struct initialized in main
  */
-void	exec_simple(t_ast *cmd, t_pipex *pipex);
+void	exec_simple(t_ast *cmd, t_pipex *pipex, t_env *env);
 /**
  * @brief This function is called upon executing a command pipeline, it is
  * recursive and will start executing the last (furthest to the right) command
@@ -47,8 +53,9 @@ void	exec_simple(t_ast *cmd, t_pipex *pipex);
  * 
  * @param cmd The ast base
  * @param pipex The pipex struct initialized in exec_switch
+ * * @param env The env struct initialized in main
  */
-void	exec_handle_pipe(t_ast *cmd, t_pipex *pipex);
+void	exec_handle_pipe(t_ast *cmd, t_pipex *pipex, t_env *env);
 /**
  * @brief Despite its name this function does not call upon a hitman to murder
  * children, instead it checks the postion of a given command in the ast,
@@ -58,8 +65,9 @@ void	exec_handle_pipe(t_ast *cmd, t_pipex *pipex);
  *  function
  * @param cmd The current command's ast
  * @param pipex The pipex struct initialized in exec_switch
+ * @param env The env struct initialized in main
  */
-void	child_execution(int cur_cmd, t_ast *cmd, t_pipex *pipex);
+void	child_execution(int cur_cmd, t_ast *cmd, t_pipex *pipex, t_env *env);
 /**
  * @brief This function executes a command if it is the last of the ast, it
  * redirects the output to stdout or a file if one has been provided in the ast.
@@ -68,8 +76,9 @@ void	child_execution(int cur_cmd, t_ast *cmd, t_pipex *pipex);
  *  function
  * @param cmd The current command's ast
  * @param pipex The pipex struct initialized in exec_switch
+ * @param env The env struct initialized in main
  */
-void	last_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex);
+void	last_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env);
 /**
  * @brief This function executes a command if it is neither the last or the
  * first in the ast, the input and outputs follow the regular pipeline.
@@ -78,8 +87,9 @@ void	last_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex);
  *  function
  * @param cmd The current command's ast
  * @param pipex The pipex struct initialized in exec_switch
+ * @param env The env struct initialized in main
  */
-void	middle_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex);
+void	middle_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env);
 /**
  * @brief This function executes a command if it is the first of the ast, it
  * redirects the input to stdin or a file if one has been provided in the ast.
@@ -88,8 +98,9 @@ void	middle_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex);
  *  function
  * @param cmd The current command's ast
  * @param pipex The pipex struct initialized in exec_switch
+ * @param env The env struct initialized in main
  */
-void	first_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex);
+void	first_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env);
 /**
  * @brief This function is called upon every command execution, it uses getenv
  * to extract the PATH environment variable and uses ft_split and ft_strjoin to
@@ -107,16 +118,17 @@ char	*ft_getpath(char *cmd);
  * 
  * @param cmd The current command's ast
  * @param pipex The pipex struct initialized in exec_switch
+ * @param env The env struct initialized in main
  */
-void	ft_pipex_init(t_ast *cmd, t_pipex *pipex);
+void	ft_pipex_init(t_ast *cmd, t_pipex *pipex, t_env *env);
 /**
  * @brief This function is called regurarly throughout the execution process, it
  * closes both ends of every pipes in the pipex->pipe_fd
  * 
  * @param cmd The current command's ast
- * @param pipex The pipex struct initialized in exec_switch
+ * @param env The env struct initialized in main
  */
-void	close_pipes(t_ast *cmd, t_pipex *pipex);
+void	close_pipes(t_pipex *pipex, t_env *env);
 /**
  * @brief This function is called at the end of the pipeline and is used to wait
  * upon the completion of every command.
