@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:04 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/01 12:03:20 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/07 12:04:17 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 void	error_free(t_ast *cmd, t_pipex *pipex)
 {
-	if (cmd->left)
-		error_free(cmd->left, pipex);
-	if (cmd->right)
-		error_free(cmd->right, pipex);
 	if (pipex)
 	{
 		if (pipex->pipe_fd)
-			free(pipex->pipe_fd);
+			ft_free_double_array((char **)pipex->pipe_fd);
 		if (pipex->path_list)
 			ft_free_double_array(pipex->path_list);
 		free(pipex);
 	}
+	if (cmd->left)
+		error_free(cmd->left, pipex);
+	if (cmd->right)
+		error_free(cmd->right, pipex);
 	if (cmd->base)
 	{
 		if (cmd->base->cmd)
