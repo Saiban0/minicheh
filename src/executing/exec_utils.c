@@ -6,18 +6,18 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:25:44 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/01 17:31:00 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/02 19:19:38 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	close_pipes(t_ast *cmd, t_pipex *pipex)
+void	close_pipes(t_pipex *pipex, t_env *env)
 {
 	int	i;
 
 	i = 0;
-	while (i < (*cmd->t_env)->nb_commands - 1)
+	while (i < env->nb_commands - 1)
 	{
 		close(pipex->pipe_fd[i][0]);
 		close(pipex->pipe_fd[i][1]);
