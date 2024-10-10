@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:43 by tom               #+#    #+#             */
-/*   Updated: 2024/09/30 14:59:39 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/10 14:00:24 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,6 @@ void	ast_else(char	*line, int	i, t_ast	**ast, t_cmd_and_op	op)
 	command = ft_calloc(i + 1, sizeof(char));
 	ft_strlcat(command, line, i);
 	add_new_operator(node, command, op);
+	free(command);
 	node = node->right;
 }
