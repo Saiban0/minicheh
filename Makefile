@@ -12,11 +12,10 @@ LFLAGS =	-Llibamoa \
 
 BUILTINS = ft_echo ft_env
 
-EXECUTING = exec_simple exec_utils
-
 MAIN = main
 
-EXECUTING = exec_simple exec_utils exec_init exec_pipes exec_redirects
+EXECUTING = exec_simple exec_utils exec_init exec_pipes exec_redirects \
+exec_builtins
 
 ERROR_MANAGEMENT = error_management
 PARSE = parse_utils parse parsing_test pipe_handler redirect_handler
