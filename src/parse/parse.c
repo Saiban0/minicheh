@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/10/10 17:17:18 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/10 19:06:16 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	without_op(char *line, t_ast	**ast)
 {
 	(*ast)->base->cmd = ft_split(line, ' ');
 	(*ast)->base->cmd_op = is_builtins((*ast)->base->cmd[0]);
+	(*ast)->base->builtins = (*ast)->base->cmd_op >= e_echo;
 }
 
 bool	select_operator(char	*line, int	i, t_ast	**ast)
