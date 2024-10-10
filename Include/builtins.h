@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 09:04:41 by tom               #+#    #+#             */
-/*   Updated: 2024/10/10 14:04:06 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/10 16:27:06 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void			ft_echo(char **arg);
 
 void			ft_env(char **arg, t_env	*env);
 void			ft_printenv(t_env	*env);
-void			ft_exit(char	*line, t_ast	**ast, t_env	*env);
+void			ft_exit(char	*line, t_ast	*ast, t_env	*env);
 void			free_ast(t_ast	*node);
 
 
