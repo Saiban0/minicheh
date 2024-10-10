@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:07:12 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/10 17:06:47 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/10 20:30:05 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	exec_handle_pipe(t_ast *cmd, t_pipex *pipex, t_env *env)
 	if (!cmd->base->is_op)
 	{
 		pipex->pipe_i++;
-		cmd->base->path = ft_getpath(cmd->base->cmd[0]);
 		child_execution(env->nb_commands - pipex->pipe_i, cmd, pipex, env);
 		free(cmd->base->path);
 	}
@@ -58,14 +57,16 @@ void	last_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
 	close(fd);
 	dup2(pipex->pipe_fd[curr_cmd - 1][0], STDIN_FILENO);
 	close_pipes(pipex, env);
-	if (cmd->base->path != NULL)
+	if (cmd->base->builtins)
+		exec_builtins(cmd, env);
+	else
 	{
-		if (!cmd->base->builtins)
+		cmd->base->path = ft_getpath(cmd->base->cmd[0]);
+		if (cmd->base->path != NULL)
 			execve(cmd->base->path, cmd->base->cmd, env->envv);
-		else
-			exec_builtins(cmd, env);
 	}
 	error_management(e_command_not_found, cmd, pipex);
+	exit(pipex->status);
 }
 
 void	middle_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
@@ -73,14 +74,16 @@ void	middle_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
 	dup2(pipex->pipe_fd[curr_cmd - 1][0], STDIN_FILENO);
 	dup2(pipex->pipe_fd[curr_cmd][1], STDOUT_FILENO);
 	close_pipes(pipex, env);
-	if (cmd->base->path != NULL)
+	if (cmd->base->builtins)
+		exec_builtins(cmd, env);
+	else
 	{
-		if (!cmd->base->builtins)
+		cmd->base->path = ft_getpath(cmd->base->cmd[0]);
+		if (cmd->base->path != NULL)
 			execve(cmd->base->path, cmd->base->cmd, env->envv);
-		else
-			exec_builtins(cmd, env);
 	}
 	error_management(e_command_not_found, cmd, pipex);
+	exit(pipex->status);
 }
 
 void	first_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
@@ -92,12 +95,14 @@ void	first_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
 	close(fd);
 	dup2(pipex->pipe_fd[curr_cmd][1], STDOUT_FILENO);
 	close_pipes(pipex, env);
-	if (cmd->base->path != NULL)
+	if (cmd->base->builtins)
+		execve(cmd->base->path, cmd->base->cmd, env->envv);
+	else
 	{
-		if (!cmd->base->builtins)
+		cmd->base->path = ft_getpath(cmd->base->cmd[0]);
+		if (cmd->base->path != NULL)
 			execve(cmd->base->path, cmd->base->cmd, env->envv);
-		else
-			exec_builtins(cmd, env);
 	}
 	error_management(e_command_not_found, cmd, pipex);
+	exit(pipex->status);
 }
