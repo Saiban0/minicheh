@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:16:54 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/10 17:32:39 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/10 19:07:58 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static void	exec_only_child(t_ast *cmd, t_pipex *pipex, t_env *env)
 			execve(cmd->base->path, cmd->base->cmd, env->envv);
 	}
 	error_management(e_command_not_found, cmd, pipex);
+	exit(pipex->status);
 }
 
 void	exec_simple(t_ast *cmd, t_pipex *pipex, t_env *env)
