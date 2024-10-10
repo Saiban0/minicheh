@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:16:54 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/02 19:21:19 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/09 14:02:25 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	exec_switch(t_ast *cmd, t_env *env)
 	if (!pipex)
 		error_management(e_malloc_failure, cmd, pipex);
 	ft_pipex_init(cmd, pipex, env);
+	search_redirects(cmd, pipex);
 	if (!cmd->base->is_op)
 		if (!cmd->base->cmd[0][0])
 			error_management(e_empty_command, cmd, pipex);
@@ -41,8 +42,6 @@ void	exec_switch(t_ast *cmd, t_env *env)
 
 static void	exec_only_child(t_ast *cmd, t_pipex *pipex, t_env *env)
 {
-
-	cmd->base->cmd[0] = ft_strtrim(cmd->base->cmd[0], "\n");
 	cmd->base->path = ft_getpath(cmd->base->cmd[0]);
 	if (cmd->base->path != NULL)
 		execve(cmd->base->path, cmd->base->cmd, env->envv);
