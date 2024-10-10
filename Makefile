@@ -14,8 +14,7 @@ BUILTINS = ft_echo ft_env ft_exit
 
 MAIN = main
 
-EXECUTING = exec_simple exec_utils exec_init exec_pipes exec_redirects \
-exec_builtins
+EXECUTING = exec_simple exec_utils exec_init exec_pipes \
 
 ERROR_MANAGEMENT = error_management
 PARSE = parse_utils parse parsing_test pipe_handler redirect_handler
