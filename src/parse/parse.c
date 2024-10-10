@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/10/10 17:17:18 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/10 19:47:28 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	without_op(char *line, t_ast	**ast)
 {
 	(*ast)->base->cmd = ft_split(line, ' ');
 	(*ast)->base->cmd_op = is_builtins((*ast)->base->cmd[0]);
+	(*ast)->base->builtins = (*ast)->base->cmd_op >= e_echo;
+
 }
 
 bool	select_operator(char	*line, int	i, t_ast	**ast)
@@ -49,7 +51,7 @@ void	add_env(t_env	**env_start, t_ast	**ast)
 		|| ((*ast)->base->cmd_op >= e_echo);
 	(*ast)->t_env = env_start;
 	(*ast)->base->path = NULL;
-	if ((*ast)->base->file_name)
+	if (!(*ast)->base->file_name)
 		(*ast)->base->file_name = NULL;
 	if ((*ast)->left)
 		add_env(env_start, &(*ast)->left);
