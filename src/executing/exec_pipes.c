@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:07:12 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/07 12:01:43 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/10 17:06:47 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void	last_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
 	{
 		if (!cmd->base->builtins)
 			execve(cmd->base->path, cmd->base->cmd, env->envv);
-		// else
-			// exec_builtins()
+		else
+			exec_builtins(cmd, env);
 	}
 	error_management(e_command_not_found, cmd, pipex);
 }
@@ -77,8 +77,8 @@ void	middle_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
 	{
 		if (!cmd->base->builtins)
 			execve(cmd->base->path, cmd->base->cmd, env->envv);
-		// else
-			// exec_builtins()
+		else
+			exec_builtins(cmd, env);
 	}
 	error_management(e_command_not_found, cmd, pipex);
 }
@@ -96,8 +96,8 @@ void	first_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
 	{
 		if (!cmd->base->builtins)
 			execve(cmd->base->path, cmd->base->cmd, env->envv);
-		// else
-			// exec_builtins()
+		else
+			exec_builtins(cmd, env);
 	}
 	error_management(e_command_not_found, cmd, pipex);
 }
