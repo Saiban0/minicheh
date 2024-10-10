@@ -6,42 +6,17 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:03:46 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/07 12:03:09 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/10 17:36:45 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static char	**extract_paths(char **envp)
-{
-	int		i;
-	char	*tmp;
-	char	**list;
-
-	i = 1;
-	if (!envp)
-		return (NULL);
-	while (ft_strncmp(envp[i], "PATH=", 5) != 0)
-		i++;
-	list = ft_split(envp[i], ':');
-	if (!list)
-		return (NULL);
-	tmp = ft_strtrim(envp[i], "PATH=");
-	if (!tmp)
-		return (NULL);
-	free(list[0]);
-	list[0] = tmp;
-	return (list);
-}
 
 void	ft_pipex_init(t_ast *cmd, t_pipex *pipex, t_env *env)
 {
 	int	i;
 
 	i = 0;
-	pipex->path_list = extract_paths(env->envv);
-	if (!pipex->path_list)
-		error_management(e_env_error, cmd, pipex);
 	pipex->pipe_i = 0;
 	pipex->in_file = "/dev/stdin";
 	pipex->out_file = "/dev/stdout";
