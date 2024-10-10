@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:43 by tom               #+#    #+#             */
-/*   Updated: 2024/09/30 14:59:39 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/10 17:45:26 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,17 @@ void	add_new_operator(t_ast	*node, char	*command, t_cmd_and_op op)
 	new_node->base->cmd_op = op;
 	new_node->base->is_op = true;
 	new_node->left = NULL;
-	new_node->right->base->cmd = ft_split(command, ' ');
-	new_node->right->base->cmd_op = is_builtins(new_node->right->base->cmd[0]);
+	if (op == e_here_doc)
+	{
+		if (command)
+			new_node->right->base->cmd = ft_split(command, ' ');
+	}
+	else if (op == e_redirect_input || op == e_redirect_output
+				|| op == e_redirect_output_write_mod)
+	{
+		new_node->right->base->file_name = command;
+		new_node->right->base->cmd_op = e_file_name;
+	}
 	node->right = new_node;
 }
 
@@ -40,6 +49,7 @@ void	ast_else(char	*line, int	i, t_ast	**ast, t_cmd_and_op	op)
 		ft_strlcat(command, line, i);
 		(*ast)->base->cmd = ft_split(command, ' ');
 		(*ast)->base->cmd_op = is_builtins((*ast)->base->cmd[0]);
+		(*ast)->base->builtins = ((*ast)->base->cmd_op >= e_echo);
 		free(command);
 	}
 	while (node->right)
@@ -51,5 +61,6 @@ void	ast_else(char	*line, int	i, t_ast	**ast, t_cmd_and_op	op)
 	command = ft_calloc(i + 1, sizeof(char));
 	ft_strlcat(command, line, i);
 	add_new_operator(node, command, op);
+	free(command);
 	node = node->right;
 }

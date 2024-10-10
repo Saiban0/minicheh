@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:34:23 by tom               #+#    #+#             */
-/*   Updated: 2024/09/30 14:59:30 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/10 17:36:07 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	first_base( char	*line, t_ast	**ast, int	*operator)
 	(*ast)->left->base = ft_calloc(1, sizeof(t_ast_content));
 	(*ast)->left->base->cmd = ft_split(tmp, ' ');
 	(*ast)->left->base->cmd_op = is_builtins((*ast)->left->base->cmd[0]);
+	(*ast)->left->base->builtins = ((*ast)->left->base->cmd_op >= e_echo);
 	free(tmp);
 }
 
@@ -61,5 +62,6 @@ void	ast_pipe(char	*line, int	i, t_ast	**ast)
 	(*ast)->right->base = ft_calloc(1, sizeof(t_ast_content));
 	(*ast)->right->base->cmd = ft_split(tmp, ' ');
 	(*ast)->right->base->cmd_op = is_builtins((*ast)->right->base->cmd[0]);
+	(*ast)->right->base->builtins = ((*ast)->right->base->cmd_op >= e_echo);
 	free(tmp);
 }
