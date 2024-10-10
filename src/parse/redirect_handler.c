@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:43 by tom               #+#    #+#             */
-/*   Updated: 2024/10/10 17:45:26 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/10 19:58:31 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	add_new_operator(t_ast	*node, char	*command, t_cmd_and_op op)
 	else if (op == e_redirect_input || op == e_redirect_output
 				|| op == e_redirect_output_write_mod)
 	{
-		new_node->right->base->file_name = command;
+		new_node->right->base->file_name = rem_wspace(ft_strdup(command));
 		new_node->right->base->cmd_op = e_file_name;
 	}
 	node->right = new_node;
@@ -58,9 +58,8 @@ void	ast_else(char	*line, int	i, t_ast	**ast, t_cmd_and_op	op)
 	i = 0;
 	while (line[i] && !is_op(line[i]))
 		i++;
-	command = ft_calloc(i + 1, sizeof(char));
-	ft_strlcat(command, line, i);
+	command = ft_calloc(i + 2, sizeof(char));
+	ft_strlcat(command, line, i + 1);
 	add_new_operator(node, command, op);
 	free(command);
-	node = node->right;
 }
