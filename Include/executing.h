@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:44:47 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/07 12:10:58 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/09 14:02:00 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,5 +157,12 @@ void	create_fork(t_pipex *pipex, t_ast *cmd);
  * @return int The file's fd
  */
 int		get_fd(char *file_name, bool read_or_write, t_ast *cmd, t_pipex *pipex);
+/**
+ * @brief This function is called just after ft_pipex_init
+ * 
+ * @param ast The ast's base
+ * @param pipex The pipex structure
+ */
+void	search_redirects(t_ast *ast, t_pipex *pipex);
 
 #endif

@@ -16,7 +16,7 @@ EXECUTING = exec_simple exec_utils
 
 MAIN = main
 
-EXECUTING = exec_simple exec_utils exec_init exec_pipes
+EXECUTING = exec_simple exec_utils exec_init exec_pipes exec_redirects
 
 ERROR_MANAGEMENT = error_management
 PARSE = parse_utils parse parsing_test pipe_handler redirect_handler
