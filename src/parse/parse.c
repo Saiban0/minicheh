@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/10/10 13:31:39 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/10 13:38:06 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void	parse(char *line, t_ast	**ast, t_env	*env_start)
 	(*ast)->right = NULL;
 	(*ast)->t_env = &env_start;
 	line[ft_strlen(line) - 1] = '\0';
-	ft_printf("%s",line);
 	while (line[++i])
 	{
 		if (is_op(line[i]))
@@ -85,5 +84,4 @@ void	parse(char *line, t_ast	**ast, t_env	*env_start)
 	add_env(&env_start, ast);
 	// Problème de size avec '<<' et '>>'
 	// rajoute 2 à la taille total (problème qui viens de la création de l'ast)
-
 }
