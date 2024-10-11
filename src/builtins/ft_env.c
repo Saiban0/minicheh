@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:51:19 by tom               #+#    #+#             */
-/*   Updated: 2024/10/11 12:08:17 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/11 12:42:24 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	ft_env(char **arg, t_env	*env)
 	i = -1;
 	if (arg[1])
 	{
+		ft_putstr_fd("env: too many arguments\n", STDERR_FILENO);
 		return ;
 	}
 	while (env->envv[++i])
