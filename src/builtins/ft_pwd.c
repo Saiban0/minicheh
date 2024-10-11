@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_utils.c                                      :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/28 18:30:08 by tom               #+#    #+#             */
-/*   Updated: 2024/10/11 12:43:08 by tom              ###   ########.fr       */
+/*   Created: 2024/10/11 12:19:03 by tom               #+#    #+#             */
+/*   Updated: 2024/10/11 15:55:34 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+# include "minishell.h"
 
-char	*rem_wspace(char *command)
+void	ft_pwd(char	**arg, t_env	*env)
 {
-	int	i;
-
-	i = 0;
-	while(is_whitespace(command[i]))
-		command++;
-	i = ft_strlen(command);
-	while(is_whitespace(command[i--]))
-		continue;
-	if (is_whitespace(command[i]))
-		command[i] = '\0';
-	return (command);
+	if (arg != NULL)
+	{
+		if (arg[1])
+		{
+			ft_putstr_fd("pwd: too many arguments\n", STDERR_FILENO);
+			return ;
+		}
+	}
+	ft_putstr_fd(env->envv[env->pwd_position] + 4, STDOUT_FILENO);
+	ft_putchar_fd('\n', STDOUT_FILENO);
+	return ;
 }
