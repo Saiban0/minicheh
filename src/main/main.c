@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
-/*   Updated: 2024/10/11 12:56:35 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/11 15:43:53 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,16 @@ t_env	*init_env(char **envp)
 			return (NULL);
 		}
 	}
-	i = 0;
-	while (env->envv[i] && ft_strncmp(env->envv[i], "PWD", 3) != 0)
-		i++;
-	if (ft_strncmp(env->envv[i], "PWD", 3) == 0)
-		env->pwd_position = i;
+	i = -1;
+	while (env->envv[++i])
+	{
+		if (ft_strncmp(env->envv[i], "PWD", 3) == 0)
+			env->pwd_position = i;
+		if (ft_strncmp(env->envv[i], "OLDPWD", 6) == 0)
+			env->oldpwd_position = i;
+		if (ft_strncmp(env->envv[i], "HOME", 4) == 0)
+			env->home_position = i;
+	}
 	return (env);
 }
 
