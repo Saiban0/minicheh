@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
-/*   Updated: 2024/10/10 18:27:04 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/11 12:56:35 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,9 @@ t_env	*init_env(char **envp)
 	t_env	*env;
 	int		i;
 
-	i = double_array_size(envp);
-	env = ft_calloc(1, sizeof(t_env));
-	env->pwd = ft_strdup(getenv("PWD"));
-	env->envv = ft_calloc(i + 1, sizeof(char*));
 	i = -1;
+	env = ft_calloc(1, sizeof(t_env));
+	env->envv = ft_calloc(double_array_size(envp) + 1, sizeof(char*));
 	while (envp[++i])
 	{
 		env->envv[i] = ft_strdup(envp[i]);
@@ -31,6 +29,11 @@ t_env	*init_env(char **envp)
 			return (NULL);
 		}
 	}
+	i = 0;
+	while (env->envv[i] && ft_strncmp(env->envv[i], "PWD", 3) != 0)
+		i++;
+	if (ft_strncmp(env->envv[i], "PWD", 3) == 0)
+		env->pwd_position = i;
 	return (env);
 }
 
@@ -85,7 +88,6 @@ int main(int ac, char **av, char **envp)
 			continue;
 	}
 	free(env->envv);
-	free(env->pwd);
 	free(env);
 }
 

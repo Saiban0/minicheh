@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 12:19:03 by tom               #+#    #+#             */
-/*   Updated: 2024/10/11 12:22:55 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/11 12:57:08 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_pwd(char	**arg, t_env	*env)
 		ft_putstr_fd("pwd: too many arguments\n", STDERR_FILENO);
 		return ;
 	}
-	ft_putstr_fd(env->pwd, STDOUT_FILENO);
+	ft_putstr_fd(env->envv[env->pwd_position], STDOUT_FILENO);
 	ft_putchar_fd('\n', STDOUT_FILENO);
 	return ;
 }
