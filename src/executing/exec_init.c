@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:03:46 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/10 19:33:44 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/11 14:40:11 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,16 @@ void	ft_pipex_init(t_ast *cmd, t_pipex *pipex, t_env *env)
 
 void	search_redirects(t_ast *ast, t_pipex *pipex)
 {
-	if (ast->left)
-		search_redirects(ast->left, pipex);
 	if (ast->right)
-		search_redirects(ast->right, pipex);
-	if (ast->base->cmd_op == e_redirect_input && ast->right->base->file_name)
-		pipex->in_file = ast->right->base->file_name;
-	if (ast->base->cmd_op == e_redirect_output && ast->right->base->file_name)
-		pipex->out_file = ast->right->base->file_name;
+	{
+		if (ast->right->base->cmd_op == e_redirect_input || ast->right->base
+			->cmd_op == e_redirect_output)
+			search_redirects(ast->right, pipex);
+		if (ast->base->cmd_op == e_redirect_input && ast->right->base->file_name)
+			pipex->in_file = ast->right->base->file_name;
+		if (ast->base->cmd_op == e_redirect_output && ast->right->base->file_name)
+			pipex->out_file = ast->right->base->file_name;
+	}
 }
 
 static int	check_dir(char *cmd)
@@ -64,7 +66,6 @@ char	*ft_getpath(char *cmd)
 	char	*exec;
 	char	**allpath;
 	char	*temp_path;
-
 
 	i = -1;
 	allpath = ft_split(getenv("PATH"), ':');
