@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/30 15:51:19 by tom               #+#    #+#             */
-/*   Updated: 2024/10/10 20:52:05 by tom              ###   ########.fr       */
+/*   Created: 2024/10/11 11:10:19 by tom               #+#    #+#             */
+/*   Updated: 2024/10/11 11:19:40 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_env(char **arg, t_env	*env)
+bool	ft_cd(char	**arg)
 {
-	int	i;
-
-	i = -1;
-	while (env->envv[++i])
+	if (arg[1] && arg[2])
 	{
-		write(1, env->envv[i], ft_strlen(env->envv[i]) + 1);
-		write(1, "\n", 1);
+		ft_putstr_fd("cd: string not in pwd: ", STDERR_FILENO);
+		ft_putstr_fd(arg[1], STDERR_FILENO);
+		ft_putchar_fd('\n', STDERR_FILENO);
+		return (false);
 	}
-	return ;
+	if (chdir(arg[1]) == 0)
+		return (true);
+	ft_putstr_fd("cd: no such file or directory: ", STDERR_FILENO);
+	ft_putstr_fd(arg[1], STDERR_FILENO);
+	ft_putchar_fd('\n', STDERR_FILENO);
+	return (false);
 }
