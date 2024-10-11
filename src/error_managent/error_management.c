@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:04 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/10 20:28:23 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/10 20:51:14 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static void	error_management_bis(int error_code, t_ast *cmd, t_pipex *pipex)
 	{
 		ft_putstr_fd("minicheh : pipe failure\n", STDERR_FILENO);
 		error_free(cmd, pipex);
-		// exit(-1);
 	}
 	if (error_code == 6)
 		ft_putstr_fd("minicheh : problem while searching in env\n",
@@ -75,9 +74,7 @@ void	error_management(int error_code, t_ast *cmd, t_pipex *pipex)
 		ft_putstr_fd("minicheh : fork failure on command: ", STDERR_FILENO);
 		ft_putendl_fd(cmd->base->cmd[0], STDERR_FILENO);
 		error_free(cmd, pipex);
-		// exit(-1);
 	}
 	error_management_bis(error_code, cmd, pipex);
 	error_free(cmd, pipex);
-	// exit(0);
 }
