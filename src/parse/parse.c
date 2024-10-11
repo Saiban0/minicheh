@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/10/10 20:12:04 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/11 11:44:35 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	without_op(char *line, t_ast	**ast)
 	(*ast)->base->cmd = ft_split(line, ' ');
 	(*ast)->base->cmd_op = is_builtins((*ast)->base->cmd[0]);
 	(*ast)->base->builtins = (*ast)->base->cmd_op >= e_echo;
+
 }
 
 bool	select_operator(char	*line, int	i, t_ast	**ast)
@@ -46,8 +47,8 @@ bool	select_operator(char	*line, int	i, t_ast	**ast)
 
 void	add_env(t_env	**env_start, t_ast	**ast)
 {
-	(*env_start)->nb_commands += (((*ast)->base->cmd_op == e_external_control)
-		|| ((*ast)->base->cmd_op >= e_echo) || (*ast)->base->cmd_op == e_file_name);
+	(*env_start)->nb_commands += ((*ast)->base->cmd_op == e_external_control)
+		|| ((*ast)->base->cmd_op >= e_echo);
 	(*ast)->t_env = env_start;
 	(*ast)->base->path = NULL;
 	if (!(*ast)->base->file_name)
@@ -84,8 +85,8 @@ void	parse(char *line, t_ast	**ast, t_env	*env_start)
 	}
 	if ((*ast)->base->cmd_op == e_empty)
 		without_op(line, ast);
+	env_start->nb_commands = 0;
 	add_env(&env_start, ast);
-	ft_printf("size : %d\n", (*(*ast)->t_env)->nb_commands);
 	// Problème de size avec '<<' et '>>'
 	// rajoute 2 à la taille total (problème qui viens de la création de l'ast)
 }
