@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:16:54 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/10 19:07:58 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/11 14:35:56 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	exec_switch(t_ast *cmd, t_env *env)
 	if (!pipex)
 		error_management(e_malloc_failure, cmd, pipex);
 	ft_pipex_init(cmd, pipex, env);
-	search_redirects(cmd, pipex);
 	if (!cmd->base->is_op)
 		if (!cmd->base->cmd[0][0])
 			error_management(e_empty_command, cmd, pipex);
@@ -55,7 +54,25 @@ void	exec_simple(t_ast *cmd, t_pipex *pipex, t_env *env)
 	int		status;
 
 	create_fork(pipex, cmd);
+	search_redirects(cmd, pipex);
+	if ((ft_strcmp(pipex->in_file, "/dev/stdin") != 0 || ft_strcmp(
+		pipex->out_file, "/dev/stdout")) && cmd->base->pid == 0)
+		exec_simple_redirect(cmd, pipex, env);
 	if (cmd->base->pid == 0)
 		exec_only_child(cmd, pipex, env);
 	waitpid(cmd->base->pid, &status, 0);
+}
+
+void	exec_simple_redirect(t_ast *cmd, t_pipex *pipex, t_env *env)
+{
+	int	fd_out;
+	int	fd_in;
+
+	fd_in = get_fd(pipex->in_file, 0, cmd, pipex);
+	fd_out = get_fd(pipex->out_file, 1, cmd, pipex);
+	dup2(fd_in, STDIN_FILENO);
+	dup2(fd_out, STDOUT_FILENO);
+	close(fd_in);
+	close(fd_out);
+	exec_only_child(cmd, pipex, env);
 }
