@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:16:54 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/11 14:35:56 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/14 15:19:17 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,19 @@ static void	exec_only_child(t_ast *cmd, t_pipex *pipex, t_env *env)
 		cmd->base->path = ft_getpath(cmd->base->cmd[0]);
 		if (cmd->base->path != NULL)
 			execve(cmd->base->path, cmd->base->cmd, env->envv);
+		error_management(e_command_not_found, cmd, pipex);
+		exit(pipex->status);
 	}
-	error_management(e_command_not_found, cmd, pipex);
-	exit(pipex->status);
 }
 
 void	exec_simple(t_ast *cmd, t_pipex *pipex, t_env *env)
 {
 	int		status;
 
-	create_fork(pipex, cmd);
 	search_redirects(cmd, pipex);
+	if (!(cmd->base->cmd_op == e_cd || cmd->base->cmd_op == e_export
+		|| cmd->base->cmd_op == e_unset))
+		create_fork(pipex, cmd);
 	if ((ft_strcmp(pipex->in_file, "/dev/stdin") != 0 || ft_strcmp(
 		pipex->out_file, "/dev/stdout")) && cmd->base->pid == 0)
 		exec_simple_redirect(cmd, pipex, env);

@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:07:12 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/11 16:37:38 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/14 15:41:51 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,25 @@ void	child_execution(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
 {
 	if (curr_cmd == env->nb_commands - 1)
 	{
-		create_fork(pipex, cmd);
+		if (!(cmd->base->cmd_op == e_cd || cmd->base->cmd_op == e_export
+			|| cmd->base->cmd_op == e_unset))
+			create_fork(pipex, cmd);
 		if (cmd->base->pid == 0)
 			last_exec(curr_cmd, cmd, pipex, env);
 	}
 	else if (curr_cmd == 0)
 	{
-		create_fork(pipex, cmd);
+		if (!(cmd->base->cmd_op == e_cd || cmd->base->cmd_op == e_export
+			|| cmd->base->cmd_op == e_unset))
+			create_fork(pipex, cmd);
 		if (cmd->base->pid == 0)
 			first_exec(curr_cmd, cmd, pipex, env);
 	}
 	else
 	{
-		create_fork(pipex, cmd);
+		if (!(cmd->base->cmd_op == e_cd || cmd->base->cmd_op == e_export
+			|| cmd->base->cmd_op == e_unset))
+			create_fork(pipex, cmd);
 		if (cmd->base->pid == 0)
 			middle_exec(curr_cmd, cmd, pipex, env);
 	}
