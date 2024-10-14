@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:02:11 by tom               #+#    #+#             */
-/*   Updated: 2024/10/14 21:27:04 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/14 22:05:56 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	free_ast(t_ast	*node)
 		free_ast(node->right);
 	if (node->base)
 	{
-		ft_free_double_array(node->base->cmd);
+		if (node->base->cmd)
+			ft_free_double_array(node->base->cmd);
 		if (node->base->file_name)
 			free(node->base->file_name);
 		if (node->base->path)
