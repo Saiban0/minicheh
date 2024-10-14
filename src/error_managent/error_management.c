@@ -6,18 +6,28 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:04 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/10 20:51:14 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/14 20:47:27 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	free_pipe_list(t_pipex *pipex)
+{
+	int	i;
+
+	i = -1;
+	while (++i < pipex->temp - 1)
+		free(pipex->pipe_fd[i]);
+	free(pipex->pipe_fd[i]);
+}
 
 void	error_free(t_ast *cmd, t_pipex *pipex)
 {
 	if (pipex)
 	{
 		if (pipex->pipe_fd)
-			free(pipex->pipe_fd);
+			free_pipe_list(pipex);
 		free(pipex);
 		pipex = NULL;
 	}
