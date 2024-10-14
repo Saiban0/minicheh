@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:25:44 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/11 16:57:06 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/14 15:15:06 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	exec_builtins(t_ast *cmd, t_env *env)
 		// 	ft_exit(cmd->base->cmd);
 		if (cmd->base->cmd_op == e_env)
 			ft_env(cmd->base->cmd, env);
-		exit(EXIT_SUCCESS);
 	}
 }
 
