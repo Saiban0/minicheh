@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
-/*   Updated: 2024/10/11 15:43:53 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/14 22:04:40 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,10 @@ bool	loop(t_env	*env)
 	env->nb_commands = 0;
 	parse(line, &ast, env);
 	free(line);
-	exec_switch(ast, env);
-	// free_ast(ast);
+	line = NULL;
+	// exec_switch(ast, env);
+	free_ast(ast);
+	ast = NULL;
 	return (true);
 }
 
@@ -92,7 +94,7 @@ int main(int ac, char **av, char **envp)
 		if (!loop(env))
 			continue;
 	}
-	free(env->envv);
+	ft_free_double_array(env->envv);
 	free(env);
 }
 
