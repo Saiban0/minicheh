@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:25:44 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/14 15:15:06 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/14 20:27:48 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ void	wait_execution(t_ast *cmd, int *status)
 		wait_execution(cmd->right, status);
 	if (cmd->left)
 		wait_execution(cmd->left, status);
-	waitpid(cmd->base->pid, status, 0);
+	if (!cmd->base->is_op)
+		waitpid(cmd->base->pid, status, 0);
 }
 
 void	create_fork(t_pipex *pipex, t_ast *cmd)
