@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/10/11 12:04:25 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/14 21:54:33 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,10 @@ void	add_env(t_env	**env_start, t_ast	**ast)
 		|| ((*ast)->base->cmd_op >= e_echo);
 	(*ast)->t_env = env_start;
 	(*ast)->base->path = NULL;
-	if (!(*ast)->base->file_name)
+	if ((*ast)->base->cmd_op != e_file_name)
 		(*ast)->base->file_name = NULL;
+	if (!(((*ast)->base->cmd_op == e_external_control) || ((*ast)->base->cmd_op >= e_echo)))
+		(*ast)->base->cmd = NULL;
 	if ((*ast)->left)
 		add_env(env_start, &(*ast)->left);
 	if ((*ast)->right)
