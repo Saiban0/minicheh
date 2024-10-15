@@ -6,28 +6,32 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:04 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/14 20:47:27 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/15 16:48:09 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	free_pipe_list(t_pipex *pipex)
-{
-	int	i;
+// static void	free_pipe_list(t_pipex *pipex)
+// {
+// 	int	i;
 
-	i = -1;
-	while (++i < pipex->temp - 1)
-		free(pipex->pipe_fd[i]);
-	free(pipex->pipe_fd[i]);
-}
+// 	i = 0;
+// 	while (i < pipex->temp - 1)
+// 	{
+// 		free(pipex->pipe_fd[i]);
+// 		i++;
+// 	}
+// 	free(pipex->pipe_fd);
+// }
 
 void	error_free(t_ast *cmd, t_pipex *pipex)
 {
 	if (pipex)
 	{
 		if (pipex->pipe_fd)
-			free_pipe_list(pipex);
+			// free_pipe_list(pipex);
+			free(pipex->pipe_fd);
 		free(pipex);
 		pipex = NULL;
 	}
@@ -42,7 +46,10 @@ void	error_free(t_ast *cmd, t_pipex *pipex)
 			if (cmd->base->cmd)
 				ft_free_double_array(cmd->base->cmd);
 			if (cmd->base->file_name)
+			{
 				free(cmd->base->file_name);
+				cmd->base->file_name = NULL;
+			}
 			if (cmd->base->path)
 				free(cmd->base->path);
 			free(cmd->base);
