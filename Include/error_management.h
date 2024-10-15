@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:40 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/01 13:55:01 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/15 15:51:23 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef enum s_error_management
 	e_empty_command = 3,
 	e_fork_failure = 4,
 	e_pipe_failure = 5,
-	e_env_error =6,
+	e_env_error = 6,
 	e_malloc_failure = 7,
 }	t_error;
 
