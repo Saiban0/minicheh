@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 09:04:41 by tom               #+#    #+#             */
-/*   Updated: 2024/10/15 13:42:19 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/15 17:44:46 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,9 @@ bool			ft_cd(char	**arg, t_env	**env);
 
 void			ft_pwd(char	**arg, t_env	*env);
 
-bool			check_arg(char	*arg);
+bool			check_arg(char	*arg, t_env	**env);
 char			**double_array_cat(char	**tab1, char	**tab2);
+bool			ft_find(char	*arg, t_env	**env, char	**to_find);
 void			ft_export(char	**arg, t_env	**env);
 
 
