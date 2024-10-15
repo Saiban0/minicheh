@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:07:12 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/14 20:38:06 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/15 19:21:45 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void	last_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
 	int	fd;
 
 	search_redirects(cmd, pipex);
-	dup2(pipex->pipe_fd[curr_cmd - 1][0], STDIN_FILENO);
 	fd = get_fd(pipex->out_file, 1, cmd, pipex);
+	dup2(pipex->pipe_fd[curr_cmd - 1][0], STDIN_FILENO);
 	dup2(fd, STDOUT_FILENO);
 	close_pipes(pipex, env);
 	// close(fd);
@@ -84,10 +84,10 @@ void	middle_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
 	search_redirects(cmd, pipex);
 	fd_in = get_fd(pipex->in_file, 0, cmd, pipex);
 	fd_out = get_fd(pipex->out_file, 1, cmd, pipex);
-	dup2(fd_in, STDIN_FILENO);
-	dup2(fd_out, STDOUT_FILENO);
 	dup2(pipex->pipe_fd[curr_cmd - 1][0], STDIN_FILENO);
 	dup2(pipex->pipe_fd[curr_cmd][1], STDOUT_FILENO);
+	dup2(fd_in, STDIN_FILENO);
+	dup2(fd_out, STDOUT_FILENO);
 	close_pipes(pipex, env);
 	// close(fd_in);
 	close(fd_out);
@@ -105,12 +105,15 @@ void	middle_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
 
 void	first_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
 {
-	int	fd;
+	int	fd_in;
+	int	fd_out;
 
 	search_redirects(cmd, pipex);
+	fd_in = get_fd(pipex->in_file, 0, cmd, pipex);
+	fd_out = get_fd(pipex->out_file, 1, cmd, pipex);
+	dup2(fd_in, STDIN_FILENO);
+	dup2(fd_out, STDOUT_FILENO);
 	dup2(pipex->pipe_fd[curr_cmd][1], STDOUT_FILENO);
-	fd = get_fd(pipex->in_file, 0, cmd, pipex);
-	dup2(fd, STDIN_FILENO);
 	close_pipes(pipex, env);
 	// close(fd);
 	if (cmd->base->builtins)
