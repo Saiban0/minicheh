@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 11:31:22 by tom               #+#    #+#             */
-/*   Updated: 2024/10/15 14:46:27 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/15 17:45:38 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,29 @@ bool	export_error_handler(char	**temp, char	*error_message)
 	return (false);
 }
 
-bool	check_arg(char	*arg)
+bool	ft_find(char	*arg, t_env	**env, char	**to_find)
+{
+	int		i;
+	char	**temp;
+
+	i = -1;
+	while ((*env)->envv[++i])
+	{
+		temp = ft_split((*env)->envv[i], '=');
+		if (ft_strcmp(to_find[0], temp[0]) == 0)
+		{
+			ft_free_double_array(temp);
+			ft_free_double_array(to_find);
+			free((*env)->envv[i]);
+			(*env)->envv[i] = ft_strdup(arg);
+			return (true);
+		}
+		ft_free_double_array(temp);
+	}
+	return (false);
+}
+
+bool	check_export_arg(char	*arg, t_env	**env)
 {
 	char	**temp;
 
@@ -83,6 +105,8 @@ bool	check_arg(char	*arg)
 		return(export_error_handler(temp, "not an identifier: "));
 	if (!check_special_char(temp[0]))
 		return(export_error_handler(temp, "not valid in this context: "));
+	if (ft_find(arg, env, temp))
+		return (false);
 	ft_free_double_array(temp);
 	return (true);
 }
@@ -102,7 +126,7 @@ void	ft_export(char	**arg, t_env	**env)
 	j = 0;
 	arg_to_add = ft_calloc(double_array_size(arg) + 1, sizeof(char *));
 	while (arg[++i])
-		if (check_arg(arg[i]))
+		if (check_export_arg(arg[i], env))
 			arg_to_add[j++] = ft_strdup(arg[i]);
 	(*env)->envv = double_array_cat((*env)->envv, arg_to_add);
 	return ;
