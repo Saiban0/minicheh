@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:03:46 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/15 19:52:26 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/16 19:08:45 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,11 @@ void	ft_pipex_init(t_ast *cmd, t_pipex *pipex, t_env *env)
 	pipex->in_file = "/dev/stdin";
 	pipex->out_file = "/dev/stdout";
 	pipex->temp = env->nb_commands;
+	pipex->append = 0;
 	pipex->pipe_fd = malloc((env->nb_commands - 1) * sizeof(int [2]));
 	if (!pipex->pipe_fd)
 		error_management(e_malloc_failure, cmd, pipex);
-	while (i < env->nb_commands - 1)
+	while (i < env->nb_commands - 1 && cmd->base->cmd_op == e_pipe)
 	{
 		if (pipe(pipex->pipe_fd[i]) == -1)
 			error_management(e_pipe_failure, cmd, pipex);
@@ -36,14 +37,25 @@ void	search_redirects(t_ast *ast, t_pipex *pipex)
 {
 	if (ast->right)
 	{
+		if (ast->right->base->cmd_op == e_here_doc && ast->right->right->base
+			->file_name)
+			handle_heredocs(ast);
 		if (ast->right->base->cmd_op == e_redirect_input || ast->right->base
-			->cmd_op == e_redirect_output)
+			->cmd_op == e_redirect_output || ast->right->base
+			->cmd_op == e_redirect_output_write_mod)
 			search_redirects(ast->right, pipex);
 		if (ast->base->cmd_op == e_redirect_input
-				&& ast->right->base->file_name)
+			&& ast->right->base->file_name)
 			pipex->in_file = ast->right->base->file_name;
-		if (ast->base->cmd_op == e_redirect_output && ast->right->base->file_name)
+		if (ast->base->cmd_op == e_redirect_output && ast->right->base
+			->file_name)
 			pipex->out_file = ast->right->base->file_name;
+		if (ast->base->cmd_op == e_redirect_output_write_mod
+			&& ast->right->base->file_name)
+		{
+			pipex->out_file = ast->right->base->file_name;
+			pipex->append = 1;
+		}
 	}
 }
 
