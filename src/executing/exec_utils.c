@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:25:44 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/14 20:27:48 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/16 19:21:01 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,12 @@ int	get_fd(char *file_name, bool read_or_write, t_ast *cmd, t_pipex *pipex)
 	if (!read_or_write)
 		fd = open(file_name, O_RDONLY);
 	else
-		fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	{
+		if (pipex->append)
+			fd = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		else
+			fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	}
 	if (fd == -1)
 		error_management(e_file, cmd, pipex);
 	return (fd);
