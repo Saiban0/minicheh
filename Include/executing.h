@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:44:47 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/14 20:35:55 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/16 19:45:37 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_pipex
 	int		(*pipe_fd)[2];
 	int		status;
 	int		temp;
+	bool	append;
 }				t_pipex;
 
 /**
@@ -181,5 +182,12 @@ void	search_redirects(t_ast *ast, t_pipex *pipex);
  * @param env The env structure
  */
 void	exec_builtins(t_ast *cmd, t_env *env);
+/**
+ * @brief This function is called upon detection of a heredoc in a command and
+ * starts the process of handling it
+ * 
+ * @param cmd The cmd's ast
+ */
+void	handle_heredocs(t_ast *cmd);
 
 #endif

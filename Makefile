@@ -14,7 +14,7 @@ BUILTINS = ft_cd ft_echo ft_env ft_exit ft_pwd
 
 MAIN = main
 
-EXECUTING = exec_simple exec_utils exec_init exec_pipes \
+EXECUTING = exec_simple exec_utils exec_init exec_pipes exec_heredocs\
 
 ERROR_MANAGEMENT = error_management
 PARSE = parse_utils parse parsing_test pipe_handler redirect_handler
