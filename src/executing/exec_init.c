@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:03:46 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/14 20:36:51 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/15 19:52:26 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	search_redirects(t_ast *ast, t_pipex *pipex)
 		if (ast->right->base->cmd_op == e_redirect_input || ast->right->base
 			->cmd_op == e_redirect_output)
 			search_redirects(ast->right, pipex);
-		if (ast->base->cmd_op == e_redirect_input && ast->right->base->file_name)
+		if (ast->base->cmd_op == e_redirect_input
+				&& ast->right->base->file_name)
 			pipex->in_file = ast->right->base->file_name;
 		if (ast->base->cmd_op == e_redirect_output && ast->right->base->file_name)
 			pipex->out_file = ast->right->base->file_name;
