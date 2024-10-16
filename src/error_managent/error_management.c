@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:04 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/15 16:48:09 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/16 19:17:22 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	error_management(int error_code, t_ast *cmd, t_pipex *pipex)
 	if (error_code == 2)
 	{
 		ft_putstr_fd("minicheh: can't open file: ", STDERR_FILENO);
-		ft_putendl_fd(cmd->base->cmd[0], STDERR_FILENO);
+		ft_putendl_fd(cmd->right->right->base->file_name, STDERR_FILENO);
 	}
 	if (error_code == 3)
 		ft_putstr_fd("minicheh : empty command\n", STDERR_FILENO);
