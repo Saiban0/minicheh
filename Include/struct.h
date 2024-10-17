@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:13:38 by tom               #+#    #+#             */
-/*   Updated: 2024/10/11 12:59:39 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/17 12:06:06 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ typedef struct s_minishell_env
 	int				oldpwd_position;
 	int				home_position;
 	int				nb_commands;
+	char			*pwd;
+	char			*oldpwd;
 	char			**envv;
 }	t_env;
 
