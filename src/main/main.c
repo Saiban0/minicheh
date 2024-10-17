@@ -73,7 +73,7 @@ bool	loop(t_env	*env)
 	parse(line, &ast, env);
 	free(line);
 	line = NULL;
-	// exec_switch(ast, env);
+	exec_switch(ast, env);
 	free_ast(ast);
 	ast = NULL;
 	temp = ft_calloc(3, sizeof(char *));
