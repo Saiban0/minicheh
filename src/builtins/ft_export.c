@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 11:31:22 by tom               #+#    #+#             */
-/*   Updated: 2024/10/15 17:45:38 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/17 12:59:48 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ bool	check_special_char(char	*str)
 	{
 		if ((str[i] >= '!' && str[i] <= '/') || (str[i] >= ':' && str[i] <= '@')
 			|| (str[i] >= '[' && str[i] <= '`') || str[i] >= '{')
-			return (false);
+			return (true);
 	}
-	return (true);
+	return (false);
 }
 
 bool	only_char(char	*str, char c)
@@ -67,7 +67,7 @@ bool	export_error_handler(char	**temp, char	*error_message)
 	return (false);
 }
 
-bool	ft_find(char	*arg, t_env	**env, char	**to_find)
+bool	ft_find_export(char	*arg, t_env	**env, char	**arg_split)
 {
 	int		i;
 	char	**temp;
@@ -76,10 +76,10 @@ bool	ft_find(char	*arg, t_env	**env, char	**to_find)
 	while ((*env)->envv[++i])
 	{
 		temp = ft_split((*env)->envv[i], '=');
-		if (ft_strcmp(to_find[0], temp[0]) == 0)
+		if (ft_strcmp(arg_split[0], temp[0]) == 0)
 		{
 			ft_free_double_array(temp);
-			ft_free_double_array(to_find);
+			ft_free_double_array(arg_split);
 			free((*env)->envv[i]);
 			(*env)->envv[i] = ft_strdup(arg);
 			return (true);
@@ -103,9 +103,9 @@ bool	check_export_arg(char	*arg, t_env	**env)
 	}
 	if (!ft_isalpha(temp[0][0]))
 		return(export_error_handler(temp, "not an identifier: "));
-	if (!check_special_char(temp[0]))
+	if (check_special_char(temp[0]))
 		return(export_error_handler(temp, "not valid in this context: "));
-	if (ft_find(arg, env, temp))
+	if (ft_find_export(arg, env, temp))
 		return (false);
 	ft_free_double_array(temp);
 	return (true);
