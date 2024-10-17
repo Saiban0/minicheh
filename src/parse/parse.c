@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/10/17 13:32:18 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/17 17:18:27 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,28 @@ bool	select_operator(char	*line, int	i, t_ast	**ast)
 	return (true);
 }
 
+char	*find_env_var(char	*var, char	**envv)
+{
+	int	i;
+	int	var_size;
+
+	i = -1;
+	var++;
+	ft_printf("%s\n", var);
+	var_size = ft_strlen(var);
+	while (envv[++i])
+	{
+		if (ft_strncmp(var, envv[i], var_size - 1) == 0)
+			return (ft_strdup(envv[i] + var_size + 1));
+	}
+	return (ft_strdup(" "));
+}
+
 void	add_env(t_env	**env_start, t_ast	**ast)
 {
+	int		i;
+	char	*temp;
+	
 	(*env_start)->nb_commands += ((*ast)->base->cmd_op == e_external_control)
 		|| ((*ast)->base->cmd_op >= e_echo);
 	(*ast)->t_env = env_start;
@@ -55,6 +75,20 @@ void	add_env(t_env	**env_start, t_ast	**ast)
 		(*ast)->base->file_name = NULL;
 	if (!(((*ast)->base->cmd_op == e_external_control) || ((*ast)->base->cmd_op >= e_echo)))
 		(*ast)->base->cmd = NULL;
+	else
+	{
+		i = -1;
+		while ((*ast)->base->cmd[++i])
+		{
+			if ((*ast)->base->cmd[i][0] == '$' && (*ast)->base->cmd[i][1] != '(')
+			{
+				temp = find_env_var((*ast)->base->cmd[i], (*env_start)->envv);
+				free((*ast)->base->cmd[i]);
+				(*ast)->base->cmd[i] = ft_strdup(temp);
+				free(temp);
+			}
+		}
+	}
 	if ((*ast)->left)
 		add_env(env_start, &(*ast)->left);
 	if ((*ast)->right)
