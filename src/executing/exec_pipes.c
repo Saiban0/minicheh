@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:07:12 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/16 15:38:51 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/17 17:57:23 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	exec_handle_pipe(t_ast *cmd, t_pipex *pipex, t_env *env)
 	{
 		pipex->pipe_i++;
 		child_execution(env->nb_commands - pipex->pipe_i, cmd, pipex, env);
-		free(cmd->base->path);
 	}
 }
 
