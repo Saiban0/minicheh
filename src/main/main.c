@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
-/*   Updated: 2024/10/17 13:31:04 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/17 16:56:59 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ bool	loop(t_env	*env)
 	free(line);
 	line = NULL;
 	exec_switch(ast, env);
-	free_ast(ast);
 	ast = NULL;
 	temp = ft_calloc(3, sizeof(char *));
 	temp[0] = ft_strdup(env->pwd);
@@ -82,7 +81,6 @@ bool	loop(t_env	*env)
 	temp[2] = NULL;
 	ft_export(temp, &env);
 	ft_free_double_array(temp);
-	free(temp);
 	return (true);
 }
 
