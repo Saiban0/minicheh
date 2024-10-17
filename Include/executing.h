@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:44:47 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/16 19:45:37 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/17 19:39:30 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,8 @@ void	exec_builtins(t_ast *cmd, t_env *env);
  * starts the process of handling it
  * 
  * @param cmd The cmd's ast
+ * @param pipex The pipex struct initialized in exec_switch
  */
-void	handle_heredocs(t_ast *cmd);
+void	handle_heredocs(t_ast *cmd, t_pipex *pipex);
 
 #endif
