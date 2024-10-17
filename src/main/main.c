@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
-/*   Updated: 2024/10/14 22:04:40 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/17 13:31:04 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,15 @@ t_env	*init_env(char **envp)
 	while (env->envv[++i])
 	{
 		if (ft_strncmp(env->envv[i], "PWD", 3) == 0)
+		{
+			env->pwd = ft_strdup(env->envv[i]);
 			env->pwd_position = i;
+		}
 		if (ft_strncmp(env->envv[i], "OLDPWD", 6) == 0)
+		{
+			env->oldpwd = ft_strdup(env->envv[i]);
 			env->oldpwd_position = i;
+		}
 		if (ft_strncmp(env->envv[i], "HOME", 4) == 0)
 			env->home_position = i;
 	}
@@ -55,6 +61,7 @@ bool	loop(t_env	*env)
 {
 	char	*line;
 	t_ast	*ast;
+	char	**temp;
 
 	write(1, "minicheh -> ", 13);
 	line = get_next_line(0);
@@ -69,6 +76,13 @@ bool	loop(t_env	*env)
 	// exec_switch(ast, env);
 	free_ast(ast);
 	ast = NULL;
+	temp = ft_calloc(3, sizeof(char *));
+	temp[0] = ft_strdup(env->pwd);
+	temp[1] = ft_strdup(env->oldpwd);
+	temp[2] = NULL;
+	ft_export(temp, &env);
+	ft_free_double_array(temp);
+	free(temp);
 	return (true);
 }
 
@@ -98,3 +112,22 @@ int main(int ac, char **av, char **envp)
 	free(env);
 }
 
+// int	main(int ac, char **av, char **envp)
+// {
+// 	t_env	*env;
+
+// 	env = init_env(envp);
+// 	(void)ac;
+// 	av++;
+// 	if (!env)
+// 		return (EXIT_FAILURE);
+// 	ft_export(av, &env);
+// 	av= ft_split(av[0], '=');
+// 	ft_unset(av, &env);
+// 	ft_print_double_array(env->envv);
+// 	ft_free_double_array(env->envv);
+// 	ft_free_double_array(av);
+// 	free(env->oldpwd);
+// 	free(env->pwd);
+// 	free(env);
+// }
