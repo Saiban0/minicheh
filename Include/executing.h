@@ -6,13 +6,12 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:44:47 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/10 17:36:39 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/16 19:45:37 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTING_H
 # define EXECUTING_H
-
 
 /**
  * @brief Supplementary struct for the executing.
@@ -25,6 +24,8 @@ typedef struct s_pipex
 	char	*out_file;
 	int		(*pipe_fd)[2];
 	int		status;
+	int		temp;
+	bool	append;
 }				t_pipex;
 
 /**
@@ -41,9 +42,18 @@ void	exec_switch(t_ast *cmd, t_env *env);
  * 
  * @param cmd The ast base
  * @param pipex The pipex struct initialized in exec_switch
- * * @param env The env struct initialized in main
+ * @param env The env struct initialized in main
  */
 void	exec_simple(t_ast *cmd, t_pipex *pipex, t_env *env);
+/**
+ * @brief This function is called upon executing a simple command that has 
+ * redirects
+ * 
+ * @param cmd The ast base
+ * @param pipex The pipex struct initialized in exec_switch
+ * @param env The env struct initialized in main
+ */
+void	exec_simple_redirect(t_ast *cmd, t_pipex *pipex, t_env *env);
 /**
  * @brief This function is called upon executing a command pipeline, it is
  * recursive and will start executing the last (furthest to the right) command
@@ -172,5 +182,12 @@ void	search_redirects(t_ast *ast, t_pipex *pipex);
  * @param env The env structure
  */
 void	exec_builtins(t_ast *cmd, t_env *env);
+/**
+ * @brief This function is called upon detection of a heredoc in a command and
+ * starts the process of handling it
+ * 
+ * @param cmd The cmd's ast
+ */
+void	handle_heredocs(t_ast *cmd);
 
 #endif

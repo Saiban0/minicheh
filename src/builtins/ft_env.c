@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:51:19 by tom               #+#    #+#             */
-/*   Updated: 2024/10/11 12:42:24 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/14 15:14:32 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,5 @@ void	ft_env(char **arg, t_env	*env)
 		ft_putstr_fd(env->envv[i], STDOUT_FILENO);
 		ft_putchar_fd('\n', STDOUT_FILENO);
 	}
-	return ;
+	exit(EXIT_SUCCESS);
 }

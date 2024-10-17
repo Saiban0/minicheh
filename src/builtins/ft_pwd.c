@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 12:19:03 by tom               #+#    #+#             */
-/*   Updated: 2024/10/11 15:55:34 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/14 15:22:52 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,5 @@ void	ft_pwd(char	**arg, t_env	*env)
 	}
 	ft_putstr_fd(env->envv[env->pwd_position] + 4, STDOUT_FILENO);
 	ft_putchar_fd('\n', STDOUT_FILENO);
-	return ;
+	exit(EXIT_SUCCESS);
 }
