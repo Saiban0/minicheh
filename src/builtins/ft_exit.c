@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:02:11 by tom               #+#    #+#             */
-/*   Updated: 2024/10/10 16:27:16 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/11 13:30:11 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ void	ft_exit(char	*line, t_ast	*ast, t_env	*env)
 		free(line);
 	if (env->envv)
 		ft_free_double_array(env->envv);
-	if (env->pwd)
-		free(env->pwd);
 	if (env)
 		free(env);
 	if (ast)

@@ -1,37 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/10 09:03:45 by tom               #+#    #+#             */
-/*   Updated: 2024/10/14 15:15:03 by bchedru          ###   ########.fr       */
+/*   Created: 2024/10/11 12:19:03 by tom               #+#    #+#             */
+/*   Updated: 2024/10/14 15:22:52 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+# include "minishell.h"
 
-void	ft_echo(char **arg)
+void	ft_pwd(char	**arg, t_env	*env)
 {
-	bool	flag;
-	int		i;
-
-	arg++;
-	i = -1;
-	flag = false;
-	if (arg[0][0] == '-' && arg[0][1] == 'n')
+	if (arg != NULL)
 	{
-		flag = true;
-		arg++;
+		if (arg[1])
+		{
+			ft_putstr_fd("pwd: too many arguments\n", STDERR_FILENO);
+			return ;
+		}
 	}
-	while (arg[++i])
-	{
-		ft_putstr_fd(arg[i], STDOUT_FILENO);
-		if (arg[i + 1])
-			ft_putchar_fd(' ', STDOUT_FILENO);
-	}
-	if (!flag)
-		write(1, "\n", 1);
+	ft_putstr_fd(env->envv[env->pwd_position] + 4, STDOUT_FILENO);
+	ft_putchar_fd('\n', STDOUT_FILENO);
 	exit(EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:13:38 by tom               #+#    #+#             */
-/*   Updated: 2024/10/10 16:55:51 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/11 12:59:39 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,9 @@ typedef struct s_ast_content
 
 typedef struct s_minishell_env
 {
-	char			*pwd;
+	int				pwd_position;
+	int				oldpwd_position;
+	int				home_position;
 	int				nb_commands;
 	char			**envv;
 }	t_env;

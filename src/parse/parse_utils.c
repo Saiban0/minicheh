@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:30:08 by tom               #+#    #+#             */
-/*   Updated: 2024/06/30 18:10:52 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/11 12:43:08 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,9 @@ char	*rem_wspace(char *command)
 	while(is_whitespace(command[i]))
 		command++;
 	i = ft_strlen(command);
+	while(is_whitespace(command[i--]))
+		continue;
 	if (is_whitespace(command[i]))
-	{
-		while(is_whitespace(command[--i]))
-			continue;
 		command[i] = '\0';
-	}
 	return (command);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:51:19 by tom               #+#    #+#             */
-/*   Updated: 2024/10/10 20:52:05 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/14 15:14:32 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,15 @@ void	ft_env(char **arg, t_env	*env)
 	int	i;
 
 	i = -1;
+	if (arg[1])
+	{
+		ft_putstr_fd("env: too many arguments\n", STDERR_FILENO);
+		return ;
+	}
 	while (env->envv[++i])
 	{
-		write(1, env->envv[i], ft_strlen(env->envv[i]) + 1);
-		write(1, "\n", 1);
+		ft_putstr_fd(env->envv[i], STDOUT_FILENO);
+		ft_putchar_fd('\n', STDOUT_FILENO);
 	}
-	return ;
+	exit(EXIT_SUCCESS);
 }
