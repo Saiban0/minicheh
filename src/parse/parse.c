@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/10/11 12:04:25 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/17 13:32:18 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,10 @@ void	add_env(t_env	**env_start, t_ast	**ast)
 		|| ((*ast)->base->cmd_op >= e_echo);
 	(*ast)->t_env = env_start;
 	(*ast)->base->path = NULL;
-	if (!(*ast)->base->file_name)
+	if ((*ast)->base->cmd_op != e_file_name)
 		(*ast)->base->file_name = NULL;
+	if (!(((*ast)->base->cmd_op == e_external_control) || ((*ast)->base->cmd_op >= e_echo)))
+		(*ast)->base->cmd = NULL;
 	if ((*ast)->left)
 		add_env(env_start, &(*ast)->left);
 	if ((*ast)->right)
@@ -87,6 +89,4 @@ void	parse(char *line, t_ast	**ast, t_env	*env_start)
 		without_op(line, ast);
 	env_start->nb_commands = 0;
 	add_env(&env_start, ast);
-	// Problème de size avec '<<' et '>>'
-	// rajoute 2 à la taille total (problème qui viens de la création de l'ast)
 }
