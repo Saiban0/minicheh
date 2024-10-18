@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:44:47 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/18 17:31:38 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/18 19:18:12 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,11 @@ typedef struct s_pipex
 	int		pipe_i;
 	char	*in_file;
 	char	*out_file;
+	int		in_fd;
+	int		out_fd;
 	int		(*pipe_fd)[2];
 	int		status;
 	int		nb_commands;
-	bool	append;
 }				t_pipex;
 
 /**
@@ -160,12 +161,12 @@ void	create_fork(t_pipex *pipex, t_ast *cmd);
  * 
  * @param file_name The redirection file name, use stdin and stdout for default
  * behaviour
- * @param read_or_write 0 for read 1 for write
+ * @param read_or_write 0 for read 1 for write 2 for append write
  * @param cmd The current command's ast
  * @param pipex The pipex struct initialized in exec_switch
  * @return int The file's fd
  */
-int		get_fd(char *file_name, bool read_or_write, t_ast *cmd, t_pipex *pipex);
+int		get_fd(char *file_name, int read_or_write, t_ast *cmd, t_pipex *pipex);
 /**
  * @brief This function is called just after ft_pipex_init and search through
  * the entire ast for redirection operaterators
