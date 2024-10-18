@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/10/17 17:18:27 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/18 14:09:25 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,9 @@ void	parse(char *line, t_ast	**ast, t_env	*env_start)
 	line[ft_strlen(line) - 1] = '\0';
 	while (line[++i])
 	{
-		if (is_op(line[i]))
+		if (line[i] == '"' || line[i] == '\'')
+			quote_handler(line, &env_start, i);
+		if (is_op(line[i]) && env_start->quote == 0)
 		{
 			if (select_operator(line, i, ast) == false)
 			{

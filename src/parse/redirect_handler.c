@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:43 by tom               #+#    #+#             */
-/*   Updated: 2024/10/11 14:12:18 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/18 14:34:46 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	add_new_operator(t_ast	*node, char	*command, t_cmd_and_op op)
 	new_node->right->base = ft_calloc(1, sizeof(t_ast_content));
 	new_node->base->cmd_op = op;
 	new_node->base->is_op = true;
+	new_node->base->builtins = false;
 	new_node->left = NULL;
 	if (op == e_here_doc)
 	{

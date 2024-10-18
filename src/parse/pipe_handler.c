@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:34:23 by tom               #+#    #+#             */
-/*   Updated: 2024/10/10 17:36:07 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/18 14:34:20 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	add_new_pipe_head(t_ast	**ast)
 	new_head->base->is_op = true;
 	new_head->left = *ast;
 	new_head->right = NULL;
+	new_head->base->builtins = false;
 	(*ast) = new_head;
 }
 
