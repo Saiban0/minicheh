@@ -59,8 +59,8 @@ void	exec_simple(t_ast *cmd, t_pipex *pipex, t_env *env)
 	if (cmd->base->pid == 0)
 	{
 		search_redirects(cmd, pipex);
-		if ((ft_strcmp(pipex->in_file, "/dev/stdin") != 0 || ft_strcmp(
-					pipex->out_file, "/dev/stdout")) && cmd->base->pid == 0)
+		if (ft_strcmp(pipex->in_file, "/dev/stdin") != 0 || ft_strcmp(
+					pipex->out_file, "/dev/stdout"))
 			exec_simple_redirect(cmd, pipex, env);
 		else
 			exec_only_child(cmd, pipex, env);
