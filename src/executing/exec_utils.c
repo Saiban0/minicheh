@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:25:44 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/16 19:21:01 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/18 18:23:17 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	exec_builtins(t_ast *cmd, t_env *env)
 {
-	(void)env;
 	if (cmd->base->cmd_op >= e_echo)
 	{
 		if (cmd->base->cmd_op == e_echo)
