@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:43 by tom               #+#    #+#             */
-/*   Updated: 2024/10/18 14:34:46 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/18 18:42:39 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,10 @@ void	add_new_operator(t_ast	*node, char	*command, t_cmd_and_op op)
 	new_node->base->cmd_op = op;
 	new_node->base->is_op = true;
 	new_node->base->builtins = false;
+	new_node->right->base->builtins = false;
 	new_node->left = NULL;
-	if (op == e_here_doc)
-	{
-		if (command)
-			new_node->right->base->cmd = ft_split(command, ' ');
-	}
-	else if (op == e_redirect_input || op == e_redirect_output
-				|| op == e_redirect_output_write_mod)
-	{
-		new_node->right->base->file_name = ft_strdup(rem_wspace(command));
-		new_node->right->base->cmd_op = e_file_name;
-	}
+	new_node->right->base->file_name = ft_strdup(rem_wspace(command));
+	new_node->right->base->cmd_op = e_file_name;
 	node->right = new_node;
 }
 
