@@ -8,7 +8,7 @@ CFLAGS =	-Wall -Wextra -Werror -g \
 			-IInclude 
 
 LFLAGS =	-Llibamoa \
-			-lamoa
+			-lamoa -lreadline
 
 BUILTINS = ft_cd ft_echo ft_env ft_exit ft_export ft_pwd ft_unset
 

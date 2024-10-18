@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:19:25 by tom               #+#    #+#             */
-/*   Updated: 2024/10/10 18:27:58 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/18 18:21:43 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,7 @@
 # include <errno.h>
 # include <stdio.h>
 # include <signal.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 #endif
