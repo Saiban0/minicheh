@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:49:21 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/21 18:53:13 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/21 21:07:32 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,8 @@ void	handle_heredocs(t_ast *cmd, t_pipex *pipex)
 		ft_putstr_fd("\n", heredoc_fd);
 		free(line);
 	}
-	pipex->in_fd = heredoc_fd;
+	close(heredoc_fd);
+	pipex->in_fd = open("heredoc_fd", O_RDONLY);
+	if (heredoc_fd == -1)
+		error_management(e_file_name, cmd, pipex);
 }
