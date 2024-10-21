@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
-/*   Updated: 2024/10/17 16:56:59 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/21 19:09:08 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,8 @@ bool	loop(t_env	*env)
 	t_ast	*ast;
 	char	**temp;
 
-	write(1, "minicheh -> ", 13);
-	line = get_next_line(0);
-	if (line[0] == '\n')
+	line = readline("minicheh -> ");
+	if (line[0] == '\0')
 		return (false);
 	ast = ft_calloc(1, sizeof(t_ast) + 1);
 	ast->base = ft_calloc(1, sizeof(t_ast_content) + 1);
@@ -84,9 +83,8 @@ bool	loop(t_env	*env)
 	return (true);
 }
 
-int main(int ac, char **av, char **envp)
+int	main(int ac, char **av, char **envp)
 {
-
 	t_env	*env;
 
 	(void)av;
@@ -104,7 +102,7 @@ int main(int ac, char **av, char **envp)
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, &sigint_handler);
 		if (!loop(env))
-			continue;
+			continue ;
 	}
 	ft_free_double_array(env->envv);
 	free(env);
