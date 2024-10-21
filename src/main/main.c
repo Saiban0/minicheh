@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
-/*   Updated: 2024/10/17 13:31:04 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/21 18:34:00 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_env	*init_env(char **envp)
 	i = -1;
 	env = ft_calloc(1, sizeof(t_env));
 	env->envv = ft_calloc(double_array_size(envp) + 1, sizeof(char*));
+	env->quote = false;
 	while (envp[++i])
 	{
 		env->envv[i] = ft_strdup(envp[i]);
@@ -48,12 +49,15 @@ t_env	*init_env(char **envp)
 	return (env);
 }
 
+volatile bool test_sig;
+
 void	sigint_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
 		write(STDERR_FILENO, "\n", 1);
-		exit(0);
+		test_sig = true;
+		// exit(0);
 	}
 }
 
@@ -63,17 +67,18 @@ bool	loop(t_env	*env)
 	t_ast	*ast;
 	char	**temp;
 
-	write(1, "minicheh -> ", 13);
 	line = get_next_line(0);
+	if (test_sig == true)
+		{test_sig = false;ft_exit(line, NULL, env);exit(0);}
 	if (line[0] == '\n')
 		return (false);
 	ast = ft_calloc(1, sizeof(t_ast) + 1);
 	ast->base = ft_calloc(1, sizeof(t_ast_content) + 1);
 	env->nb_commands = 0;
 	parse(line, &ast, env);
-	free(line);
 	line = NULL;
-	exec_switch(ast, env);
+	// exec_switch(ast, env);
+	ft_print_double_array(ast->base->cmd);
 	free_ast(ast);
 	ast = NULL;
 	temp = ft_calloc(3, sizeof(char *));
@@ -82,7 +87,6 @@ bool	loop(t_env	*env)
 	temp[2] = NULL;
 	ft_export(temp, &env);
 	ft_free_double_array(temp);
-	free(temp);
 	return (true);
 }
 
@@ -92,6 +96,7 @@ int main(int ac, char **av, char **envp)
 	t_env	*env;
 
 	(void)av;
+	test_sig = false;
 	if (ac > 1)
 	{
 		write(STDERR_FILENO, "Usage : ./minishell\n", 21);
@@ -103,8 +108,8 @@ int main(int ac, char **av, char **envp)
 	while (true)
 	{
 		errno = 0;
-		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, &sigint_handler);
+		signal(SIGQUIT, SIG_IGN);
 		if (!loop(env))
 			continue;
 	}
