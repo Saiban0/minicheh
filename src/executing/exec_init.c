@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:03:46 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/18 19:57:04 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/21 16:09:11 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ void	ft_pipex_init(t_ast *cmd, t_pipex *pipex, t_env *env)
 
 	i = 0;
 	pipex->pipe_i = 0;
-	pipex->in_file = "/dev/stdin";
-	pipex->out_file = "/dev/stdout";
 	pipex->in_fd = -1;
 	pipex->out_fd = -1;
 	pipex->nb_commands = env->nb_commands;
@@ -45,8 +43,7 @@ void	redirect_input_file(t_ast *ast, t_pipex *pipex)
 {
 	if (pipex->in_fd != -1)
 		close(pipex->in_fd);
-	pipex->in_file = ast->right->base->file_name;
-	pipex->in_fd = get_fd(pipex->in_file, 0, ast, pipex);
+	pipex->in_fd = get_fd(ast->right->base->file_name, 0, ast, pipex);
 	if (ast->right->right)
 		search_redirects(ast->right->right, pipex);
 }
@@ -55,11 +52,10 @@ void	redirect_output_file(t_ast *ast, t_pipex *pipex)
 {
 	if (pipex->out_fd != -1)
 		close(pipex->out_fd);
-	pipex->out_file = ast->right->base->file_name;
 	if (ast->base->cmd_op == e_redirect_output)
-		pipex->out_fd = get_fd(pipex->out_file, 1, ast, pipex);
+		pipex->out_fd = get_fd(ast->right->base->file_name, 1, ast, pipex);
 	if (ast->base->cmd_op == e_redirect_output_write_mod)
-		pipex->out_fd = get_fd(pipex->out_file, 2, ast, pipex);
+		pipex->out_fd = get_fd(ast->right->base->file_name, 2, ast, pipex);
 	if (ast->right->right)
 		search_redirects(ast->right->right, pipex);
 }

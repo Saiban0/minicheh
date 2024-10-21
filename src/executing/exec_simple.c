@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:16:54 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/18 19:36:10 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/21 20:15:35 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,7 @@ void	exec_simple(t_ast *cmd, t_pipex *pipex, t_env *env)
 	if (cmd->base->pid == 0)
 	{
 		search_redirects(cmd, pipex);
-		if (ft_strcmp(pipex->in_file, "/dev/stdin") != 0 || ft_strcmp(
-					pipex->out_file, "/dev/stdout"))
+		if (pipex->in_fd != -1 || pipex->out_fd != -1)
 			exec_simple_redirect(cmd, pipex, env);
 		else
 			exec_only_child(cmd, pipex, env);
@@ -72,6 +71,7 @@ void	exec_simple_redirect(t_ast *cmd, t_pipex *pipex, t_env *env)
 {
 	dup2(pipex->in_fd, STDIN_FILENO);
 	dup2(pipex->out_fd, STDOUT_FILENO);
+	ft_putnbr_fd(pipex->in_fd, STDERR_FILENO);
 	close(pipex->in_fd);
 	close(pipex->out_fd);
 	exec_only_child(cmd, pipex, env);

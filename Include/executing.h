@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:44:47 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/18 19:18:12 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/21 15:58:45 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
 typedef struct s_pipex
 {
 	int		pipe_i;
-	char	*in_file;
-	char	*out_file;
 	int		in_fd;
 	int		out_fd;
 	int		(*pipe_fd)[2];
