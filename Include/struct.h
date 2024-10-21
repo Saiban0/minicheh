@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:13:38 by tom               #+#    #+#             */
-/*   Updated: 2024/10/17 12:06:06 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/18 13:30:07 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_minishell_env
 	char			*pwd;
 	char			*oldpwd;
 	char			**envv;
+	int				quote;
 }	t_env;
 
 typedef struct s_ast
