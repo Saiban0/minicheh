@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/10/18 14:09:25 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/21 18:44:21 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ bool	select_operator(char	*line, int	i, t_ast	**ast)
 	// A gérer le cas ou c'est un pipe en fin de ligne
 	// Même fonctionnement que avec un " en fin de ligne
 	// (Ouvrir les guillemets)
-	if (line[i] == '|')
+	if (line[i] == '|' && line[i + 1] == '|')
+		ft_exit(line, *ast, *(*ast)->t_env);
+	else if (line[i] == '|')
 		ast_pipe(line, i, ast);
 	else if (line[i] == '<' && line[i + 1] == '<')
 		ast_else(line, i + 1, ast, e_here_doc);
@@ -52,7 +54,6 @@ char	*find_env_var(char	*var, char	**envv)
 
 	i = -1;
 	var++;
-	ft_printf("%s\n", var);
 	var_size = ft_strlen(var);
 	while (envv[++i])
 	{
@@ -95,7 +96,7 @@ void	add_env(t_env	**env_start, t_ast	**ast)
 		add_env(env_start, &(*ast)->right);
 }
 
-void	parse(char *line, t_ast	**ast, t_env	*env_start)
+void	parse(char *line, t_ast	**ast, t_env	*env)
 {
 	int		i;
 
@@ -103,18 +104,16 @@ void	parse(char *line, t_ast	**ast, t_env	*env_start)
 	(*ast)->base->cmd_op = e_empty;
 	(*ast)->left = NULL;
 	(*ast)->right = NULL;
-	(*ast)->t_env = &env_start;
+	(*ast)->t_env = &env;
 	line[ft_strlen(line) - 1] = '\0';
 	while (line[++i])
 	{
-		if (line[i] == '"' || line[i] == '\'')
-			quote_handler(line, &env_start, i);
-		if (is_op(line[i]) && env_start->quote == 0)
+		if (is_op(line[i]) && env->quote == 0)
 		{
 			if (select_operator(line, i, ast) == false)
 			{
-				write(1, "minishell: ", 12);
-				write(1, "syntax error near unexpected token `newline'\n", 46);
+				ft_putstr_fd("minishell: ", STDERR_FILENO);
+				ft_putstr_fd("syntax error near unexpected token `newline'\n", STDERR_FILENO);
 				return ;
 			}
 			line += i + (line[i] == line[i + 1]);
@@ -123,6 +122,7 @@ void	parse(char *line, t_ast	**ast, t_env	*env_start)
 	}
 	if ((*ast)->base->cmd_op == e_empty)
 		without_op(line, ast);
-	env_start->nb_commands = 0;
-	add_env(&env_start, ast);
+	env->nb_commands = 0;
+	add_env(&env, ast);
+	free(line);
 }
