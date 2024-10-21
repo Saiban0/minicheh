@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 20:06:37 by tom               #+#    #+#             */
-/*   Updated: 2024/09/30 15:35:32 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/18 14:09:47 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
  * @return char* The command whithout white space around it.
  */
 char	*rem_wspace(char *command);
+
+void	quote_handler(char	*line, t_env	**env, int	quote_pos);
 
 /******************************************************************************/
 /*                                                                            */
