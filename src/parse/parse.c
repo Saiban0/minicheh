@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/10/21 18:44:21 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/22 20:26:45 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	without_op(char *line, t_ast	**ast)
 {
-	(*ast)->base->cmd = ft_split(line, ' ');
+	(*ast)->base->cmd = ft_split_arg(line, ' ');
 	(*ast)->base->cmd_op = is_builtins((*ast)->base->cmd[0]);
 	(*ast)->base->builtins = (*ast)->base->cmd_op >= e_echo;
 
@@ -96,6 +96,9 @@ void	add_env(t_env	**env_start, t_ast	**ast)
 		add_env(env_start, &(*ast)->right);
 }
 
+// Remplacer les utilisations de ft_split par une fonction qui va gérer les quotes et les espace d'elle même.
+// Nécessite des modifications dans le parse.
+
 void	parse(char *line, t_ast	**ast, t_env	*env)
 {
 	int		i;
@@ -108,7 +111,7 @@ void	parse(char *line, t_ast	**ast, t_env	*env)
 	line[ft_strlen(line) - 1] = '\0';
 	while (line[++i])
 	{
-		if (is_op(line[i]) && env->quote == 0)
+		if (is_op(line[i]))
 		{
 			if (select_operator(line, i, ast) == false)
 			{
