@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
-/*   Updated: 2024/10/21 19:09:08 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/22 17:43:33 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ bool	loop(t_env	*env)
 	line = readline("minicheh -> ");
 	if (line[0] == '\0')
 		return (false);
+	add_history(line);
 	ast = ft_calloc(1, sizeof(t_ast) + 1);
 	ast->base = ft_calloc(1, sizeof(t_ast_content) + 1);
 	env->nb_commands = 0;
