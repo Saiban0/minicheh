@@ -6,11 +6,19 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:49:21 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/21 21:07:32 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/22 19:02:58 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	heredoc_end(int heredoc_fd, t_pipex *pipex)
+{
+	close(heredoc_fd);
+	pipex->in_fd = open("heredoc_tmp", O_RDONLY);
+	if (pipex->in_fd == -1)
+		error_management(e_file_name, cmd, pipex);
+}
 
 void	handle_heredocs(t_ast *cmd, t_pipex *pipex)
 {
@@ -23,6 +31,12 @@ void	handle_heredocs(t_ast *cmd, t_pipex *pipex)
 	while (true)
 	{
 		line = readline("heredoc> ");
+		if (line == NULL)
+		{
+			ft_putstr_fd("Heredoc received SIGINT during prompt\n",
+				STDERR_FILENO);
+			break ;
+		}
 		if (ft_strcmp(line, cmd->right->right->base->file_name) == 0)
 		{
 			free(line);
@@ -32,8 +46,5 @@ void	handle_heredocs(t_ast *cmd, t_pipex *pipex)
 		ft_putstr_fd("\n", heredoc_fd);
 		free(line);
 	}
-	close(heredoc_fd);
-	pipex->in_fd = open("heredoc_fd", O_RDONLY);
-	if (heredoc_fd == -1)
-		error_management(e_file_name, cmd, pipex);
+	heredoc_end(heredoc_fd, pipex);
 }
