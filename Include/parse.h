@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 20:06:37 by tom               #+#    #+#             */
-/*   Updated: 2024/10/18 14:09:47 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/22 18:48:15 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 /* Parse_Utils                                                                */
 /*                                                                            */
 /******************************************************************************/
+char	*cuted(char const *str, int end);
+int		result_length(char const *str, char c);
+char	**ft_split_arg(char const *str, char sep);
 
 /**
  * @brief This function remove each white space before and after the command.
@@ -27,7 +30,7 @@
  */
 char	*rem_wspace(char *command);
 
-void	quote_handler(char	*line, t_env	**env, int	quote_pos);
+int		quote_handler(char	*line, t_env	**env, int	quote_pos);
 
 /******************************************************************************/
 /*                                                                            */
