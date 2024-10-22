@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
-/*   Updated: 2024/10/21 18:34:00 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/22 17:40:39 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,17 @@ void	sigint_handler(int signal)
 	}
 }
 
+bool	only_wspace(char	*line)
+{
+	int	i;
+
+	i = -1;
+	while (line[++i])
+		if (!is_whitespace(line[i]))
+			return (false);
+	return (true);
+}
+
 bool	loop(t_env	*env)
 {
 	char	*line;
@@ -75,10 +86,16 @@ bool	loop(t_env	*env)
 	ast = ft_calloc(1, sizeof(t_ast) + 1);
 	ast->base = ft_calloc(1, sizeof(t_ast_content) + 1);
 	env->nb_commands = 0;
+	if (only_wspace(line))
+	{
+		free(line);
+		free_ast(ast);
+		return (false);
+	}
 	parse(line, &ast, env);
 	line = NULL;
 	// exec_switch(ast, env);
-	ft_print_double_array(ast->base->cmd);
+	// ft_print_double_array(ast->base->cmd);
 	free_ast(ast);
 	ast = NULL;
 	temp = ft_calloc(3, sizeof(char *));
