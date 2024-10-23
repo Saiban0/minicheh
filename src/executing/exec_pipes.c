@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:07:12 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/18 20:10:36 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/23 16:25:19 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,14 @@ void	last_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
 	if (pipex->out_fd != -1)
 		close(pipex->out_fd);
 	if (cmd->base->builtins)
-		exec_builtins(cmd, env);
+		exec_builtins(cmd, env, pipex);
 	else
 	{
 		cmd->base->path = ft_getpath(cmd->base->cmd[0]);
 		if (cmd->base->path != NULL)
 			execve(cmd->base->path, cmd->base->cmd, env->envv);
-		error_management(e_command_not_found, cmd, pipex);
-		exit(pipex->status);
+		error_management(e_command_not_found, cmd, pipex, env);
+		exit(1);
 	}
 }
 
@@ -89,14 +89,14 @@ void	middle_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
 	if (pipex->out_fd != -1)
 		close(pipex->out_fd);
 	if (cmd->base->builtins)
-		exec_builtins(cmd, env);
+		exec_builtins(cmd, env, pipex);
 	else
 	{
 		cmd->base->path = ft_getpath(cmd->base->cmd[0]);
 		if (cmd->base->path != NULL)
 			execve(cmd->base->path, cmd->base->cmd, env->envv);
-		error_management(e_command_not_found, cmd, pipex);
-		exit(pipex->status);
+		error_management(e_command_not_found, cmd, pipex, env);
+		exit(1);
 	}
 }
 
@@ -112,13 +112,13 @@ void	first_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
 	if (pipex->out_fd != -1)
 		close(pipex->out_fd);
 	if (cmd->base->builtins)
-		exec_builtins(cmd, env);
+		exec_builtins(cmd, env, pipex);
 	else
 	{
 		cmd->base->path = ft_getpath(cmd->base->cmd[0]);
 		if (cmd->base->path != NULL)
 			execve(cmd->base->path, cmd->base->cmd, env->envv);
-		error_management(e_command_not_found, cmd, pipex);
-		exit(pipex->status);
+		error_management(e_command_not_found, cmd, pipex, env);
+		exit(1);
 	}
 }
