@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:44:47 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/23 17:20:13 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/23 18:15:07 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ typedef struct s_pipex
 	int		out_fd;
 	int		(*pipe_fd)[2];
 	int		status;
-	int		nb_commands;
 }				t_pipex;
 
 /**
