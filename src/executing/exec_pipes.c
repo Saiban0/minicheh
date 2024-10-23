@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:07:12 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/23 16:25:19 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/23 17:56:04 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ void	child_execution(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
 	}
 	else if (curr_cmd == 0)
 	{
-		if (!(cmd->base->cmd_op == e_cd || cmd->base->cmd_op == e_export
-				|| cmd->base->cmd_op == e_unset))
+		if (!(cmd->base->cmd_op >= e_cd))
 			create_fork(pipex, cmd);
 		if (cmd->base->pid == 0)
 			first_exec(curr_cmd, cmd, pipex, env);

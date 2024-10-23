@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:16:54 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/23 16:23:27 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/23 17:55:06 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ void	exec_simple(t_ast *cmd, t_pipex *pipex, t_env *env)
 {
 	int		status;
 
-	if (!(cmd->base->cmd_op == e_cd || cmd->base->cmd_op == e_export
-			|| cmd->base->cmd_op == e_unset))
+	if (!(cmd->base->cmd_op >= e_cd))
 		create_fork(pipex, cmd);
 	if (cmd->base->pid == 0)
 	{
