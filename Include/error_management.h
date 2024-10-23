@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:40 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/23 17:00:28 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/23 17:23:07 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,6 @@ void	error_management(int error_code, t_ast *cmd, t_pipex *pipex,
  * @param cmd The current command's ast
  * @param pipex The pipex structure initiliazed in exec_switch
  */
-void	error_free(t_ast *cmd, t_pipex *pipex, t_env *env);
+void	error_free(t_ast *cmd, t_pipex *pipex);
 
 #endif
