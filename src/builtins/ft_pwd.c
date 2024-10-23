@@ -6,13 +6,13 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 12:19:03 by tom               #+#    #+#             */
-/*   Updated: 2024/10/14 15:22:52 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/23 15:43:24 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
-void	ft_pwd(char	**arg, t_env	*env)
+void	ft_pwd(char	**arg, t_env *env, t_ast *ast, t_pipex *pipex)
 {
 	if (arg != NULL)
 	{
@@ -24,5 +24,5 @@ void	ft_pwd(char	**arg, t_env	*env)
 	}
 	ft_putstr_fd(env->envv[env->pwd_position] + 4, STDOUT_FILENO);
 	ft_putchar_fd('\n', STDOUT_FILENO);
-	exit(EXIT_SUCCESS);
+	ft_exit(NULL, ast, env, pipex);
 }

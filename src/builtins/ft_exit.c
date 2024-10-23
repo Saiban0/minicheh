@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:02:11 by tom               #+#    #+#             */
-/*   Updated: 2024/10/17 16:53:06 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/23 15:34:44 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,25 @@ void	free_ast(t_ast	*node)
 	}
 }
 
-void	ft_exit(char	*line, t_ast	*ast, t_env	*env)
+void	ft_exit(char	*line, t_ast	*ast, t_env	*env, t_pipex *pipex)
 {
+	if (pipex)
+	{
+		if (pipex->pipe_fd)
+			free(pipex->pipe_fd);
+		free(pipex);
+		pipex = NULL;
+	}
 	if (line)
 		free(line);
 	if (env)
 	{
 		if (env->envv)
 			ft_free_double_array(env->envv);
+		if (env->pwd)
+			free(env->pwd);
+		if (env->oldpwd)
+			free(env->oldpwd);
 		free(env);
 	}
 	if (ast)

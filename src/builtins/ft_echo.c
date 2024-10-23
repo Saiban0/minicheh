@@ -6,13 +6,13 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 09:03:45 by tom               #+#    #+#             */
-/*   Updated: 2024/10/14 15:15:03 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/23 15:39:11 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_echo(char **arg)
+void	ft_echo(char **arg, t_ast *cmd, t_env *env, t_pipex *pipex)
 {
 	bool	flag;
 	int		i;
@@ -33,5 +33,5 @@ void	ft_echo(char **arg)
 	}
 	if (!flag)
 		write(1, "\n", 1);
-	exit(EXIT_SUCCESS);
+	ft_exit(NULL, cmd, env, pipex);
 }

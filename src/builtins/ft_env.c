@@ -6,13 +6,13 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:51:19 by tom               #+#    #+#             */
-/*   Updated: 2024/10/14 15:14:32 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/23 15:52:36 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_env(char **arg, t_env	*env)
+void	ft_env(char **arg, t_env *env, t_ast *cmd, t_pipex *pipex)
 {
 	int	i;
 
@@ -27,5 +27,5 @@ void	ft_env(char **arg, t_env	*env)
 		ft_putstr_fd(env->envv[i], STDOUT_FILENO);
 		ft_putchar_fd('\n', STDOUT_FILENO);
 	}
-	exit(EXIT_SUCCESS);
+	ft_exit(NULL, cmd, env, pipex);
 }
