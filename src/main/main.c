@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
-/*   Updated: 2024/10/22 17:43:33 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/23 18:11:30 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,10 @@ void	sigint_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
-		write(STDERR_FILENO, "\n", 1);
-		exit(0);
+		rl_replace_line("", 0);
+		// write(STDERR_FILENO, "\n", 1);
+		rl_on_new_line();
+		rl_redisplay();
 	}
 }
 
@@ -64,7 +66,7 @@ bool	loop(t_env	*env)
 	char	**temp;
 
 	line = readline("minicheh -> ");
-	if (line[0] == '\0')
+	if (!line)
 		return (false);
 	add_history(line);
 	ast = ft_calloc(1, sizeof(t_ast) + 1);
