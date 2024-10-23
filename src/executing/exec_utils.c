@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:25:44 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/16 19:21:01 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/18 19:17:18 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	exec_builtins(t_ast *cmd, t_env *env)
 {
-	(void)env;
 	if (cmd->base->cmd_op >= e_echo)
 	{
 		if (cmd->base->cmd_op == e_echo)
@@ -64,7 +63,7 @@ void	create_fork(t_pipex *pipex, t_ast *cmd)
 		error_management(e_fork_failure, cmd, pipex);
 }
 
-int	get_fd(char *file_name, bool read_or_write, t_ast *cmd, t_pipex *pipex)
+int	get_fd(char *file_name, int read_or_write, t_ast *cmd, t_pipex *pipex)
 {
 	int	fd;
 
@@ -73,15 +72,12 @@ int	get_fd(char *file_name, bool read_or_write, t_ast *cmd, t_pipex *pipex)
 		return (STDIN_FILENO);
 	if (ft_strcmp(file_name, "/dev/stdout") == 0)
 		return (STDOUT_FILENO);
-	if (!read_or_write)
+	if (read_or_write == 0)
 		fd = open(file_name, O_RDONLY);
-	else
-	{
-		if (pipex->append)
-			fd = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		else
-			fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	}
+	if (read_or_write == 1)
+		fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (read_or_write == 2)
+		fd = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 		error_management(e_file, cmd, pipex);
 	return (fd);

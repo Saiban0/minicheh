@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_handler.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:43 by tom               #+#    #+#             */
-/*   Updated: 2024/10/11 14:12:18 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/21 18:00:32 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,8 @@ void	add_new_operator(t_ast	*node, char	*command, t_cmd_and_op op)
 	new_node->base->cmd_op = op;
 	new_node->base->is_op = true;
 	new_node->left = NULL;
-	if (op == e_here_doc)
-	{
-		if (command)
-			new_node->right->base->cmd = ft_split(command, ' ');
-	}
-	else if (op == e_redirect_input || op == e_redirect_output
-				|| op == e_redirect_output_write_mod)
-	{
-		new_node->right->base->file_name = ft_strdup(rem_wspace(command));
-		new_node->right->base->cmd_op = e_file_name;
-	}
+	new_node->right->base->file_name = ft_strdup(rem_wspace(command));
+	new_node->right->base->cmd_op = e_file_name;
 	node->right = new_node;
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:02:11 by tom               #+#    #+#             */
-/*   Updated: 2024/10/14 22:05:56 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/17 16:53:06 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,27 @@
 
 void	free_ast(t_ast	*node)
 {
-	if (node->left)
-		free_ast(node->left);
-	if (node->right)
-		free_ast(node->right);
-	if (node->base)
+	if (node)
 	{
-		if (node->base->cmd)
-			ft_free_double_array(node->base->cmd);
-		if (node->base->file_name)
-			free(node->base->file_name);
-		if (node->base->path)
-			free(node->base->path);
-		free(node->base);
+		if (node->left)
+			free_ast(node->left);
+		if (node->right)
+			free_ast(node->right);
+		if (node->base)
+		{
+			if (node->base->cmd)
+				ft_free_double_array(node->base->cmd);
+			if (node->base->file_name)
+			{
+				free(node->base->file_name);
+				node->base->file_name = NULL;
+			}
+			if (node->base->path)
+				free(node->base->path);
+			free(node->base);
+		}
+		free(node);
 	}
-	free(node);
 }
 
 void	ft_exit(char	*line, t_ast	*ast, t_env	*env)

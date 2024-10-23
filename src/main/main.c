@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
-/*   Updated: 2024/10/17 13:31:04 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/22 17:43:33 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ bool	loop(t_env	*env)
 	t_ast	*ast;
 	char	**temp;
 
-	write(1, "minicheh -> ", 13);
-	line = get_next_line(0);
-	if (line[0] == '\n')
+	line = readline("minicheh -> ");
+	if (line[0] == '\0')
 		return (false);
+	add_history(line);
 	ast = ft_calloc(1, sizeof(t_ast) + 1);
 	ast->base = ft_calloc(1, sizeof(t_ast_content) + 1);
 	env->nb_commands = 0;
@@ -74,7 +74,6 @@ bool	loop(t_env	*env)
 	free(line);
 	line = NULL;
 	exec_switch(ast, env);
-	free_ast(ast);
 	ast = NULL;
 	temp = ft_calloc(3, sizeof(char *));
 	temp[0] = ft_strdup(env->pwd);
@@ -82,13 +81,11 @@ bool	loop(t_env	*env)
 	temp[2] = NULL;
 	ft_export(temp, &env);
 	ft_free_double_array(temp);
-	free(temp);
 	return (true);
 }
 
-int main(int ac, char **av, char **envp)
+int	main(int ac, char **av, char **envp)
 {
-
 	t_env	*env;
 
 	(void)av;
@@ -106,7 +103,7 @@ int main(int ac, char **av, char **envp)
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, &sigint_handler);
 		if (!loop(env))
-			continue;
+			continue ;
 	}
 	ft_free_double_array(env->envv);
 	free(env);

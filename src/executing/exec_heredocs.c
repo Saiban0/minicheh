@@ -6,51 +6,45 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:49:21 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/16 18:50:06 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/22 19:02:58 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	add_args(char **cmd, char **args)
+static void	heredoc_end(int heredoc_fd, t_pipex *pipex)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (cmd[j])
-		j++;
-	while (args[i])
-	{
-		cmd[i + j] = ft_strdup(args[i]);
-		i++;
-	}
+	close(heredoc_fd);
+	pipex->in_fd = open("heredoc_tmp", O_RDONLY);
+	if (pipex->in_fd == -1)
+		error_management(e_file_name, cmd, pipex);
 }
 
-static void	add_to_tab(char *line, char **tab, char *delimiter)
+void	handle_heredocs(t_ast *cmd, t_pipex *pipex)
 {
-	int	i;
-
-	i = 0;
-	while (tab[i])
-		i++;
-	if (ft_strcmp(line, delimiter) != 0)
-		tab[i] = line;
-}
-
-void	handle_heredocs(t_ast *cmd)
-{
+	int		heredoc_fd;
 	char	*line;
-	char	**heredoc_tab;
 
-	line = get_next_line(STDIN_FILENO);
-	heredoc_tab = NULL;
-	add_to_tab(line, heredoc_tab, cmd->right->right->base->file_name);
-	while (ft_strcmp(line, cmd->right->right->base->file_name) != 0)
+	heredoc_fd = open("heredoc_tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (heredoc_fd == -1)
+		error_management(e_file_name, cmd, pipex);
+	while (true)
 	{
-		line = get_next_line(STDIN_FILENO);
-		add_to_tab(line, heredoc_tab, cmd->right->right->base->file_name);
+		line = readline("heredoc> ");
+		if (line == NULL)
+		{
+			ft_putstr_fd("Heredoc received SIGINT during prompt\n",
+				STDERR_FILENO);
+			break ;
+		}
+		if (ft_strcmp(line, cmd->right->right->base->file_name) == 0)
+		{
+			free(line);
+			break ;
+		}
+		ft_putstr_fd(line, heredoc_fd);
+		ft_putstr_fd("\n", heredoc_fd);
+		free(line);
 	}
-	add_args(cmd->base->cmd, heredoc_tab);
+	heredoc_end(heredoc_fd, pipex);
 }

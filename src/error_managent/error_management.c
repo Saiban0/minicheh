@@ -6,56 +6,22 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:04 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/16 19:17:22 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/21 20:10:28 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// static void	free_pipe_list(t_pipex *pipex)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (i < pipex->temp - 1)
-// 	{
-// 		free(pipex->pipe_fd[i]);
-// 		i++;
-// 	}
-// 	free(pipex->pipe_fd);
-// }
 
 void	error_free(t_ast *cmd, t_pipex *pipex)
 {
 	if (pipex)
 	{
 		if (pipex->pipe_fd)
-			// free_pipe_list(pipex);
 			free(pipex->pipe_fd);
 		free(pipex);
 		pipex = NULL;
 	}
-	if (cmd)
-	{
-		if (cmd->left)
-			error_free(cmd->left, pipex);
-		if (cmd->right)
-			error_free(cmd->right, pipex);
-		if (cmd->base)
-		{
-			if (cmd->base->cmd)
-				ft_free_double_array(cmd->base->cmd);
-			if (cmd->base->file_name)
-			{
-				free(cmd->base->file_name);
-				cmd->base->file_name = NULL;
-			}
-			if (cmd->base->path)
-				free(cmd->base->path);
-			free(cmd->base);
-		}
-		free(cmd);
-	}
+	free_ast(cmd);
 }
 
 static void	error_management_bis(int error_code, t_ast *cmd, t_pipex *pipex)
