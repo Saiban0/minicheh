@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:03:46 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/21 16:09:11 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/23 15:59:17 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ void	ft_pipex_init(t_ast *cmd, t_pipex *pipex, t_env *env)
 	pipex->nb_commands = env->nb_commands;
 	pipex->pipe_fd = malloc((env->nb_commands - 1) * sizeof(int [2]));
 	if (!pipex->pipe_fd)
-		error_management(e_malloc_failure, cmd, pipex);
+		error_management(e_malloc_failure, cmd, pipex, env);
 	while (i < env->nb_commands - 1 && cmd->base->cmd_op == e_pipe)
 	{
 		if (pipe(pipex->pipe_fd[i]) == -1)
-			error_management(e_pipe_failure, cmd, pipex);
+			error_management(e_pipe_failure, cmd, pipex, env);
 		i++;
 	}
 }
