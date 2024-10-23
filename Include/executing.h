@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:44:47 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/23 17:02:01 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/23 17:20:13 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,14 @@ int		get_fd(char *file_name, int read_or_write, t_ast *cmd, t_pipex *pipex);
  * @param pipex The pipex structure
  */
 void	search_redirects(t_ast *ast, t_pipex *pipex);
+/**
+ * @brief This simple function is called by search_redirects it checks if the
+ * next right node is a redirect.
+ * 
+ * @param ast 
+ * @return int 1 if next right node is a redirect, 0 if not
+ */
+int		check_redirect_type(t_ast *ast);
 /**
  * @brief This function is called in search_redirects if an output redirect was
  * found, it will close any previously opened output redirection fd and open
