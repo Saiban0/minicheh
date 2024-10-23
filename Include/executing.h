@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:44:47 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/22 20:44:52 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/23 17:02:01 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,8 +225,9 @@ void	redirect_input_file(t_ast *ast, t_pipex *pipex);
  * 
  * @param cmd The cmd's ast
  * @param env The env structure
+ * @param pipex the pipex structure
  */
-void	exec_builtins(t_ast *cmd, t_env *env);
+void	exec_builtins(t_ast *cmd, t_env *env, t_pipex *pipex);
 /**
  * @brief This function is called upon detection of a heredoc in a command and
  * starts the process of handling it. It will open a heredoc_tmp in the working
