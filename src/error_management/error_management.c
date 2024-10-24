@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:04 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/23 16:59:07 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/24 18:37:01 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	error_free(t_ast *cmd, t_pipex *pipex)
 {
+	if (cmd)
+		free_ast(pipex->ast_origin);
 	if (pipex)
 	{
 		if (pipex->pipe_fd)
@@ -21,8 +23,6 @@ void	error_free(t_ast *cmd, t_pipex *pipex)
 		free(pipex);
 		pipex = NULL;
 	}
-	if (cmd)
-		free_ast(cmd);
 }
 
 static void	error_management_bis(int error_code, t_ast *cmd, t_pipex *pipex)
