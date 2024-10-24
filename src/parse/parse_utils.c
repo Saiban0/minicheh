@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:30:08 by tom               #+#    #+#             */
-/*   Updated: 2024/10/22 20:19:54 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/24 17:02:54 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,10 @@ char	*rem_wspace(char *command)
 	j = ft_strlen(command);
 	while (command[--j] && is_whitespace(command[j]))
 		continue;
-	res = ft_calloc(1, sizeof(char) * (j + 1));
+	res = ft_calloc(1, sizeof(char) * (j + 2));
 	z = -1;
-	i -= 1;
-	while (command[++i] && i <= j)
-		res[++z] = command[i];
-	free(command);
+	while (command[i] && i <= j)
+		res[++z] = command[i++];
 	return (res);
 }
 
@@ -108,7 +106,7 @@ char	*cuted(char const *str, int end)
 	return (res);
 }
 
-char	**ft_split_arg(char const *str, char sep)
+char	**ft_split_arg(char *str, char sep)
 {
 	int		len;
 	char	**res;
@@ -120,7 +118,7 @@ char	**ft_split_arg(char const *str, char sep)
 	j = -1;
 	quote = 0;
 	len = result_length(str, sep);
-	res = ft_calloc((len + 1), sizeof(char *));
+	res = ft_calloc((len + 2), sizeof(char *));
 	if (!res)
 		return (NULL);
 	while (str[++i] && j < len)
@@ -133,7 +131,6 @@ char	**ft_split_arg(char const *str, char sep)
 				res[++j] = cuted(str, i - 1);
 				if (res[j][0] == '"' || res[j][0] == '\'')
 					res[j][0] = ' ';
-				res[j] = rem_wspace(res[j]);
 				str += i + 1;
 				i = -1;
 			}
@@ -145,6 +142,12 @@ char	**ft_split_arg(char const *str, char sep)
 			i = -1;
 		}
 	}
+	if (j < len)
+	{
+		quote = quote_test(str[i], quote);
+		res[++j] = cuted(str, i - 1);
+	}
+	//faire une fonction qui utilise rem_wspace dans chaque str de res et qui enlève les noeuds vide
 	res[++j] = NULL;
 	return (res);
 }
