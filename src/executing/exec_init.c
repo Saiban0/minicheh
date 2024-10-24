@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:03:46 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/23 18:15:11 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/24 18:33:27 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	ft_pipex_init(t_ast *cmd, t_pipex *pipex, t_env *env)
 	pipex->pipe_i = 0;
 	pipex->in_fd = -1;
 	pipex->out_fd = -1;
+	pipex->ast_origin = cmd;
 	pipex->pipe_fd = malloc((env->nb_commands - 1) * sizeof(int [2]));
 	if (!pipex->pipe_fd)
 		error_management(e_malloc_failure, cmd, pipex, env);
@@ -58,7 +59,7 @@ char	*ft_getpath(char *cmd)
 	while (allpath[++i])
 	{
 		temp_path = ft_strjoin(allpath[i], "/", 0);
-		exec = ft_strjoin(temp_path, cmd, 1);
+		exec = ft_strjoin(temp_path, ft_strdup(cmd), 2);
 		if (access(exec, F_OK | X_OK) == 0 && check_dir(exec))
 		{
 			ft_free_double_array(allpath);
@@ -67,7 +68,7 @@ char	*ft_getpath(char *cmd)
 		free(exec);
 	}
 	ft_free_double_array(allpath);
-	return (cmd);
+	return (NULL);
 }
 
 int	check_redirect_type(t_ast *ast)
