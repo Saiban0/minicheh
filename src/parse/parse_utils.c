@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:30:08 by tom               #+#    #+#             */
-/*   Updated: 2024/10/24 17:02:54 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/25 15:25:24 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*rem_wspace(char *command)
 	j = ft_strlen(command);
 	while (command[--j] && is_whitespace(command[j]))
 		continue;
-	res = ft_calloc(1, sizeof(char) * (j + 2));
+	res = ft_calloc(1, sizeof(char) * (j - i + 2));
 	z = -1;
 	while (command[i] && i <= j)
 		res[++z] = command[i++];
