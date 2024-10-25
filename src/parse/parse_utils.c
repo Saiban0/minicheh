@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:30:08 by tom               #+#    #+#             */
-/*   Updated: 2024/10/25 15:25:24 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/25 16:04:52 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,49 @@ char	*cuted(char const *str, int end)
 	return (res);
 }
 
+bool	only_wspace(char	*str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+		if (!is_whitespace(str[i]))
+			return (false);
+	return (true);
+}
+
+char	**clear_res(char	**d_array)
+{
+	char	**res;
+	char	*temp_str;
+	int		temp_int;
+	int		i;
+
+	temp_int = 0;
+	i = -1;
+	while (d_array[++i])
+	{
+		if (only_wspace(d_array[i]))
+			d_array[i][0] = ' ';
+		else
+		{
+			temp_str = rem_wspace(d_array[i]);
+			free(d_array[i]);
+			d_array[i] = ft_strdup(temp_str);
+			free(temp_str);
+			temp_int++;
+		}
+	}
+	i = -1;
+	res = ft_calloc(temp_int + 2, sizeof(char *));
+	temp_int = -1;
+	while (d_array[++i])
+		if (d_array[i][0] != ' ')
+			res[++temp_int] = ft_strdup(d_array[i]);
+	ft_free_double_array(d_array);
+	return (res);
+}
+
 char	**ft_split_arg(char *str, char sep)
 {
 	int		len;
@@ -147,7 +190,8 @@ char	**ft_split_arg(char *str, char sep)
 		quote = quote_test(str[i], quote);
 		res[++j] = cuted(str, i - 1);
 	}
-	//faire une fonction qui utilise rem_wspace dans chaque str de res et qui enlève les noeuds vide
 	res[++j] = NULL;
+	res = clear_res(res);
+	//faire une fonction qui utilise rem_wspace dans chaque str de res et qui enlève les noeuds vide
 	return (res);
 }
