@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
-/*   Updated: 2024/10/22 17:40:39 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/25 15:35:15 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ bool	loop(t_env	*env)
 		return (false);
 	}
 	parse(line, &ast, env);
+	free(line);
 	line = NULL;
 	// exec_switch(ast, env);
 	// ft_print_double_array(ast->base->cmd);
@@ -134,22 +135,15 @@ int main(int ac, char **av, char **envp)
 	free(env);
 }
 
-// int	main(int ac, char **av, char **envp)
-// {
-// 	t_env	*env;
 
-// 	env = init_env(envp);
-// 	(void)ac;
+// int	main(int ac , char **av)
+// {	(void)ac;
+
 // 	av++;
-// 	if (!env)
-// 		return (EXIT_FAILURE);
-// 	ft_export(av, &env);
-// 	av= ft_split(av[0], '=');
-// 	ft_unset(av, &env);
-// 	ft_print_double_array(env->envv);
-// 	ft_free_double_array(env->envv);
+// 	ft_printf("%s\n", av[0]);
+// 	ft_printf("-------------\n");
+// 	av[1] = rem_wspace(av[0]);
+// 	av = ft_split_arg(av[], ' ');
+// 	ft_print_double_array(av);
 // 	ft_free_double_array(av);
-// 	free(env->oldpwd);
-// 	free(env->pwd);
-// 	free(env);
 // }
