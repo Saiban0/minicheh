@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 20:06:37 by tom               #+#    #+#             */
-/*   Updated: 2024/10/24 16:17:33 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/25 16:01:13 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 char	*cuted(char const *str, int end);
 int		result_length(char const *str, char c);
 char	**ft_split_arg(char *str, char sep);
+bool	only_wspace(char	*str);
 
 /**
  * @brief This function remove each white space before and after the command.
