@@ -6,22 +6,24 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 20:06:37 by tom               #+#    #+#             */
-/*   Updated: 2024/10/25 16:01:13 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/25 16:18:39 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSE_H
 # define PARSE_H
 
+char	**ft_split_arg(char *str, char sep);
+char	*cuted(char const *str, int end);
+int		result_length(char const *str, char c);
+
 /******************************************************************************/
 /*                                                                            */
 /* Parse_Utils                                                                */
 /*                                                                            */
 /******************************************************************************/
-char	*cuted(char const *str, int end);
-int		result_length(char const *str, char c);
-char	**ft_split_arg(char *str, char sep);
 bool	only_wspace(char	*str);
+int		quote_test(int	c, int	quote);
 
 /**
  * @brief This function remove each white space before and after the command.
