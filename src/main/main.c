@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
-/*   Updated: 2024/10/22 17:43:33 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/23 18:31:42 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,10 @@ void	sigint_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
+		rl_replace_line("", 0);
 		write(STDERR_FILENO, "\n", 1);
-		exit(0);
+		rl_on_new_line();
+		rl_redisplay();
 	}
 }
 

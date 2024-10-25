@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:44:47 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/22 20:44:52 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/24 17:00:16 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef struct s_pipex
 	int		out_fd;
 	int		(*pipe_fd)[2];
 	int		status;
-	int		nb_commands;
+	t_ast	*ast_origin;
 }				t_pipex;
 
 /**
@@ -202,6 +202,14 @@ int		get_fd(char *file_name, int read_or_write, t_ast *cmd, t_pipex *pipex);
  */
 void	search_redirects(t_ast *ast, t_pipex *pipex);
 /**
+ * @brief This simple function is called by search_redirects it checks if the
+ * next right node is a redirect.
+ * 
+ * @param ast 
+ * @return int 1 if next right node is a redirect, 0 if not
+ */
+int		check_redirect_type(t_ast *ast);
+/**
  * @brief This function is called in search_redirects if an output redirect was
  * found, it will close any previously opened output redirection fd and open
  * a new one with the provided file name and in append mode if necessary.
@@ -225,8 +233,9 @@ void	redirect_input_file(t_ast *ast, t_pipex *pipex);
  * 
  * @param cmd The cmd's ast
  * @param env The env structure
+ * @param pipex the pipex structure
  */
-void	exec_builtins(t_ast *cmd, t_env *env);
+void	exec_builtins(t_ast *cmd, t_env *env, t_pipex *pipex);
 /**
  * @brief This function is called upon detection of a heredoc in a command and
  * starts the process of handling it. It will open a heredoc_tmp in the working

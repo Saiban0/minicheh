@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:04 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/21 20:10:28 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/24 18:37:01 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	error_free(t_ast *cmd, t_pipex *pipex)
 {
+	if (cmd)
+		free_ast(pipex->ast_origin);
 	if (pipex)
 	{
 		if (pipex->pipe_fd)
@@ -21,7 +23,6 @@ void	error_free(t_ast *cmd, t_pipex *pipex)
 		free(pipex);
 		pipex = NULL;
 	}
-	free_ast(cmd);
 }
 
 static void	error_management_bis(int error_code, t_ast *cmd, t_pipex *pipex)
@@ -38,12 +39,13 @@ static void	error_management_bis(int error_code, t_ast *cmd, t_pipex *pipex)
 		ft_putstr_fd("minicheh : malloc failure\n", STDERR_FILENO);
 }
 
-void	error_management(int error_code, t_ast *cmd, t_pipex *pipex)
+void	error_management(int error_code, t_ast *cmd, t_pipex *pipex, t_env *env)
 {
 	if (error_code == 1)
 	{
 		ft_putstr_fd("minicheh: command not found: ", STDERR_FILENO);
 		ft_putendl_fd(cmd->base->cmd[0], STDERR_FILENO);
+		ft_exit(NULL, cmd, env, pipex);
 	}
 	if (error_code == 2)
 	{
@@ -56,7 +58,7 @@ void	error_management(int error_code, t_ast *cmd, t_pipex *pipex)
 	{
 		ft_putstr_fd("minicheh : fork failure on command: ", STDERR_FILENO);
 		ft_putendl_fd(cmd->base->cmd[0], STDERR_FILENO);
-		error_free(cmd, pipex);
+		ft_exit(NULL, cmd, env, pipex);
 	}
 	error_management_bis(error_code, cmd, pipex);
 	error_free(cmd, pipex);

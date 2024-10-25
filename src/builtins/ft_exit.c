@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:02:11 by tom               #+#    #+#             */
-/*   Updated: 2024/10/17 16:53:06 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/24 18:35:33 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ void	free_ast(t_ast	*node)
 		if (node->base)
 		{
 			if (node->base->cmd)
+			{
 				ft_free_double_array(node->base->cmd);
+				node->base->cmd = NULL;
+			}
 			if (node->base->file_name)
 			{
 				free(node->base->file_name);
@@ -34,20 +37,32 @@ void	free_ast(t_ast	*node)
 			free(node->base);
 		}
 		free(node);
+		node = NULL;
 	}
 }
 
-void	ft_exit(char	*line, t_ast	*ast, t_env	*env)
+void	ft_exit(char *line, t_ast *ast, t_env *env, t_pipex *pipex)
 {
+	if (ast)
+		free_ast(pipex->ast_origin);
+	if (pipex)
+	{
+		if (pipex->pipe_fd)
+			free(pipex->pipe_fd);
+		free(pipex);
+		pipex = NULL;
+	}
 	if (line)
 		free(line);
 	if (env)
 	{
 		if (env->envv)
 			ft_free_double_array(env->envv);
+		if (env->pwd)
+			free(env->pwd);
+		if (env->oldpwd)
+			free(env->oldpwd);
 		free(env);
 	}
-	if (ast)
-		free_ast(ast);
 	exit(0);
 }
