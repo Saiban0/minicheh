@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
-/*   Updated: 2024/10/25 15:35:15 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/25 16:02:14 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,6 @@ void	sigint_handler(int signal)
 	}
 }
 
-bool	only_wspace(char	*line)
-{
-	int	i;
-
-	i = -1;
-	while (line[++i])
-		if (!is_whitespace(line[i]))
-			return (false);
-	return (true);
-}
-
 bool	loop(t_env	*env)
 {
 	char	*line;
@@ -96,7 +85,7 @@ bool	loop(t_env	*env)
 	free(line);
 	line = NULL;
 	// exec_switch(ast, env);
-	// ft_print_double_array(ast->base->cmd);
+	ft_print_double_array(ast->base->cmd);
 	free_ast(ast);
 	ast = NULL;
 	temp = ft_calloc(3, sizeof(char *));
