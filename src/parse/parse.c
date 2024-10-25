@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/10/22 20:26:45 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/25 15:10:04 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,13 @@
 
 void	without_op(char *line, t_ast	**ast)
 {
-	(*ast)->base->cmd = ft_split_arg(line, ' ');
+	char	*temp;
+	
+	temp = rem_wspace(line);
+	(*ast)->base->cmd = ft_split_arg(temp, ' ');
 	(*ast)->base->cmd_op = is_builtins((*ast)->base->cmd[0]);
 	(*ast)->base->builtins = (*ast)->base->cmd_op >= e_echo;
-
+	free(temp);
 }
 
 bool	select_operator(char	*line, int	i, t_ast	**ast)
@@ -127,5 +130,4 @@ void	parse(char *line, t_ast	**ast, t_env	*env)
 		without_op(line, ast);
 	env->nb_commands = 0;
 	add_env(&env, ast);
-	free(line);
 }
