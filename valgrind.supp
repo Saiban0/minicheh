@@ -16,3 +16,9 @@
    ...
    obj:/usr/bin/grep
 }
+{
+   ignore_clear_leaks
+   Memcheck:Leak
+   ...
+   obj:/usr/bin/clear
+}

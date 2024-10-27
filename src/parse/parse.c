@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
 /*   Updated: 2024/10/25 15:10:04 by tom              ###   ########.fr       */
@@ -77,7 +77,8 @@ void	add_env(t_env	**env_start, t_ast	**ast)
 	(*ast)->base->path = NULL;
 	if ((*ast)->base->cmd_op != e_file_name)
 		(*ast)->base->file_name = NULL;
-	if (!(((*ast)->base->cmd_op == e_external_control) || ((*ast)->base->cmd_op >= e_echo)))
+	if (!(((*ast)->base->cmd_op == e_external_control)
+			|| ((*ast)->base->cmd_op >= e_echo)))
 		(*ast)->base->cmd = NULL;
 	else
 	{
@@ -110,8 +111,7 @@ void	parse(char *line, t_ast	**ast, t_env	*env)
 	(*ast)->base->cmd_op = e_empty;
 	(*ast)->left = NULL;
 	(*ast)->right = NULL;
-	(*ast)->t_env = &env;
-	line[ft_strlen(line) - 1] = '\0';
+	(*ast)->t_env = &env_start;
 	while (line[++i])
 	{
 		if (is_op(line[i]))

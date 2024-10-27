@@ -8,13 +8,13 @@ CFLAGS =	-Wall -Wextra -Werror -g \
 			-IInclude 
 
 LFLAGS =	-Llibamoa \
-			-lamoa
+			-lamoa -lreadline
 
 BUILTINS = ft_cd ft_echo ft_env ft_exit ft_export ft_pwd ft_unset
 
 MAIN = main
 
-EXECUTING = exec_simple exec_utils exec_init exec_pipes exec_heredocs\
+EXECUTING = exec_simple exec_utils exec_init exec_pipes exec_redirects\
 
 ERROR_MANAGEMENT = error_management
 

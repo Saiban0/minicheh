@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:13:38 by tom               #+#    #+#             */
 /*   Updated: 2024/10/18 13:30:07 by tom              ###   ########.fr       */
@@ -44,12 +44,12 @@ typedef enum s_cmd_and_op
 	e_here_doc,
 	e_redirect_output_write_mod,
 	e_echo,
-	e_cd,
 	e_pwd,
+	e_env,
+	e_cd,
 	e_export,
 	e_unset,
 	e_exit,
-	e_env
 }	t_cmd_and_op;
 
 typedef struct s_ast_content
