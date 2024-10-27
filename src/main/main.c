@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
-/*   Updated: 2024/10/25 16:02:14 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/27 15:34:00 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ bool	loop(t_env	*env)
 	temp[2] = NULL;
 	ft_export(temp, &env);
 	ft_free_double_array(temp);
+	rl_replace_line("", 0);
+	write(STDERR_FILENO, "\n", 1);
 	return (true);
 }
 
