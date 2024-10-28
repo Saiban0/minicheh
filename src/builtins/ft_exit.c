@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:02:11 by tom               #+#    #+#             */
-/*   Updated: 2024/10/24 18:35:33 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/18 13:48:30 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,11 @@ void	ft_exit(char *line, t_ast *ast, t_env *env, t_pipex *pipex)
 	{
 		if (env->envv)
 			ft_free_double_array(env->envv);
-		if (env->pwd)
-			free(env->pwd);
 		if (env->oldpwd)
 			free(env->oldpwd);
+		if (env->pwd)
+			free(env->pwd);
+
 		free(env);
 	}
 	exit(0);
