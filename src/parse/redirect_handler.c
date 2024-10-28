@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:43 by tom               #+#    #+#             */
-/*   Updated: 2024/10/25 15:04:59 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/28 18:36:40 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	add_new_operator(t_ast	*node, char	*command, t_cmd_and_op op)
 	new_node->base->builtins = false;
 	new_node->right->base->cmd_op = e_file_name;
 	new_node->right->base->builtins = false;
-	new_node->right->base->file_name = ft_strdup(rem_wspace(command));
+	new_node->right->base->file_name = rem_wspace(command);
 	node->right = new_node;
 }
 
