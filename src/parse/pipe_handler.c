@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:34:23 by tom               #+#    #+#             */
-/*   Updated: 2024/10/10 17:36:07 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/25 15:14:15 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,20 @@
 void	first_base( char	*line, t_ast	**ast, int	*operator)
 {
 	char	*tmp;
+	char	*temp;
 
 	tmp = ft_calloc(operator[0] + 1, sizeof(char));
 	ft_strlcat(tmp, line, operator[0]);
-	tmp = rem_wspace(tmp);
+	temp = rem_wspace(tmp);
 	(*ast)->base->cmd_op = e_pipe;
 	(*ast)->base->is_op = true;
 	(*ast)->left = ft_calloc(1, sizeof(t_ast));
 	(*ast)->left->base = ft_calloc(1, sizeof(t_ast_content));
-	(*ast)->left->base->cmd = ft_split(tmp, ' ');
+	(*ast)->left->base->cmd = ft_split_arg(temp, ' ');
 	(*ast)->left->base->cmd_op = is_builtins((*ast)->left->base->cmd[0]);
 	(*ast)->left->base->builtins = ((*ast)->left->base->cmd_op >= e_echo);
 	free(tmp);
+	free(temp);
 }
 
 void	add_new_pipe_head(t_ast	**ast)
@@ -35,10 +37,11 @@ void	add_new_pipe_head(t_ast	**ast)
 	
 	new_head = malloc(sizeof(t_ast));
 	new_head->base = malloc(sizeof(t_ast_content));
-	new_head->base->cmd_op = e_pipe;
-	new_head->base->is_op = true;
 	new_head->left = *ast;
 	new_head->right = NULL;
+	new_head->base->is_op = true;
+	new_head->base->cmd_op = e_pipe;
+	new_head->base->builtins = false;
 	(*ast) = new_head;
 }
 
@@ -60,7 +63,7 @@ void	ast_pipe(char	*line, int	i, t_ast	**ast)
 	ft_strlcat(tmp, line, operator[1] - i);
 	(*ast)->right = ft_calloc(1, sizeof(t_ast));
 	(*ast)->right->base = ft_calloc(1, sizeof(t_ast_content));
-	(*ast)->right->base->cmd = ft_split(tmp, ' ');
+	(*ast)->right->base->cmd = ft_split_arg(tmp, ' ');
 	(*ast)->right->base->cmd_op = is_builtins((*ast)->right->base->cmd[0]);
 	(*ast)->right->base->builtins = ((*ast)->right->base->cmd_op >= e_echo);
 	free(tmp);

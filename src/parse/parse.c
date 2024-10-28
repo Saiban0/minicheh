@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/10/21 20:07:55 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/25 15:10:04 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,13 @@
 
 void	without_op(char *line, t_ast	**ast)
 {
-	(*ast)->base->cmd = ft_split(line, ' ');
+	char	*temp;
+	
+	temp = rem_wspace(line);
+	(*ast)->base->cmd = ft_split_arg(temp, ' ');
 	(*ast)->base->cmd_op = is_builtins((*ast)->base->cmd[0]);
 	(*ast)->base->builtins = (*ast)->base->cmd_op >= e_echo;
-
+	free(temp);
 }
 
 bool	select_operator(char	*line, int	i, t_ast	**ast)
@@ -32,7 +35,9 @@ bool	select_operator(char	*line, int	i, t_ast	**ast)
 	// A gérer le cas ou c'est un pipe en fin de ligne
 	// Même fonctionnement que avec un " en fin de ligne
 	// (Ouvrir les guillemets)
-	if (line[i] == '|')
+	if (line[i] == '|' && line[i + 1] == '|')
+		ft_exit(line, *ast, *(*ast)->t_env);
+	else if (line[i] == '|')
 		ast_pipe(line, i, ast);
 	else if (line[i] == '<' && line[i + 1] == '<')
 		ast_else(line, i + 1, ast, e_here_doc);
@@ -45,8 +50,27 @@ bool	select_operator(char	*line, int	i, t_ast	**ast)
 	return (true);
 }
 
+char	*find_env_var(char	*var, char	**envv)
+{
+	int	i;
+	int	var_size;
+
+	i = -1;
+	var++;
+	var_size = ft_strlen(var);
+	while (envv[++i])
+	{
+		if (ft_strncmp(var, envv[i], var_size - 1) == 0)
+			return (ft_strdup(envv[i] + var_size + 1));
+	}
+	return (ft_strdup(" "));
+}
+
 void	add_env(t_env	**env_start, t_ast	**ast)
 {
+	int		i;
+	char	*temp;
+	
 	(*env_start)->nb_commands += ((*ast)->base->cmd_op == e_external_control)
 		|| ((*ast)->base->cmd_op >= e_echo);
 	(*ast)->t_env = env_start;
@@ -56,13 +80,30 @@ void	add_env(t_env	**env_start, t_ast	**ast)
 	if (!(((*ast)->base->cmd_op == e_external_control)
 			|| ((*ast)->base->cmd_op >= e_echo)))
 		(*ast)->base->cmd = NULL;
+	else
+	{
+		i = -1;
+		while ((*ast)->base->cmd[++i])
+		{
+			if ((*ast)->base->cmd[i][0] == '$' && (*ast)->base->cmd[i][1] != '(')
+			{
+				temp = find_env_var((*ast)->base->cmd[i], (*env_start)->envv);
+				free((*ast)->base->cmd[i]);
+				(*ast)->base->cmd[i] = ft_strdup(temp);
+				free(temp);
+			}
+		}
+	}
 	if ((*ast)->left)
 		add_env(env_start, &(*ast)->left);
 	if ((*ast)->right)
 		add_env(env_start, &(*ast)->right);
 }
 
-void	parse(char *line, t_ast	**ast, t_env	*env_start)
+// Remplacer les utilisations de ft_split par une fonction qui va gérer les quotes et les espace d'elle même.
+// Nécessite des modifications dans le parse.
+
+void	parse(char *line, t_ast	**ast, t_env	*env)
 {
 	int		i;
 
@@ -77,8 +118,8 @@ void	parse(char *line, t_ast	**ast, t_env	*env_start)
 		{
 			if (select_operator(line, i, ast) == false)
 			{
-				write(1, "minishell: ", 12);
-				write(1, "syntax error near unexpected token `newline'\n", 46);
+				ft_putstr_fd("minishell: ", STDERR_FILENO);
+				ft_putstr_fd("syntax error near unexpected token `newline'\n", STDERR_FILENO);
 				return ;
 			}
 			line += i + (line[i] == line[i + 1]);
@@ -87,6 +128,6 @@ void	parse(char *line, t_ast	**ast, t_env	*env_start)
 	}
 	if ((*ast)->base->cmd_op == e_empty)
 		without_op(line, ast);
-	env_start->nb_commands = 0;
-	add_env(&env_start, ast);
+	env->nb_commands = 0;
+	add_env(&env, ast);
 }

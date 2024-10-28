@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
-/*   Updated: 2024/10/23 18:31:42 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/27 15:34:00 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_env	*init_env(char **envp)
 	i = -1;
 	env = ft_calloc(1, sizeof(t_env));
 	env->envv = ft_calloc(double_array_size(envp) + 1, sizeof(char*));
+	env->quote = false;
 	while (envp[++i])
 	{
 		env->envv[i] = ft_strdup(envp[i]);
@@ -48,6 +49,8 @@ t_env	*init_env(char **envp)
 	return (env);
 }
 
+volatile bool test_sig;
+
 void	sigint_handler(int signal)
 {
 	if (signal == SIGINT)
@@ -72,6 +75,12 @@ bool	loop(t_env	*env)
 	ast = ft_calloc(1, sizeof(t_ast) + 1);
 	ast->base = ft_calloc(1, sizeof(t_ast_content) + 1);
 	env->nb_commands = 0;
+	if (only_wspace(line))
+	{
+		free(line);
+		free_ast(ast);
+		return (false);
+	}
 	parse(line, &ast, env);
 	free(line);
 	line = NULL;
@@ -83,6 +92,8 @@ bool	loop(t_env	*env)
 	temp[2] = NULL;
 	ft_export(temp, &env);
 	ft_free_double_array(temp);
+	rl_replace_line("", 0);
+	write(STDERR_FILENO, "\n", 1);
 	return (true);
 }
 
@@ -91,6 +102,7 @@ int	main(int ac, char **av, char **envp)
 	t_env	*env;
 
 	(void)av;
+	test_sig = false;
 	if (ac > 1)
 	{
 		write(STDERR_FILENO, "Usage : ./minishell\n", 21);
@@ -102,8 +114,8 @@ int	main(int ac, char **av, char **envp)
 	while (true)
 	{
 		errno = 0;
-		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, &sigint_handler);
+		signal(SIGQUIT, SIG_IGN);
 		if (!loop(env))
 			continue ;
 	}
@@ -111,22 +123,15 @@ int	main(int ac, char **av, char **envp)
 	free(env);
 }
 
-// int	main(int ac, char **av, char **envp)
-// {
-// 	t_env	*env;
 
-// 	env = init_env(envp);
-// 	(void)ac;
+// int	main(int ac , char **av)
+// {	(void)ac;
+
 // 	av++;
-// 	if (!env)
-// 		return (EXIT_FAILURE);
-// 	ft_export(av, &env);
-// 	av= ft_split(av[0], '=');
-// 	ft_unset(av, &env);
-// 	ft_print_double_array(env->envv);
-// 	ft_free_double_array(env->envv);
+// 	ft_printf("%s\n", av[0]);
+// 	ft_printf("-------------\n");
+// 	av[1] = rem_wspace(av[0]);
+// 	av = ft_split_arg(av[], ' ');
+// 	ft_print_double_array(av);
 // 	ft_free_double_array(av);
-// 	free(env->oldpwd);
-// 	free(env->pwd);
-// 	free(env);
 // }
