@@ -5,4 +5,3 @@ minishell
 .vscode/
 temp
 libamoa/libamoa.a
-heredoc_tmp
