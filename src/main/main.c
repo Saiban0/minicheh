@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
-/*   Updated: 2024/10/28 19:35:05 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/28 20:15:28 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ bool	loop(t_env	*env)
 	ft_export(temp, &env);
 	ft_free_double_array(temp);
 	rl_replace_line("", 0);
-	write(STDERR_FILENO, "\n", 1);
 	return (true);
 }
 
