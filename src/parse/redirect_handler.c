@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_handler.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:43 by tom               #+#    #+#             */
 /*   Updated: 2024/10/28 18:36:40 by bchedru          ###   ########.fr       */
@@ -30,13 +30,26 @@ void	add_new_operator(t_ast	*node, char	*command, t_cmd_and_op op)
 	node->right = new_node;
 }
 
+bool	before_op_check(char	*line, int	i)
+{
+	int	j;
+
+	if (i == 0)
+		return (false);
+	j = -1;
+	while (line[++j])
+		if (!is_whitespace(line[j]))
+			return (true);
+	return (false);
+}
+
 void	ast_else(char	*line, int	i, t_ast	**ast, t_cmd_and_op	op)
 {
 	char	*command;
 	t_ast	*node;
 
 	node = *ast;
-	if (node->base->cmd_op == e_empty)
+	if (node->base->cmd_op == e_empty && before_op_check(line, i))
 	{
 		command = ft_calloc(i + 1, sizeof(char));
 		ft_strlcat(command, line, i);

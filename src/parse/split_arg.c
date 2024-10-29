@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 16:07:13 by tom               #+#    #+#             */
-/*   Updated: 2024/10/25 16:23:24 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/29 17:24:42 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,5 @@ char	**ft_split_arg(char *str, char sep)
 	}
 	res[++j] = NULL;
 	res = clear_res(res);
-	//faire une fonction qui utilise rem_wspace dans chaque str de res et qui enlève les noeuds vide
 	return (res);
 }
