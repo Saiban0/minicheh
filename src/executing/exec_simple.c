@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:16:54 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/23 17:55:06 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/28 18:13:14 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,9 @@ void	exec_simple_redirect(t_ast *cmd, t_pipex *pipex, t_env *env)
 {
 	dup2(pipex->in_fd, STDIN_FILENO);
 	dup2(pipex->out_fd, STDOUT_FILENO);
-	close(pipex->in_fd);
-	close(pipex->out_fd);
+	if (pipex->in_fd != -1)
+		close(pipex->in_fd);
+	if (pipex->out_fd != -1)
+		close(pipex->out_fd);
 	exec_only_child(cmd, pipex, env);
 }

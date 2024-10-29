@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:49:21 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/23 17:25:03 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/28 17:08:43 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	search_redirects(t_ast *ast, t_pipex *pipex)
 static void	heredoc_end(int heredoc_fd, t_ast *cmd, t_pipex *pipex)
 {
 	close(heredoc_fd);
-	pipex->in_fd = open("heredoc_tmp", O_RDONLY);
+	pipex->in_fd = open("/tmp/heredoc_tmp", O_RDONLY);
 	if (pipex->in_fd == -1)
 		error_management(e_file_name, cmd, pipex, NULL);
 }
@@ -64,7 +64,7 @@ void	handle_heredocs(t_ast *cmd, t_pipex *pipex)
 	int		heredoc_fd;
 	char	*line;
 
-	heredoc_fd = open("heredoc_tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	heredoc_fd = open("/tmp/heredoc_tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (heredoc_fd == -1)
 		error_management(e_file_name, cmd, pipex, NULL);
 	while (true)

@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/10/25 15:10:04 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/28 16:56:18 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ bool	select_operator(char	*line, int	i, t_ast	**ast)
 	// Même fonctionnement que avec un " en fin de ligne
 	// (Ouvrir les guillemets)
 	if (line[i] == '|' && line[i + 1] == '|')
-		ft_exit(line, *ast, *(*ast)->t_env);
+		ft_exit(line, *ast, *(*ast)->t_env, NULL);
 	else if (line[i] == '|')
 		ast_pipe(line, i, ast);
 	else if (line[i] == '<' && line[i + 1] == '<')
@@ -111,7 +111,7 @@ void	parse(char *line, t_ast	**ast, t_env	*env)
 	(*ast)->base->cmd_op = e_empty;
 	(*ast)->left = NULL;
 	(*ast)->right = NULL;
-	(*ast)->t_env = &env_start;
+	(*ast)->t_env = &env;
 	while (line[++i])
 	{
 		if (is_op(line[i]))

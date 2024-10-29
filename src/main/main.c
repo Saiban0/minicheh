@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
-/*   Updated: 2024/10/27 15:34:00 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/28 20:15:28 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ bool	loop(t_env	*env)
 	char	**temp;
 
 	line = readline("minicheh -> ");
+	if (!line)
+		ft_exit(NULL, NULL, env, NULL);
 	if (line[0] == '\0')
 		return (false);
 	add_history(line);
@@ -93,7 +95,6 @@ bool	loop(t_env	*env)
 	ft_export(temp, &env);
 	ft_free_double_array(temp);
 	rl_replace_line("", 0);
-	write(STDERR_FILENO, "\n", 1);
 	return (true);
 }
 
@@ -119,8 +120,7 @@ int	main(int ac, char **av, char **envp)
 		if (!loop(env))
 			continue ;
 	}
-	ft_free_double_array(env->envv);
-	free(env);
+	ft_exit(NULL, NULL, env, NULL);
 }
 
 
