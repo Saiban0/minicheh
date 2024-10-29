@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 02:52:39 by tom               #+#    #+#             */
-/*   Updated: 2024/10/29 17:35:40 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/29 17:40:54 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,27 +30,24 @@ bool	is_whitespace(char	c)
 
 t_cmd_and_op	is_builtins(char *command)
 {
-	t_cmd_and_op	res;
-
 	if	(command == NULL)
-		return (e_empty);
+		return (e_test);
 	else if	(command[0] == '\0')
-		return (e_empty);
+		return (e_test);
 	else if (ft_strncmp(command,"echo", 4) == 0)
-		res = e_echo;
+		return (e_echo);
 	else if (ft_strncmp(command,"cd", 2) == 0)
-		res = e_cd;
+		return (e_cd);
 	else if (ft_strncmp(command,"pwd", 3) == 0)
-		res = e_pwd;
+		return (e_pwd);
 	else if (ft_strncmp(command,"export", 6) == 0)
-		res = e_export;
+		return (e_export);
 	else if (ft_strncmp(command,"unset", 5) == 0)
-		res = e_unset;
+		return (e_unset);
 	else if (ft_strncmp(command,"exit", 4) == 0)
-		res = e_exit;
+		return (e_exit);
 	else if (ft_strncmp(command,"env", 3) == 0)
-		res = e_env;
+		return (e_env);
 	else 
-		res = e_external_control;
-	return (res);
+		return (e_external_control);
 }
