@@ -60,7 +60,7 @@ typedef struct s_ast_content
 	char			**cmd;
 	bool			builtins;
 	char			*file_name;
-	char			*path;	
+	char			*path;
 	pid_t			pid;
 }	t_ast_content;
 
