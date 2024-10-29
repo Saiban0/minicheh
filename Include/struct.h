@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:13:38 by tom               #+#    #+#             */
-/*   Updated: 2024/10/18 13:30:07 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/29 17:05:50 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 typedef enum s_cmd_and_op
 {
 	e_empty,
+	e_test,
 	e_external_control,
 	e_file_name,
 	e_pipe,
@@ -59,7 +60,7 @@ typedef struct s_ast_content
 	char			**cmd;
 	bool			builtins;
 	char			*file_name;
-	char			*path;
+	char			*path;	
 	pid_t			pid;
 }	t_ast_content;
 
