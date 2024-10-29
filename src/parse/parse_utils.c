@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:30:08 by tom               #+#    #+#             */
-/*   Updated: 2024/10/25 16:08:41 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/28 19:02:42 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,25 +31,6 @@ char	*rem_wspace(char *command)
 	while (command[i] && i <= j)
 		res[++z] = command[i++];
 	return (res);
-}
-
-int	quote_handler(char	*line, t_env	**env, int	quote_pos)
-{
-	if ((*env)->quote == 0)
-	{
-		(*env)->quote = line[quote_pos];
-		ft_printf("quote open\n");
-		return (1);
-	}
-	else if ((*env)->quote == line[quote_pos])
-	{
-		(*env)->quote = 0;
-		ft_printf("quote close\n");
-		return (2);
-	}
-	else if ((*env)->quote != 0 && (*env)->quote != line[quote_pos])
-		return (3);
-	return (0);
 }
 
 int	quote_test(int	c, int	quote)
