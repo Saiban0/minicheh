@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 12:30:29 by tom               #+#    #+#             */
-/*   Updated: 2024/10/17 13:21:26 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/29 16:54:04 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	rebuilt_envv(t_env	**env, int	size_of_new_env)
 	int		j;
 	char	**new_envv;
 
-	new_envv = ft_calloc(size_of_new_env + 2, sizeof(char *));
+	new_envv = ft_calloc(size_of_new_env + 3, sizeof(char *));
 	i = -1;
 	j = 0;
 	while ((*env)->envv[++i])
@@ -74,8 +74,8 @@ void	ft_unset(char	**arg, t_env	**env)
 	size_of_new_env = double_array_size((*env)->envv);
 	while (arg[++i])
 	{
-		check_unset_arg(arg[i], env);
-		size_of_new_env--;
+		if (check_unset_arg(arg[i], env))
+			size_of_new_env--;
 	}
 	rebuilt_envv(env, size_of_new_env);
 	return ;
