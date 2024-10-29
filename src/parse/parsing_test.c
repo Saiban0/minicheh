@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 02:52:39 by tom               #+#    #+#             */
-/*   Updated: 2024/10/25 15:30:38 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/29 17:35:40 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,11 @@ t_cmd_and_op	is_builtins(char *command)
 {
 	t_cmd_and_op	res;
 
-	if (ft_strncmp(command,"echo", 4) == 0)
+	if	(command == NULL)
+		return (e_empty);
+	else if	(command[0] == '\0')
+		return (e_empty);
+	else if (ft_strncmp(command,"echo", 4) == 0)
 		res = e_echo;
 	else if (ft_strncmp(command,"cd", 2) == 0)
 		res = e_cd;
