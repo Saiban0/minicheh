@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:03:46 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/24 18:33:27 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/29 19:08:02 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,12 @@ int	check_redirect_type(t_ast *ast)
 	return (ast->right->base->cmd_op == e_redirect_input || ast->right->base
 		->cmd_op == e_redirect_output || ast->right->base
 		->cmd_op == e_redirect_output_write_mod);
+}
+
+void	heredoc_sigint_handler(int signal)
+{
+	if (signal == SIGINT)
+	{
+		close(STDIN_FILENO);
+	}
 }

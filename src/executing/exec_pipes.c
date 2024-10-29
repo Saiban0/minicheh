@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:07:12 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/29 16:14:03 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/29 19:19:44 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	child_execution(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
 
 void	last_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
 {
-	search_redirects(cmd, pipex);
+	search_redirects(cmd, pipex, env);
 	dup2(pipex->pipe_fd[curr_cmd - 1][0], STDIN_FILENO);
 	dup2(pipex->in_fd, STDIN_FILENO);
 	dup2(pipex->out_fd, STDOUT_FILENO);
@@ -78,7 +78,7 @@ void	last_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
 
 void	middle_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
 {
-	search_redirects(cmd, pipex);
+	search_redirects(cmd, pipex, env);
 	dup2(pipex->pipe_fd[curr_cmd - 1][0], STDIN_FILENO);
 	dup2(pipex->pipe_fd[curr_cmd][1], STDOUT_FILENO);
 	dup2(pipex->in_fd, STDIN_FILENO);
@@ -102,7 +102,7 @@ void	middle_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
 
 void	first_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
 {
-	search_redirects(cmd, pipex);
+	search_redirects(cmd, pipex, env);
 	dup2(pipex->pipe_fd[curr_cmd][1], STDOUT_FILENO);
 	close_pipes(pipex, env);
 	dup2(pipex->in_fd, STDIN_FILENO);

@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:16:54 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/28 18:13:14 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/10/29 19:20:10 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	exec_simple(t_ast *cmd, t_pipex *pipex, t_env *env)
 		create_fork(pipex, cmd);
 	if (cmd->base->pid == 0)
 	{
-		search_redirects(cmd, pipex);
+		search_redirects(cmd, pipex, env);
 		if (pipex->in_fd != -1 || pipex->out_fd != -1)
 			exec_simple_redirect(cmd, pipex, env);
 		else
