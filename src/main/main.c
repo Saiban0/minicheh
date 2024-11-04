@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
-/*   Updated: 2024/10/28 20:15:28 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/04 15:57:47 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ bool	loop(t_env	*env)
 	t_ast	*ast;
 	char	**temp;
 
-	line = readline("minicheh -> ");
+	line = readline("$ ");
 	if (!line)
 		ft_exit(NULL, NULL, env, NULL);
 	if (line[0] == '\0')
@@ -104,6 +104,7 @@ int	main(int ac, char **av, char **envp)
 
 	(void)av;
 	test_sig = false;
+	rl_outstream = stderr;
 	if (ac > 1)
 	{
 		write(STDERR_FILENO, "Usage : ./minishell\n", 21);
@@ -117,6 +118,7 @@ int	main(int ac, char **av, char **envp)
 		errno = 0;
 		signal(SIGINT, &sigint_handler);
 		signal(SIGQUIT, SIG_IGN);
+		signal(SIGPIPE, SIG_IGN);
 		if (!loop(env))
 			continue ;
 	}
