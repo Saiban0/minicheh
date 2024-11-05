@@ -6,11 +6,13 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
-/*   Updated: 2024/11/04 15:57:47 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/05 17:34:20 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+volatile int	g_exit_code = 0;
 
 t_env	*init_env(char **envp)
 {
@@ -19,7 +21,7 @@ t_env	*init_env(char **envp)
 
 	i = -1;
 	env = ft_calloc(1, sizeof(t_env));
-	env->envv = ft_calloc(double_array_size(envp) + 1, sizeof(char*));
+	env->envv = ft_calloc(double_array_size(envp) + 1, sizeof(char *));
 	env->quote = false;
 	while (envp[++i])
 	{
@@ -49,7 +51,6 @@ t_env	*init_env(char **envp)
 	return (env);
 }
 
-volatile bool test_sig;
 
 void	sigint_handler(int signal)
 {
@@ -62,7 +63,7 @@ void	sigint_handler(int signal)
 	}
 }
 
-bool	loop(t_env	*env)
+bool	loop(t_env *env)
 {
 	char	*line;
 	t_ast	*ast;
@@ -103,7 +104,6 @@ int	main(int ac, char **av, char **envp)
 	t_env	*env;
 
 	(void)av;
-	test_sig = false;
 	rl_outstream = stderr;
 	if (ac > 1)
 	{
@@ -124,16 +124,3 @@ int	main(int ac, char **av, char **envp)
 	}
 	ft_exit(NULL, NULL, env, NULL);
 }
-
-
-// int	main(int ac , char **av)
-// {	(void)ac;
-
-// 	av++;
-// 	ft_printf("%s\n", av[0]);
-// 	ft_printf("-------------\n");
-// 	av[1] = rem_wspace(av[0]);
-// 	av = ft_split_arg(av[], ' ');
-// 	ft_print_double_array(av);
-// 	ft_free_double_array(av);
-// }
