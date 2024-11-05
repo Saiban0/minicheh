@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:44:47 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/24 17:00:16 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/05 17:16:03 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_pipex
  * @param cmd The starting point of the ast
  * @param env The env struct initialized in main
  */
-void	exec_switch(t_ast *cmd, t_env *env);
+int		exec_switch(t_ast *cmd, t_env *env);
 /**
  * @brief This function is called upon executing a single command. It forks the
  * process if we are not executing an exception (cd, export or unset), then 
@@ -151,7 +151,7 @@ char	*ft_getpath(char *cmd);
  * @param pipex The pipex struct initialized in exec_switch
  * @param env The env struct initialized in main
  */
-void	ft_pipex_init(t_ast *cmd, t_pipex *pipex, t_env *env);
+int		ft_pipex_init(t_ast *cmd, t_pipex *pipex, t_env *env);
 /**
  * @brief This function is called regurarly throughout the execution process, it
  * closes both ends of every pipes created in the pipex->pipe_fd
@@ -199,8 +199,10 @@ int		get_fd(char *file_name, int read_or_write, t_ast *cmd, t_pipex *pipex);
  * 
  * @param ast The ast's current node
  * @param pipex The pipex structure
+ * @param env This is only used to avoid leaks when the user does a ctrl+c in
+ * a heredoc
  */
-void	search_redirects(t_ast *ast, t_pipex *pipex);
+void	search_redirects(t_ast *ast, t_pipex *pipex, t_env *env);
 /**
  * @brief This simple function is called by search_redirects it checks if the
  * next right node is a redirect.
@@ -216,8 +218,10 @@ int		check_redirect_type(t_ast *ast);
  * 
  * @param ast The command's node
  * @param pipex The pipex structure
+ * @param env This is only used to avoid leaks when the user does a ctrl+c in
+ * a heredoc
  */
-void	redirect_output_file(t_ast *ast, t_pipex *pipex);
+void	redirect_output_file(t_ast *ast, t_pipex *pipex, t_env *env);
 /**
  * @brief This function is called in search_redirects if an input redirect was
  * found, it will close any previously opened input redirection fd and open
@@ -225,8 +229,10 @@ void	redirect_output_file(t_ast *ast, t_pipex *pipex);
  * 
  * @param ast The command's node
  * @param pipex The pipex structur
+ * @param env This is only used to avoid leaks when the user does a ctrl+c in
+ * a heredoc
  */
-void	redirect_input_file(t_ast *ast, t_pipex *pipex);
+void	redirect_input_file(t_ast *ast, t_pipex *pipex, t_env *env);
 /**
  * @brief This function is simply a switch to redirect to the correct builtin
  * function
@@ -245,7 +251,17 @@ void	exec_builtins(t_ast *cmd, t_env *env, t_pipex *pipex);
  * 
  * @param cmd The cmd's ast
  * @param pipex The pipex struct initialized in exec_switch
+ * @param env This is only used to avoid leaks when the user does a ctrl+c
  */
-void	handle_heredocs(t_ast *cmd, t_pipex *pipex);
+void	handle_heredocs(t_ast *cmd, t_pipex *pipex, t_env *env);
+/**
+ * @brief This function is used to handle the ctrl+c signal in heredocs.
+ * It simply closes the STDIN which causes the heredoc readline to stop.
+ * Since heredocs should always be executed in a child, closing the stdin is not
+ * a problem
+ * 
+ * @param signal a simple int that conveys signals
+ */
+void	heredoc_sigint_handler(int signal);
 
 #endif

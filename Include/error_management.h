@@ -6,12 +6,19 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:40 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/23 17:23:07 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/05 16:52:48 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ERROR_MANAGEMENT_H
 # define ERROR_MANAGEMENT_H
+
+# define SYNTAX_ERROR 2
+# define MALLOC_ERROR 12 //ENOMEM
+# define BUILTIN_ERROR 42 //the builtin doesn't respect the subject
+# define CMDNOTFOUND 127 //command doesn’t exist, or isn’t in $PATH.
+# define EXIT_SIGINT 130 //SIGINT triggered closure
+# define EXIT_SIGQUIT 131 //SIGQUIT triggered closure
 
 typedef enum s_error_management
 {
@@ -23,6 +30,7 @@ typedef enum s_error_management
 	e_pipe_failure = 5,
 	e_env_error = 6,
 	e_malloc_failure = 7,
+	e_too_many_pipes = 8,
 }	t_error;
 
 /**
