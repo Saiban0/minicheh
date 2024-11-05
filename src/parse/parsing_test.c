@@ -31,9 +31,9 @@ bool	is_whitespace(char	c)
 t_cmd_and_op	is_builtins(char *command)
 {
 	if	(command == NULL)
-		return (e_test);
+		return (e_empty);
 	else if	(command[0] == '\0')
-		return (e_test);
+		return (e_empty);
 	else if (ft_strncmp(command,"echo", 4) == 0)
 		return (e_echo);
 	else if (ft_strncmp(command,"cd", 2) == 0)
