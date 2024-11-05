@@ -6,11 +6,13 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:02:11 by tom               #+#    #+#             */
-/*   Updated: 2024/10/18 13:48:30 by tom              ###   ########.fr       */
+/*   Updated: 2024/11/04 17:49:35 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int g_exit_code;
 
 void	free_ast(t_ast	*node)
 {
@@ -62,8 +64,7 @@ void	ft_exit(char *line, t_ast *ast, t_env *env, t_pipex *pipex)
 			free(env->oldpwd);
 		if (env->pwd)
 			free(env->pwd);
-
 		free(env);
 	}
-	exit(0);
+	exit(g_exit_code);
 }
