@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
 /*   Updated: 2024/11/05 17:38:24 by tom              ###   ########.fr       */
@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+volatile int	g_exit_code = 0;
+
 t_env	*init_env(char **envp)
 {
 	t_env	*env;
@@ -19,7 +21,7 @@ t_env	*init_env(char **envp)
 
 	i = -1;
 	env = ft_calloc(1, sizeof(t_env));
-	env->envv = ft_calloc(double_array_size(envp) + 1, sizeof(char*));
+	env->envv = ft_calloc(double_array_size(envp) + 1, sizeof(char *));
 	env->quote = false;
 	while (envp[++i])
 	{
@@ -49,7 +51,6 @@ t_env	*init_env(char **envp)
 	return (env);
 }
 
-volatile bool test_sig;
 
 void	sigint_handler(int signal)
 {
@@ -62,13 +63,15 @@ void	sigint_handler(int signal)
 	}
 }
 
-bool	loop(t_env	*env)
+bool	loop(t_env *env)
 {
 	char	*line;
 	t_ast	*ast;
 	char	**temp;
 
-	line = readline("minicheh -> ");
+	line = readline("minicheh-> ");
+	if (!line)
+		ft_exit(NULL, NULL, env, NULL);
 	if (line[0] == '\0')
 		return (false);
 	add_history(line);
@@ -101,7 +104,7 @@ int	main(int ac, char **av, char **envp)
 	t_env	*env;
 
 	(void)av;
-	test_sig = false;
+	rl_outstream = stderr;
 	if (ac > 1)
 	{
 		write(STDERR_FILENO, "Usage : ./minishell\n", 21);
@@ -115,22 +118,9 @@ int	main(int ac, char **av, char **envp)
 		errno = 0;
 		signal(SIGINT, &sigint_handler);
 		signal(SIGQUIT, SIG_IGN);
+		signal(SIGPIPE, SIG_IGN);
 		if (!loop(env))
 			continue ;
 	}
-	ft_free_double_array(env->envv);
-	free(env);
+	ft_exit(NULL, NULL, env, NULL);
 }
-
-
-// int	main(int ac , char **av)
-// {	(void)ac;
-
-// 	av++;
-// 	ft_printf("%s\n", av[0]);
-// 	ft_printf("-------------\n");
-// 	av[1] = rem_wspace(av[0]);
-// 	av = ft_split_arg(av[], ' ');
-// 	ft_print_double_array(av);
-// 	ft_free_double_array(av);
-// }
