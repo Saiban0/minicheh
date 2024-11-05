@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
-/*   Updated: 2024/11/05 17:34:20 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/05 17:39:30 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ bool	loop(t_env *env)
 	t_ast	*ast;
 	char	**temp;
 
-	line = readline("$ ");
+	line = readline("minicheh-> ");
 	if (!line)
 		ft_exit(NULL, NULL, env, NULL);
 	if (line[0] == '\0')
