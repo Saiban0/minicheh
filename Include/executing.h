@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:44:47 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/29 19:26:49 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/05 17:16:03 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_pipex
  * @param cmd The starting point of the ast
  * @param env The env struct initialized in main
  */
-void	exec_switch(t_ast *cmd, t_env *env);
+int		exec_switch(t_ast *cmd, t_env *env);
 /**
  * @brief This function is called upon executing a single command. It forks the
  * process if we are not executing an exception (cd, export or unset), then 
@@ -151,7 +151,7 @@ char	*ft_getpath(char *cmd);
  * @param pipex The pipex struct initialized in exec_switch
  * @param env The env struct initialized in main
  */
-void	ft_pipex_init(t_ast *cmd, t_pipex *pipex, t_env *env);
+int		ft_pipex_init(t_ast *cmd, t_pipex *pipex, t_env *env);
 /**
  * @brief This function is called regurarly throughout the execution process, it
  * closes both ends of every pipes created in the pipex->pipe_fd

@@ -6,13 +6,13 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:03:46 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/29 19:08:02 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/05 17:15:51 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_pipex_init(t_ast *cmd, t_pipex *pipex, t_env *env)
+int	ft_pipex_init(t_ast *cmd, t_pipex *pipex, t_env *env)
 {
 	int	i;
 
@@ -24,12 +24,18 @@ void	ft_pipex_init(t_ast *cmd, t_pipex *pipex, t_env *env)
 	pipex->pipe_fd = malloc((env->nb_commands - 1) * sizeof(int [2]));
 	if (!pipex->pipe_fd)
 		error_management(e_malloc_failure, cmd, pipex, env);
+	if (env->nb_commands - 1 > 500)
+	{
+		error_management(e_too_many_pipes, cmd, pipex, env);
+		return (1);
+	}
 	while (i < env->nb_commands - 1 && cmd->base->cmd_op == e_pipe)
 	{
 		if (pipe(pipex->pipe_fd[i]) == -1)
 			error_management(e_pipe_failure, cmd, pipex, env);
 		i++;
 	}
+	return (0);
 }
 
 static int	check_dir(char *cmd)
