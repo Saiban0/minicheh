@@ -6,11 +6,13 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:04 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/24 18:37:01 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/05 17:38:44 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int g_exit_code;
 
 void	error_free(t_ast *cmd, t_pipex *pipex)
 {
@@ -25,18 +27,18 @@ void	error_free(t_ast *cmd, t_pipex *pipex)
 	}
 }
 
-static void	error_management_bis(int error_code, t_ast *cmd, t_pipex *pipex)
+static void	error_management_bis(int error_code)
 {
 	if (error_code == 4)
-	{
 		ft_putstr_fd("minicheh : pipe failure\n", STDERR_FILENO);
-		error_free(cmd, pipex);
-	}
 	if (error_code == 6)
 		ft_putstr_fd("minicheh : problem while searching in env\n",
 			STDERR_FILENO);
 	if (error_code == 7)
 		ft_putstr_fd("minicheh : malloc failure\n", STDERR_FILENO);
+	if (error_code == 8)
+		ft_putstr_fd("minicheh : bro that's a lot of pipes, even for me\n",
+			STDERR_FILENO);
 }
 
 void	error_management(int error_code, t_ast *cmd, t_pipex *pipex, t_env *env)
@@ -45,6 +47,7 @@ void	error_management(int error_code, t_ast *cmd, t_pipex *pipex, t_env *env)
 	{
 		ft_putstr_fd("minicheh: command not found: ", STDERR_FILENO);
 		ft_putendl_fd(cmd->base->cmd[0], STDERR_FILENO);
+		g_exit_code = 127;
 		ft_exit(NULL, cmd, env, pipex);
 	}
 	if (error_code == 2)
@@ -60,6 +63,6 @@ void	error_management(int error_code, t_ast *cmd, t_pipex *pipex, t_env *env)
 		ft_putendl_fd(cmd->base->cmd[0], STDERR_FILENO);
 		ft_exit(NULL, cmd, env, pipex);
 	}
-	error_management_bis(error_code, cmd, pipex);
+	error_management_bis(error_code);
 	error_free(cmd, pipex);
 }
