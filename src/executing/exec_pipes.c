@@ -6,11 +6,13 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:07:12 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/29 19:19:44 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/05 15:58:59 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_exit_code;
 
 void	exec_handle_pipe(t_ast *cmd, t_pipex *pipex, t_env *env)
 {
@@ -72,7 +74,8 @@ void	last_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
 		if (cmd->base->path != NULL)
 			execve(cmd->base->path, cmd->base->cmd, env->envv);
 		error_management(e_command_not_found, cmd, pipex, env);
-		exit(1);
+		g_exit_code = CMDNOTFOUND;
+		exit(g_exit_code);
 	}
 }
 
@@ -96,7 +99,8 @@ void	middle_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
 		if (cmd->base->path != NULL)
 			execve(cmd->base->path, cmd->base->cmd, env->envv);
 		error_management(e_command_not_found, cmd, pipex, env);
-		exit(1);
+		g_exit_code = CMDNOTFOUND;
+		exit(g_exit_code);
 	}
 }
 
@@ -119,6 +123,7 @@ void	first_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
 		if (cmd->base->path != NULL)
 			execve(cmd->base->path, cmd->base->cmd, env->envv);
 		error_management(e_command_not_found, cmd, pipex, env);
-		exit(1);
+		g_exit_code = CMDNOTFOUND;
+		exit(g_exit_code);
 	}
 }
