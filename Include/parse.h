@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 20:06:37 by tom               #+#    #+#             */
-/*   Updated: 2024/10/25 16:18:39 by tom              ###   ########.fr       */
+/*   Updated: 2024/10/28 18:57:15 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int		quote_handler(char	*line, t_env	**env, int	quote_pos);
  * @param env_start A struct that contains the basic environment variables.
  * @return t_ast* The ast that is returned.
  */
-void	parse(char *line, t_ast	**ast, t_env	*env_start);
+void	parse(char *line, t_ast	**ast, t_env	*env_start, int quote);
 
 /******************************************************************************/
 /*                                                                            */

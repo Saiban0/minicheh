@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/10/25 15:10:04 by tom              ###   ########.fr       */
+/*   Updated: 2024/11/05 17:34:14 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ bool	select_operator(char	*line, int	i, t_ast	**ast)
 	// Même fonctionnement que avec un " en fin de ligne
 	// (Ouvrir les guillemets)
 	if (line[i] == '|' && line[i + 1] == '|')
-		ft_exit(line, *ast, *(*ast)->t_env);
+		ft_exit(line, *ast, *(*ast)->t_env, NULL);
 	else if (line[i] == '|')
 		ast_pipe(line, i, ast);
 	else if (line[i] == '<' && line[i + 1] == '<')
@@ -100,10 +100,27 @@ void	add_env(t_env	**env_start, t_ast	**ast)
 		add_env(env_start, &(*ast)->right);
 }
 
-// Remplacer les utilisations de ft_split par une fonction qui va gérer les quotes et les espace d'elle même.
-// Nécessite des modifications dans le parse.
+void	open_quote(char	*text, t_ast	**ast, t_env	*env, char	*oldline)
+{
+	char	*newline;
+	char	*temp;
+	t_ast	*last_node;
 
-void	parse(char *line, t_ast	**ast, t_env	*env)
+	temp = readline(text);
+	newline = ft_calloc(ft_strlen(temp) + ft_strlen(oldline) + 1, sizeof(char));
+	ft_strlcat(newline, oldline, ft_strlen(temp) + ft_strlen(oldline) + 1);
+	ft_strlcat(newline, temp, ft_strlen(temp) + ft_strlen(oldline) + 1);
+	last_node = *ast;
+	while (last_node->right)
+		last_node = last_node->right;
+	if (text[0] == 'd')
+		parse(newline, ast, env, 0);
+	if (text[0] == 'q')
+		parse(newline, ast, env, 0);
+	free(newline);
+}
+
+void	parse(char *line, t_ast	**ast, t_env	*env, int	quote)
 {
 	int		i;
 
@@ -111,10 +128,12 @@ void	parse(char *line, t_ast	**ast, t_env	*env)
 	(*ast)->base->cmd_op = e_empty;
 	(*ast)->left = NULL;
 	(*ast)->right = NULL;
-	(*ast)->t_env = &env_start;
+	(*ast)->t_env = &env;
 	while (line[++i])
 	{
-		if (is_op(line[i]))
+		if (line[i] == '"' || line[i] == '\'')
+			quote = quote_test(line[i], quote);
+		if (is_op(line[i]) && quote == 0)
 		{
 			if (select_operator(line, i, ast) == false)
 			{
@@ -126,6 +145,10 @@ void	parse(char *line, t_ast	**ast, t_env	*env)
 			i = 0;
 		}
 	}
+	if (quote == '"')
+		open_quote("dquote> ", ast, env, line);
+	if (quote == '\'')
+		open_quote("quote> ", ast, env, line);
 	if ((*ast)->base->cmd_op == e_empty)
 		without_op(line, ast);
 	env->nb_commands = 0;
