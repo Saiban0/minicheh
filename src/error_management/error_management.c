@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:04 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/05 20:16:59 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/07 22:10:37 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	error_free(t_ast *cmd, t_pipex *pipex, t_env *env)
 	if (pipex)
 	{
 		if (env->nb_commands > 1)
-			if (pipex->pipe_fd)
-				free(pipex->pipe_fd);
+			// if (pipex->pipe_fd)
+				// free(pipex->pipe_fd);
 		free(pipex);
 		pipex = NULL;
 	}

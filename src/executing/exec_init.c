@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:03:46 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/05 20:08:44 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/07 23:59:30 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,25 @@ int	ft_pipex_init(t_ast *cmd, t_pipex *pipex, t_env *env)
 	pipex->in_fd = -1;
 	pipex->out_fd = -1;
 	pipex->ast_origin = cmd;
-	if (env->nb_commands > 1)
-	{
-		pipex->pipe_fd = malloc((env->nb_commands - 1) * sizeof(int [2]));
-		if (!pipex->pipe_fd)
-			error_management(e_malloc_failure, cmd, pipex, env);
-	}
-	if (env->nb_commands - 1 > 500)
-	{
-		error_management(e_too_many_pipes, cmd, pipex, env);
-		return (1);
-	}
-	while (i < env->nb_commands - 1 && cmd->base->cmd_op == e_pipe)
-	{
-		if (pipe(pipex->pipe_fd[i]) == -1)
-			error_management(e_pipe_failure, cmd, pipex, env);
-		i++;
-	}
+	// if (env->nb_commands > 1)
+	// {
+	// 	pipex->pipe_fd = malloc(sizeof(int [2]));
+	// 	if (!pipex->pipe_fd)
+	// 		error_management(e_malloc_failure, cmd, pipex, env);
+	// }
+	// if (env->nb_commands - 1 > 500)
+	// {
+	// 	error_management(e_too_many_pipes, cmd, pipex, env);
+	// 	return (1);
+	// }
+	// while (i < env->nb_commands - 1 && cmd->base->cmd_op == e_pipe)
+	// {
+	// 	if (pipe(pipex->pipe_fd[i]) == -1)
+	// 		error_management(e_pipe_failure, cmd, pipex, env);
+	// 	i++;
+	// }
+	if (pipe(pipex->pipe_fd) == -1)
+		error_management(e_pipe_failure, cmd, pipex, env);
 	return (0);
 }
 
@@ -77,7 +79,7 @@ char	*ft_getpath(char *cmd)
 		free(exec);
 	}
 	ft_free_double_array(allpath);
-	return (NULL);
+	return (cmd);
 }
 
 int	check_redirect_type(t_ast *ast)
@@ -90,7 +92,5 @@ int	check_redirect_type(t_ast *ast)
 void	heredoc_sigint_handler(int signal)
 {
 	if (signal == SIGINT)
-	{
 		close(STDIN_FILENO);
-	}
 }
