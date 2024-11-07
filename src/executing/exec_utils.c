@@ -6,11 +6,13 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:25:44 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/23 16:03:51 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/05 18:35:07 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_exit_code;
 
 void	exec_builtins(t_ast *cmd, t_env *env, t_pipex *pipex)
 {
@@ -53,7 +55,12 @@ void	wait_execution(t_ast *cmd, int *status)
 	if (cmd->left)
 		wait_execution(cmd->left, status);
 	if (!cmd->base->is_op)
-		waitpid(cmd->base->pid, status, 0);
+	{
+		if (waitpid(cmd->base->pid, status, 0) == -1)
+			g_exit_code = 1;
+		else if (WIFEXITED(*status))
+			g_exit_code = WEXITSTATUS(*status);
+	}
 }
 
 void	create_fork(t_pipex *pipex, t_ast *cmd)
