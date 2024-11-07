@@ -6,13 +6,23 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:16:54 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/05 17:16:48 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/05 20:13:21 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 extern int	g_exit_code;
+
+static bool	test_empty_ast(t_ast *cmd, t_pipex *pipex, t_env *env)
+{
+	if (cmd->base->cmd_op == e_empty || cmd->base->cmd_op == e_test)
+	{
+		error_management(e_empty, cmd, pipex, env);
+		return (true);
+	}
+	return (false);
+}
 
 int	exec_switch(t_ast *cmd, t_env *env)
 {
@@ -22,6 +32,8 @@ int	exec_switch(t_ast *cmd, t_env *env)
 	if (!pipex)
 		error_management(e_malloc_failure, cmd, pipex, env);
 	if (ft_pipex_init(cmd, pipex, env))
+		return (1);
+	if (test_empty_ast(cmd, pipex, env))
 		return (1);
 	if (!cmd->base->is_op)
 		if (!cmd->base->cmd[0][0])
