@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:03:46 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/07 23:59:30 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/08 03:01:19 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	ft_pipex_init(t_ast *cmd, t_pipex *pipex, t_env *env)
 {
-	int	i;
+	// int	i;
 
-	i = 0;
+	// i = 0;
 	pipex->pipe_i = 0;
 	pipex->in_fd = -1;
 	pipex->out_fd = -1;
@@ -38,8 +38,9 @@ int	ft_pipex_init(t_ast *cmd, t_pipex *pipex, t_env *env)
 	// 		error_management(e_pipe_failure, cmd, pipex, env);
 	// 	i++;
 	// }
-	if (pipe(pipex->pipe_fd) == -1)
-		error_management(e_pipe_failure, cmd, pipex, env);
+	if (env->nb_commands > 1)
+		if (pipe(pipex->pipe_fd) == -1)
+			error_management(e_pipe_failure, cmd, pipex, env);
 	return (0);
 }
 
@@ -79,7 +80,7 @@ char	*ft_getpath(char *cmd)
 		free(exec);
 	}
 	ft_free_double_array(allpath);
-	return (cmd);
+	return (ft_strdup(cmd));
 }
 
 int	check_redirect_type(t_ast *ast)

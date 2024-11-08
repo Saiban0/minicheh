@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:07:12 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/08 00:21:37 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/08 03:42:30 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,61 +29,66 @@ void	exec_handle_pipe(t_ast *cmd, t_pipex *pipex, t_env *env)
 
 void	child_execution(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
 {
-	if (curr_cmd == env->nb_commands - 1)
-	{
-		create_fork(pipex, cmd);
-		if (cmd->base->pid == 0)
-			last_exec(curr_cmd, cmd, pipex, env);
-	}
-	else if (curr_cmd == 0)
-	{
-		create_fork(pipex, cmd);
-		if (cmd->base->pid == 0)
-			first_exec(curr_cmd, cmd, pipex, env);
-	}
-	else
-	{
+	// if (curr_cmd == env->nb_commands - 1)
+	// {
+	// 	create_fork(pipex, cmd);
+	// 	if (cmd->base->pid == 0)
+	// 		last_exec(curr_cmd, cmd, pipex, env);
+	// }
+	// else if (curr_cmd == 0)
+	// {
+	// 	create_fork(pipex, cmd);
+	// 	if (cmd->base->pid == 0)
+	// 		first_exec(curr_cmd, cmd, pipex, env);
+	// }
+	// else
+	// {
+	// 	create_fork(pipex, cmd);
+	// 	if (cmd->base->pid == 0)
+	// 		middle_exec(curr_cmd, cmd, pipex, env);
+	// }
 		create_fork(pipex, cmd);
 		if (cmd->base->pid == 0)
 			middle_exec(curr_cmd, cmd, pipex, env);
-	}
 }
 
-void	last_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
-{
-	(void) curr_cmd;
+// void	last_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
+// {
+// 	(void) curr_cmd;
 
-	search_redirects(cmd, pipex, env);
-	dup2(pipex->pipe_fd[0], STDIN_FILENO);
-	dup2(pipex->in_fd, STDIN_FILENO);
-	dup2(pipex->out_fd, STDOUT_FILENO);
-	close_pipes(pipex, env);
-	if (pipex->in_fd != -1)
-		close(pipex->in_fd);
-	if (pipex->out_fd != -1)
-		close(pipex->out_fd);
-	if (cmd->base->builtins)
-		exec_builtins(cmd, env, pipex);
-	else
-	{
-		cmd->base->path = ft_getpath(cmd->base->cmd[0]);
-		execve(cmd->base->path, cmd->base->cmd, env->envv);
-		error_management(e_command_not_found, cmd, pipex, env);
-		g_exit_code = CMDNOTFOUND;
-		exit(g_exit_code);
-	}
-}
+// 	search_redirects(cmd, pipex, env);
+// 	dup2(pipex->pipe_fd[0], STDIN_FILENO);
+// 	close_pipes(pipex, env);
+// 	dup2(pipex->in_fd, STDIN_FILENO);
+// 	dup2(pipex->out_fd, STDOUT_FILENO);
+// 	if (pipex->in_fd != -1)
+// 		close(pipex->in_fd);
+// 	if (pipex->out_fd != -1)
+// 		close(pipex->out_fd);
+// 	if (cmd->base->builtins)
+// 		exec_builtins(cmd, env, pipex);
+// 	else
+// 	{
+// 		cmd->base->path = ft_getpath(cmd->base->cmd[0]);
+// 		execve(cmd->base->path, cmd->base->cmd, env->envv);
+// 		error_management(e_command_not_found, cmd, pipex, env);
+// 		g_exit_code = CMDNOTFOUND;
+// 		exit(g_exit_code);
+// 	}
+// }
 
 void	middle_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
 {
 	(void) curr_cmd;
 
 	search_redirects(cmd, pipex, env);
-	dup2(pipex->pipe_fd[0], STDIN_FILENO);
-	dup2(pipex->pipe_fd[1], STDOUT_FILENO);
+	if (curr_cmd != 0)
+		dup2(pipex->pipe_fd[0], STDIN_FILENO);
+	if (curr_cmd != env->nb_commands - 1)
+		dup2(pipex->pipe_fd[1], STDOUT_FILENO);
+	close_pipes(pipex, env);
 	dup2(pipex->in_fd, STDIN_FILENO);
 	dup2(pipex->out_fd, STDOUT_FILENO);
-	close_pipes(pipex, env);
 	if (pipex->in_fd != -1)
 		close(pipex->in_fd);
 	if (pipex->out_fd != -1)
@@ -100,27 +105,27 @@ void	middle_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
 	}
 }
 
-void	first_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
-{
-	(void) curr_cmd;
+// // void	first_exec(int curr_cmd, t_ast *cmd, t_pipex *pipex, t_env *env)
+// // {
+// // 	(void) curr_cmd;
 
-	search_redirects(cmd, pipex, env);
-	dup2(pipex->pipe_fd[1], STDOUT_FILENO);
-	dup2(pipex->in_fd, STDIN_FILENO);
-	dup2(pipex->out_fd, STDOUT_FILENO);
-	close_pipes(pipex, env);
-	if (pipex->in_fd != -1)
-		close(pipex->in_fd);
-	if (pipex->out_fd != -1)
-		close(pipex->out_fd);
-	if (cmd->base->builtins)
-		exec_builtins(cmd, env, pipex);
-	else
-	{
-		cmd->base->path = ft_getpath(cmd->base->cmd[0]);
-		execve(cmd->base->path, cmd->base->cmd, env->envv);
-		error_management(e_command_not_found, cmd, pipex, env);
-		g_exit_code = CMDNOTFOUND;
-		exit(g_exit_code);
-	}
-}
+// // 	search_redirects(cmd, pipex, env);
+// // 	dup2(pipex->pipe_fd[1], STDOUT_FILENO);
+// // 	close_pipes(pipex, env);
+// // 	dup2(pipex->in_fd, STDIN_FILENO);
+// // 	dup2(pipex->out_fd, STDOUT_FILENO);
+// // 	if (pipex->in_fd != -1)
+// // 		close(pipex->in_fd);
+// // 	if (pipex->out_fd != -1)
+// // 		close(pipex->out_fd);
+// // 	if (cmd->base->builtins)
+// // 		exec_builtins(cmd, env, pipex);
+// // 	else
+// // 	{
+// // 		cmd->base->path = ft_getpath(cmd->base->cmd[0]);
+// // 		execve(cmd->base->path, cmd->base->cmd, env->envv);
+// // 		error_management(e_command_not_found, cmd, pipex, env);
+// // 		g_exit_code = CMDNOTFOUND;
+// // 		exit(g_exit_code);
+// // 	}
+// }
