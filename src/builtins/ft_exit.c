@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:02:11 by tom               #+#    #+#             */
-/*   Updated: 2024/11/08 02:14:14 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/08 04:54:21 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,6 @@ void	ft_exit(char *line, t_ast *ast, t_env *env, t_pipex *pipex)
 		free_ast(pipex->ast_origin);
 	if (pipex)
 	{
-		// if (env->nb_commands > 1)
-			// if (pipex->pipe_fd)
-			// 	free(pipex->pipe_fd);
 		free(pipex);
 		pipex = NULL;
 	}

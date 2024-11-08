@@ -6,13 +6,13 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:04 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/08 03:12:15 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/08 04:58:37 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern int g_exit_code;
+extern int	g_exit_code;
 
 void	error_free(t_ast *cmd, t_pipex *pipex, t_env *env)
 {
@@ -21,9 +21,6 @@ void	error_free(t_ast *cmd, t_pipex *pipex, t_env *env)
 		free_ast(pipex->ast_origin);
 	if (pipex)
 	{
-		// if (env->nb_commands > 1)
-			// if (pipex->pipe_fd)
-				// free(pipex->pipe_fd);
 		free(pipex);
 		pipex = NULL;
 	}

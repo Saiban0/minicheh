@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:25:44 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/07 23:33:42 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/08 04:58:08 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,12 @@ void	exec_builtins(t_ast *cmd, t_env *env, t_pipex *pipex)
 	}
 }
 
-void	close_pipes(t_pipex *pipex, t_env *env)
+void	close_pipes(t_pipex *pipex)
 {
-	// int	i;
-	(void) env;
-
-	// i = 0;
-	// while (i < env->nb_commands - 1)
-	// {
-	// 	// close(pipex->pipe_fd[i][0]);
-	// 	// close(pipex->pipe_fd[i][1]);
-	// 	i++;
-	// }
-	close(pipex->pipe_fd[0]);
-	close(pipex->pipe_fd[1]);
+	close(pipex->pipe_fd[0][0]);
+	close(pipex->pipe_fd[0][1]);
+	close(pipex->pipe_fd[1][0]);
+	close(pipex->pipe_fd[1][1]);
 }
 
 void	wait_execution(t_ast *cmd, int *status)
