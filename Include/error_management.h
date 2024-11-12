@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_management.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:40 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/08 01:48:30 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/12 14:42:02 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef enum s_error_management
 	e_pipe_failure = 5,
 	e_env_error = 6,
 	e_malloc_failure = 7,
+	e_unexpected_newline = 8,
 }	t_error;
 
 /**
@@ -56,5 +57,7 @@ void	error_management(int error_code, t_ast *cmd, t_pipex *pipex,
  * jumps
  */
 void	error_free(t_ast *cmd, t_pipex *pipex, t_env *env);
+
+void	parse_error_handler(int	error_code, t_ast	**ast);
 
 #endif
