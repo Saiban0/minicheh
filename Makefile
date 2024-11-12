@@ -13,7 +13,7 @@ LFLAGS =	-Llibamoa \
 BUILTINS = ft_cd ft_echo ft_env ft_exit ft_export ft_export_utils\
 			ft_pwd ft_unset
 
-MAIN = main
+MAIN = main init_env
 
 EXECUTING = exec_simple exec_utils exec_init exec_pipes exec_redirects\
 
