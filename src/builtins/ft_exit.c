@@ -6,13 +6,13 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:02:11 by tom               #+#    #+#             */
-/*   Updated: 2024/11/08 04:54:21 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/12 16:44:10 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern int g_exit_code;
+extern int	g_exit_code;
 
 void	free_ast(t_ast	*node)
 {
