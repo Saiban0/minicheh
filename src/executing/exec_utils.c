@@ -6,11 +6,13 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:25:44 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/23 16:03:51 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/08 04:58:08 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_exit_code;
 
 void	exec_builtins(t_ast *cmd, t_env *env, t_pipex *pipex)
 {
@@ -33,17 +35,12 @@ void	exec_builtins(t_ast *cmd, t_env *env, t_pipex *pipex)
 	}
 }
 
-void	close_pipes(t_pipex *pipex, t_env *env)
+void	close_pipes(t_pipex *pipex)
 {
-	int	i;
-
-	i = 0;
-	while (i < env->nb_commands - 1)
-	{
-		close(pipex->pipe_fd[i][0]);
-		close(pipex->pipe_fd[i][1]);
-		i++;
-	}
+	close(pipex->pipe_fd[0][0]);
+	close(pipex->pipe_fd[0][1]);
+	close(pipex->pipe_fd[1][0]);
+	close(pipex->pipe_fd[1][1]);
 }
 
 void	wait_execution(t_ast *cmd, int *status)
@@ -53,7 +50,12 @@ void	wait_execution(t_ast *cmd, int *status)
 	if (cmd->left)
 		wait_execution(cmd->left, status);
 	if (!cmd->base->is_op)
-		waitpid(cmd->base->pid, status, 0);
+	{
+		if (waitpid(cmd->base->pid, status, 0) == -1)
+			g_exit_code = 1;
+		else if (WIFEXITED(*status))
+			g_exit_code = WEXITSTATUS(*status);
+	}
 }
 
 void	create_fork(t_pipex *pipex, t_ast *cmd)

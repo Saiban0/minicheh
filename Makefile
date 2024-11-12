@@ -10,7 +10,8 @@ CFLAGS =	-Wall -Wextra -Werror -g \
 LFLAGS =	-Llibamoa \
 			-lamoa -lreadline
 
-BUILTINS = ft_cd ft_echo ft_env ft_exit ft_export ft_pwd ft_unset
+BUILTINS = ft_cd ft_echo ft_env ft_exit ft_export ft_export_utils\
+			ft_pwd ft_unset
 
 MAIN = main
 

@@ -1,40 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*   ft_export_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/10 09:03:45 by tom               #+#    #+#             */
-/*   Updated: 2024/11/05 18:06:32 by bchedru          ###   ########.fr       */
+/*   Created: 2024/11/04 15:08:21 by bchedru           #+#    #+#             */
+/*   Updated: 2024/11/04 15:12:29 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern int	g_exit_code;
-
-void	ft_echo(char **arg, t_ast *cmd, t_env *env, t_pipex *pipex)
+bool	only_char(char	*str, char c)
 {
-	bool	flag;
-	int		i;
+	int	i;
 
-	arg++;
 	i = -1;
-	flag = false;
-	if (arg[0][0] == '-' && arg[0][1] == 'n')
-	{
-		flag = true;
-		arg++;
-	}
-	while (arg[++i])
-	{
-		ft_putstr_fd(arg[i], STDOUT_FILENO);
-		if (arg[i + 1])
-			ft_putchar_fd(' ', STDOUT_FILENO);
-	}
-	if (!flag)
-		write(1, "\n", 1);
-	g_exit_code = 0;
-	ft_exit(NULL, cmd, env, pipex);
+	while (str[++i])
+		if (str[i] != c)
+			return (false);
+	return (true);
+}
+
+bool	export_error_handler(char	**temp, char	*error_message)
+{
+	ft_putstr_fd("export: ", STDERR_FILENO);
+	ft_putstr_fd(error_message, STDERR_FILENO);
+	ft_putstr_fd(temp[0], STDERR_FILENO);
+	ft_putchar_fd('\n', STDERR_FILENO);
+	ft_free_double_array(temp);
+	return (false);
 }

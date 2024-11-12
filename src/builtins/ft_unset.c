@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 12:30:29 by tom               #+#    #+#             */
-/*   Updated: 2024/10/29 16:54:04 by tom              ###   ########.fr       */
+/*   Updated: 2024/11/04 15:06:04 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ bool	check_unset_arg(char	*arg, t_env	**env)
 	return (false);
 }
 
-void	rebuilt_envv(t_env	**env, int	size_of_new_env)
+void	rebuilt_envv(t_env **env, int size_of_new_env)
 {
 	int		i;
 	int		j;

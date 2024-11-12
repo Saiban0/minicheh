@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 11:31:22 by tom               #+#    #+#             */
-/*   Updated: 2024/10/17 12:59:48 by tom              ###   ########.fr       */
+/*   Updated: 2024/11/04 15:12:46 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ char	**double_array_cat(char	**tab1, char	**tab2)
 	int		i;
 	int		j;
 
-	res = ft_calloc(double_array_size(tab1) + double_array_size(tab2) + 1
-			, sizeof(char *));
+	res = ft_calloc(double_array_size(tab1) + double_array_size(tab2) + 1,
+			sizeof(char *));
 	i = -1;
 	j = -1;
 	while (tab1[++j])
@@ -46,27 +46,6 @@ bool	check_special_char(char	*str)
 	return (false);
 }
 
-bool	only_char(char	*str, char c)
-{
-	int	i;
-
-	i = -1;
-	while (str[++i])
-		if (str[i] != c)
-			return (false);
-	return (true);
-}
-
-bool	export_error_handler(char	**temp, char	*error_message)
-{
-	ft_putstr_fd("export: ", STDERR_FILENO);
-	ft_putstr_fd(error_message, STDERR_FILENO);
-	ft_putstr_fd(temp[0], STDERR_FILENO);
-	ft_putchar_fd('\n', STDERR_FILENO);
-	ft_free_double_array(temp);
-	return (false);
-}
-
 bool	ft_find_export(char	*arg, t_env	**env, char	**arg_split)
 {
 	int		i;
@@ -89,7 +68,7 @@ bool	ft_find_export(char	*arg, t_env	**env, char	**arg_split)
 	return (false);
 }
 
-bool	check_export_arg(char	*arg, t_env	**env)
+bool	check_export_arg(char *arg, t_env **env)
 {
 	char	**temp;
 
@@ -102,9 +81,9 @@ bool	check_export_arg(char	*arg, t_env	**env)
 		return (false);
 	}
 	if (!ft_isalpha(temp[0][0]))
-		return(export_error_handler(temp, "not an identifier: "));
+		return (export_error_handler(temp, "not an identifier: "));
 	if (check_special_char(temp[0]))
-		return(export_error_handler(temp, "not valid in this context: "));
+		return (export_error_handler(temp, "not valid in this context: "));
 	if (ft_find_export(arg, env, temp))
 		return (false);
 	ft_free_double_array(temp);

@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
-/*   Updated: 2024/11/05 17:38:24 by tom              ###   ########.fr       */
+/*   Updated: 2024/11/07 17:37:02 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ bool	loop(t_env *env)
 	parse(line, &ast, env, 0);
 	free(line);
 	line = NULL;
+	g_exit_code = 0;
 	exec_switch(ast, env);
 	ast = NULL;
 	temp = ft_calloc(3, sizeof(char *));

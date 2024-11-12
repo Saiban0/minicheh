@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:40 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/05 16:52:48 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/08 01:48:30 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ typedef enum s_error_management
 	e_pipe_failure = 5,
 	e_env_error = 6,
 	e_malloc_failure = 7,
-	e_too_many_pipes = 8,
 }	t_error;
 
 /**
@@ -53,7 +52,9 @@ void	error_management(int error_code, t_ast *cmd, t_pipex *pipex,
  * 
  * @param cmd The current command's ast
  * @param pipex The pipex structure initiliazed in exec_switch
+ * @param env Only used to check th number of commands to avoid conditional 
+ * jumps
  */
-void	error_free(t_ast *cmd, t_pipex *pipex);
+void	error_free(t_ast *cmd, t_pipex *pipex, t_env *env);
 
 #endif
