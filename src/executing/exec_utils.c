@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:25:44 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/08 04:58:08 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/12 22:28:22 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,6 @@ void	close_pipes(t_pipex *pipex)
 	close(pipex->pipe_fd[0][1]);
 	close(pipex->pipe_fd[1][0]);
 	close(pipex->pipe_fd[1][1]);
-}
-
-void	wait_execution(t_ast *cmd, int *status)
-{
-	if (cmd->right)
-		wait_execution(cmd->right, status);
-	if (cmd->left)
-		wait_execution(cmd->left, status);
-	if (!cmd->base->is_op)
-	{
-		if (waitpid(cmd->base->pid, status, 0) == -1)
-			g_exit_code = 1;
-		else if (WIFEXITED(*status))
-			g_exit_code = WEXITSTATUS(*status);
-	}
 }
 
 void	create_fork(t_pipex *pipex, t_ast *cmd)
