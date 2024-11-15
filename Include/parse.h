@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 20:06:37 by tom               #+#    #+#             */
-/*   Updated: 2024/11/12 14:40:33 by tom              ###   ########.fr       */
+/*   Updated: 2024/11/15 19:58:44 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSE_H
 # define PARSE_H
 
-int		quote_pipe_check(char	*line);
-void	open_quote(char	*text, t_ast	**ast, t_env	*env, char	*oldline);
-void	text_open_quote_select(char	*line, t_ast	**ast, t_env	*env, int	quote_pipe_res);
+int				quote_pipe_check(char	*line);
+void			open_quote(char	*text, t_ast	**ast, t_env	*env,
+					char	*oldline);
+bool			open_quote_pipe_test(char	*line, t_ast **ast, t_env *env);
 
 /******************************************************************************/
 /*                                                                            */
@@ -23,18 +24,19 @@ void	text_open_quote_select(char	*line, t_ast	**ast, t_env	*env, int	quote_pipe_
 /*                                                                            */
 /******************************************************************************/
 
-char	**ft_split_arg(char *str, char sep);
-char	*cuted(char const *str, int end);
-int		result_length(char const *str, char c);
-bool	select_operator(char	*line, int	i, t_ast	**ast);
+char			**ft_split_arg(char *str, char sep);
+char			*cuted(char const *str, int end);
+int				result_length(char const *str, char c);
+bool			select_operator(char *line, int i, t_ast **ast);
 
 /******************************************************************************/
 /*                                                                            */
 /* Parse_Utils                                                                */
 /*                                                                            */
 /******************************************************************************/
-bool	only_wspace(char	*str);
-int		quote_test(int	c, int	quote);
+bool			only_wspace(char *str);
+int				quote_test(int c, int quote);
+char			*find_env_var(char	*var, char	**envv);
 
 /**
  * @brief This function remove each white space before and after the command.
@@ -42,7 +44,7 @@ int		quote_test(int	c, int	quote);
  * @param command The command.
  * @return char* The command whithout white space around it.
  */
-char	*rem_wspace(char *command);
+char			*rem_wspace(char *command);
 
 /******************************************************************************/
 /*                                                                            */
@@ -59,7 +61,7 @@ char	*rem_wspace(char *command);
  * @param env_start A struct that contains the basic environment variables.
  * @return t_ast* The ast that is returned.
  */
-void	parse(char *line, t_ast	**ast, t_env	*env_start, int quote);
+void			parse(char *line, t_ast	**ast, t_env	*env_start, int quote);
 
 /******************************************************************************/
 /*                                                                            */
@@ -74,7 +76,7 @@ void	parse(char *line, t_ast	**ast, t_env	*env_start, int quote);
  * @return true The char is an operator.
  * @return false The char is not an operator.
  */
-bool	is_op(char	c);
+bool			is_op(char c);
 
 /**
  * @brief This function return whether 'c' is a white space or not.
@@ -83,7 +85,7 @@ bool	is_op(char	c);
  * @return true The char is a white space.
  * @return false The char is not a white space.
  */
-bool	is_whitespace(char	c);
+bool			is_whitespace(char c);
 
 /**
  * @brief This function return an struct who contain the command's type.
@@ -92,7 +94,6 @@ bool	is_whitespace(char	c);
  * @return t_cmd_and_op An enum with the command's type.
  */
 t_cmd_and_op	is_builtins(char *command);
-
 
 /******************************************************************************/
 /*                                                                            */
@@ -107,7 +108,7 @@ t_cmd_and_op	is_builtins(char *command);
  * @param i The position of the next pipe.
  * @param ast The ast that is returned in the parse function.
  */
-void	ast_pipe(char	*line, int	i, t_ast	**ast);
+void			ast_pipe(char *line, int i, t_ast **ast);
 
 /******************************************************************************/
 /*                                                                            */
@@ -122,6 +123,6 @@ void	ast_pipe(char	*line, int	i, t_ast	**ast);
  * @param i The position of '>'.
  * @param ast The ast that is returned in the parse function.
  */
-void	ast_else(char	*line, int	i, t_ast	**ast, t_cmd_and_op op);
+void			ast_else(char *line, int i, t_ast **ast, t_cmd_and_op op);
 
 #endif
