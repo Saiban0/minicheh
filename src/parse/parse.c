@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/11/07 17:30:02 by tom              ###   ########.fr       */
+/*   Updated: 2024/11/15 15:19:13 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int g_exit_code;
 
 void	without_op(char *line, t_ast	**ast)
 {
@@ -58,7 +60,12 @@ void	add_env(t_env	**env_start, t_ast	**ast)
 	{
 		while ((*ast)->base->cmd[++i])
 		{
-			if ((*ast)->base->cmd[i][0] == '$' && (*ast)->base->cmd[i][1] != '(')
+			if ((*ast)->base->cmd[i][0] == '$' && (*ast)->base->cmd[i][1] == '?')
+			{
+				free((*ast)->base->cmd[i]);
+				(*ast)->base->cmd[i] = ft_itoa(g_exit_code);
+			}
+			else if ((*ast)->base->cmd[i][0] == '$' && (*ast)->base->cmd[i][1] != '(')
 			{
 				temp = find_env_var((*ast)->base->cmd[i], (*env_start)->envv);
 				free((*ast)->base->cmd[i]);
