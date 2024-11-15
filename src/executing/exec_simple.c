@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:16:54 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/08 04:52:32 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/12 19:20:45 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int	exec_switch(t_ast *cmd, t_env *env)
 		if (cmd->base->cmd_op == e_pipe)
 			exec_handle_pipe(cmd, pipex, env);
 		close_pipes(pipex);
-		wait_execution(cmd, &(pipex->status));
 	}
 	else if (cmd->base->cmd_op == e_external_control || cmd->base->builtins)
 		exec_simple(cmd, pipex, env);
