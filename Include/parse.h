@@ -6,16 +6,27 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 20:06:37 by tom               #+#    #+#             */
-/*   Updated: 2024/10/28 18:57:15 by tom              ###   ########.fr       */
+/*   Updated: 2024/11/12 14:40:33 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSE_H
 # define PARSE_H
 
+int		quote_pipe_check(char	*line);
+void	open_quote(char	*text, t_ast	**ast, t_env	*env, char	*oldline);
+void	text_open_quote_select(char	*line, t_ast	**ast, t_env	*env, int	quote_pipe_res);
+
+/******************************************************************************/
+/*                                                                            */
+/* Open_quote_pipe_handler                                                    */
+/*                                                                            */
+/******************************************************************************/
+
 char	**ft_split_arg(char *str, char sep);
 char	*cuted(char const *str, int end);
 int		result_length(char const *str, char c);
+bool	select_operator(char	*line, int	i, t_ast	**ast);
 
 /******************************************************************************/
 /*                                                                            */
@@ -32,8 +43,6 @@ int		quote_test(int	c, int	quote);
  * @return char* The command whithout white space around it.
  */
 char	*rem_wspace(char *command);
-
-int		quote_handler(char	*line, t_env	**env, int	quote_pos);
 
 /******************************************************************************/
 /*                                                                            */
@@ -102,7 +111,7 @@ void	ast_pipe(char	*line, int	i, t_ast	**ast);
 
 /******************************************************************************/
 /*                                                                            */
-/* Redirect_Handler                                                    */
+/* Redirect_Handler                                                           */
 /*                                                                            */
 /******************************************************************************/
 
