@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_handler.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:34:23 by tom               #+#    #+#             */
-/*   Updated: 2024/10/25 15:14:15 by tom              ###   ########.fr       */
+/*   Updated: 2024/11/15 18:03:23 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	first_base( char	*line, t_ast	**ast, int	*operator)
 void	add_new_pipe_head(t_ast	**ast)
 {
 	t_ast	*new_head;
-	
+
 	new_head = malloc(sizeof(t_ast));
 	new_head->base = malloc(sizeof(t_ast_content));
 	new_head->left = *ast;
@@ -45,7 +45,7 @@ void	add_new_pipe_head(t_ast	**ast)
 	(*ast) = new_head;
 }
 
-void	ast_pipe(char	*line, int	i, t_ast	**ast)
+void	ast_pipe(char *line, int i, t_ast **ast)
 {
 	int		operator[2];
 	char	*tmp;
