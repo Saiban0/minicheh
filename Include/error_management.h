@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_management.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:40 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/12 14:42:02 by tom              ###   ########.fr       */
+/*   Updated: 2024/11/15 16:37:46 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,6 @@ void	error_management(int error_code, t_ast *cmd, t_pipex *pipex,
  */
 void	error_free(t_ast *cmd, t_pipex *pipex, t_env *env);
 
-void	parse_error_handler(int	error_code, t_ast	**ast);
+void	parse_error_handler(int error_code, t_ast **ast);
 
 #endif
