@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:30:08 by tom               #+#    #+#             */
-/*   Updated: 2024/10/28 19:02:42 by tom              ###   ########.fr       */
+/*   Updated: 2024/11/07 16:28:47 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ char	*rem_wspace(char *command)
 	j = -1;
 	while (command[++i] && is_whitespace(command[i]))
 		continue;
-	j = ft_strlen(command);
-	while (command[--j] && is_whitespace(command[j]))
-		continue;
+	j = ft_strlen(command) - 1;
+	while (command[j] && is_whitespace(command[j]))
+		j--;
 	res = ft_calloc(1, sizeof(char) * (j - i + 2));
 	z = -1;
 	while (command[i] && i <= j)
@@ -52,5 +52,29 @@ bool	only_wspace(char	*str)
 	while (str[++i])
 		if (!is_whitespace(str[i]))
 			return (false);
+	return (true);
+}
+
+bool	select_operator(char	*line, int	i, t_ast	**ast)
+{
+	int	j;
+
+	j = i + 1;
+	while (line[j] && is_whitespace(line[j]) == true)
+		j++;
+	if (!line[j])
+		return (false);
+	if (line[i] == '|' && line[i + 1] == '|')
+		ft_exit(line, *ast, *(*ast)->t_env, NULL);
+	else if (line[i] == '|')
+		ast_pipe(line, i, ast);
+	else if (line[i] == '<' && line[i + 1] == '<')
+		ast_else(line, i + 1, ast, e_here_doc);
+	else if (line[i] == '>' && line[i + 1] == '>')
+		ast_else(line, i + 1, ast, e_redirect_output_write_mod);
+	else if (line[i] == '>')
+		ast_else(line, i, ast, e_redirect_output);
+	else if (line[i] == '<')
+		ast_else(line, i, ast, e_redirect_input);
 	return (true);
 }
