@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:13:38 by tom               #+#    #+#             */
-/*   Updated: 2024/11/12 16:57:44 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/15 19:02:38 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ typedef struct s_minishell_env
 	char			*pwd;
 	char			*oldpwd;
 	char			**envv;
-	int				quote;
 }	t_env;
 
 typedef struct s_ast
