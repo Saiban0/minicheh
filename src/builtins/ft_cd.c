@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 11:10:19 by tom               #+#    #+#             */
-/*   Updated: 2024/10/17 12:48:19 by tom              ###   ########.fr       */
+/*   Updated: 2024/11/15 17:07:15 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ char	*remove_last_folder(char *pwd)
 	int		i;
 	char	*res;
 
+	if (pwd[0] == '/')
+		return (pwd);
 	i = ft_strlen(pwd);
 	while (pwd[--i] && pwd[i] != '/')
 		pwd[i] = 0;
@@ -48,7 +50,7 @@ void	update_pwd(t_env	**env, char	*path_update, char *home)
 
 	temp = ft_strdup((*env)->pwd + 4);
 	temp = ft_rev_cat("OLDPWD=", temp, 2);
-	free((*env)->envv[(*env)->oldpwd_position]);
+	free((*env)->oldpwd);
 	(*env)->oldpwd = ft_strdup(temp);
 	free(temp);
 	temp = ft_strdup((*env)->pwd + 4);
@@ -56,7 +58,6 @@ void	update_pwd(t_env	**env, char	*path_update, char *home)
 	{
 		free(temp);
 		temp = ft_strdup(home + 5);
-		temp = ft_rev_cat("OLDPWD=", temp, 2);
 	}
 	temp_tab = ft_split(path_update, '/');
 	i = -1;
@@ -70,7 +71,8 @@ void	update_pwd(t_env	**env, char	*path_update, char *home)
 			temp = ft_rev_cat(temp, temp_tab[i], 1);
 		}
 	}
-	(*env)->envv[(*env)->pwd_position] = ft_rev_cat("PWD=", temp, 2);
+	free((*env)->pwd);
+	(*env)->pwd = ft_rev_cat("PWD=", temp, 2);
 	ft_free_double_array(temp_tab);
 	free(home);
 }
@@ -79,21 +81,21 @@ void	update_pwd(t_env	**env, char	*path_update, char *home)
 bool	ft_cd(char	**arg, t_env	**env)
 {
 	char	*home;
+	char	*temp;
 
 	home = ft_strdup((*env)->envv[(*env)->home_position] + 5);
 	if (!arg[1])
 	{
-		chdir(home);
+		chdir(home);	
 		update_pwd(env, "~", home);
-		free(home);
 		return (true);
 	}
-	arg[1] = rem_wspace(arg[1]);
+	temp = rem_wspace(arg[1]);
+	free(arg[1]);
+	arg[1] = temp;
 	if (arg[1] && arg[2])
 	{
-		ft_putstr_fd("cd: string not in pwd: ", STDERR_FILENO);
-		ft_putstr_fd(arg[1], STDERR_FILENO);
-		ft_putchar_fd('\n', STDERR_FILENO);
+		ft_putstr_fd("minicheh: cd: too many arguments\n", STDERR_FILENO);
 		free(home);
 		return (false);
 	}
@@ -102,9 +104,9 @@ bool	ft_cd(char	**arg, t_env	**env)
 		update_pwd(env, arg[1], home);
 		return (true);
 	}
-	ft_putstr_fd("cd: no such file or directory: ", STDERR_FILENO);
+	ft_putstr_fd("cd: ", STDERR_FILENO);
 	ft_putstr_fd(arg[1], STDERR_FILENO);
-	ft_putchar_fd('\n', STDERR_FILENO);
+	ft_putstr_fd(": no such file or directory:\n", STDERR_FILENO);
 	free(home);
 	return (false);
 }
