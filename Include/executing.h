@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:44:47 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/08 04:52:12 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/12 22:28:33 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,14 +122,6 @@ int		ft_pipex_init(t_ast *cmd, t_pipex *pipex, t_env *env);
  * @param cmd The current command's ast
  */
 void	close_pipes(t_pipex *pipex);
-/**
- * @brief This function is called at the end of the pipeline and is used to wait
- * upon the completion of every command with waitpid.
- * 
- * @param cmd The ast base
- * @param status The current status of executing
- */
-void	wait_execution(t_ast *cmd, int *status);
 /**
  * @brief This is used to create a fork using the current command's pid variable
  * previously uninitialized.
