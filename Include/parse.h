@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 20:06:37 by tom               #+#    #+#             */
-/*   Updated: 2024/11/15 19:58:44 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/18 17:43:22 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,34 @@ bool			select_operator(char *line, int i, t_ast **ast);
 /* Parse_Utils                                                                */
 /*                                                                            */
 /******************************************************************************/
+
+/**
+ * @brief This function return whether the string contain only white space
+ * or not.
+ * 
+ * @param str The string.
+ * @return true The string contain only white space.
+ * @return false The string not contain only white space.
+ */
 bool			only_wspace(char *str);
-int				quote_test(int c, int quote);
+
+/**
+ * @brief This function return 'c' if 'quote' equal 0, return 0 if 'quote'
+ * equal 'c' and return 'quote' if 'quote' different from 'c' and 0.
+ * 
+ * @param c The char to test.
+ * @param quote The result of the previous quote_test.
+ * @return int An int.
+ */
+int				quote_test(char c, int quote);
+
+/**
+ * @brief This function search the environnement variable 'var' in 'envv'.
+ * 
+ * @param var The varible to find.
+ * @param envv The environnement variable table.
+ * @return char* The environnement variable to find or an empty string.
+ */
 char			*find_env_var(char	*var, char	**envv);
 
 /**
