@@ -6,11 +6,20 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:25:23 by tom               #+#    #+#             */
-/*   Updated: 2024/11/18 14:42:49 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/18 15:15:33 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+bool	check_between_op(char *temp, int i)
+{
+	while (temp[--i] && is_whitespace(temp[i]))
+		continue ;
+	if (temp[i] == '|' || temp[i] == '<' || temp[i] == '>')
+		return (false);
+	return (true);
+}
 
 int	quote_pipe_check(char	*line)
 {
@@ -32,6 +41,15 @@ int	quote_pipe_check(char	*line)
 			quote = quote_test(temp[i], quote);
 	if (temp[i - 1] == '|')
 		quote = '|';
+	if (temp[i - 1] == '|' || temp[i - 1] == '<' || temp[i - 1] == '>')
+	{
+		if (check_between_op(temp, i) == false)
+		{
+			parse_error_handler(e_unexpected_pipe, NULL);
+			free(temp);
+			return (-1);
+		}
+	}
 	free(temp);
 	return (quote);
 }
