@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:30:08 by tom               #+#    #+#             */
-/*   Updated: 2024/11/07 16:28:47 by tom              ###   ########.fr       */
+/*   Updated: 2024/11/15 18:45:07 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*rem_wspace(char *command)
 	i = -1;
 	j = -1;
 	while (command[++i] && is_whitespace(command[i]))
-		continue;
+		continue ;
 	j = ft_strlen(command) - 1;
 	while (command[j] && is_whitespace(command[j]))
 		j--;
@@ -33,7 +33,7 @@ char	*rem_wspace(char *command)
 	return (res);
 }
 
-int	quote_test(int	c, int	quote)
+int	quote_test(int c, int quote)
 {
 	if (quote == 0)
 		return (c);
@@ -55,7 +55,7 @@ bool	only_wspace(char	*str)
 	return (true);
 }
 
-bool	select_operator(char	*line, int	i, t_ast	**ast)
+bool	select_operator(char *line, int i, t_ast **ast)
 {
 	int	j;
 
@@ -77,4 +77,20 @@ bool	select_operator(char	*line, int	i, t_ast	**ast)
 	else if (line[i] == '<')
 		ast_else(line, i, ast, e_redirect_input);
 	return (true);
+}
+
+char	*find_env_var(char	*var, char	**envv)
+{
+	int	i;
+	int	var_size;
+
+	i = -1;
+	var++;
+	var_size = ft_strlen(var);
+	while (envv[++i])
+	{
+		if (ft_strncmp(var, envv[i], var_size - 1) == 0)
+			return (ft_strdup(envv[i] + var_size + 1));
+	}
+	return (ft_strdup(" "));
 }

@@ -3,14 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   open_quote_pipe_handler.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:25:23 by tom               #+#    #+#             */
-/*   Updated: 2024/11/07 16:25:49 by tom              ###   ########.fr       */
+/*   Updated: 2024/11/18 15:28:59 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+bool	check_between_op(char *temp, int i)
+{
+	while (temp[i] && is_whitespace(temp[i]))
+		i--;
+	if (temp[i] == '|' || temp[i] == '<' || temp[i] == '>')
+		return (false);
+	return (true);
+}
+
+bool	unexpected_token_test(int i, char *temp)
+{
+	if (temp[i - 1] == '|' || temp[i - 1] == '<' || temp[i - 1] == '>')
+	{
+		if (check_between_op(temp, i) == false)
+		{
+			if (temp[i - 1] == '|')
+				parse_error_handler(e_unexpected_pipe, NULL);
+			if (temp[i - 1] == '<')
+				parse_error_handler(e_unexpected_redirect_input, NULL);
+			if (temp[i - 1] == '>')
+				parse_error_handler(e_unexpected_redirect_output, NULL);
+			free(temp);
+			return (false);
+		}
+	}
+	return (true);
+}
 
 int	quote_pipe_check(char	*line)
 {
@@ -21,11 +49,19 @@ int	quote_pipe_check(char	*line)
 	i = -1;
 	quote = 0;
 	temp = rem_wspace(line);
+	if (temp[0] == '|')
+	{
+		parse_error_handler(e_unexpected_pipe, NULL);
+		free(temp);
+		return (-1);
+	}
 	while (temp[++i])
 		if (temp[i] == '"' || temp[i] == '\'')
-				quote = quote_test(temp[i], quote);
+			quote = quote_test(temp[i], quote);
 	if (temp[i - 1] == '|')
 		quote = '|';
+	if (unexpected_token_test(i, temp) == false)
+		return (-1);
 	free(temp);
 	return (quote);
 }
@@ -43,12 +79,20 @@ void	open_quote(char	*text, t_ast	**ast, t_env	*env, char	*oldline)
 	free(newline);
 }
 
-void	text_open_quote_select(char	*line, t_ast	**ast, t_env	*env, int	quote_pipe_res)
+bool	open_quote_pipe_test(char	*line, t_ast **ast, t_env *env)
 {
-	if (quote_pipe_res == '|')
+	int		quote_pipe_res;
+
+	quote_pipe_res = quote_pipe_check(line);
+	if (quote_pipe_res == 0)
+		return (true);
+	if (quote_pipe_res == -1)
+		return (false);
+	else if (quote_pipe_res == '|')
 		open_quote("pipe> ", ast, env, line);
 	else if (quote_pipe_res == '"')
 		open_quote("dquote> ", ast, env, line);
 	else if (quote_pipe_res == '\'')
 		open_quote("quote> ", ast, env, line);
+	return (false);
 }

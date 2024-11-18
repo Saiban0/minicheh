@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_management.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:40 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/12 14:42:02 by tom              ###   ########.fr       */
+/*   Updated: 2024/11/18 15:22:28 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ typedef enum s_error_management
 	e_env_error = 6,
 	e_malloc_failure = 7,
 	e_unexpected_newline = 8,
+	e_too_many_arg = 9,
+	e_no_such_file_or_dir = 10,
+	e_unexpected_pipe = 11,
+	e_unexpected_redirect_input = 12,
+	e_unexpected_redirect_output = 13,
 }	t_error;
 
 /**
@@ -58,6 +63,7 @@ void	error_management(int error_code, t_ast *cmd, t_pipex *pipex,
  */
 void	error_free(t_ast *cmd, t_pipex *pipex, t_env *env);
 
-void	parse_error_handler(int	error_code, t_ast	**ast);
+void	parse_error_handler(int error_code, t_ast **ast);
+bool	cd_error(char *home, t_error error_code, char *file);
 
 #endif
