@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:30:37 by tom               #+#    #+#             */
-/*   Updated: 2024/11/15 17:47:49 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/18 14:09:45 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 extern int	g_exit_code;
 
-void	parse_error_handler(int	error_code, t_ast	**ast)
+void	parse_error_handler(int error_code, t_ast **ast)
 {
 	if (error_code == e_unexpected_newline)
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putstr_fd("syntax error near unexpected token `newline'\n",
-						STDERR_FILENO);
+			STDERR_FILENO);
 	}
 	(*ast)->base->cmd_op = e_empty;
 	g_exit_code = 1;
