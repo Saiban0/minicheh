@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:34:23 by tom               #+#    #+#             */
-/*   Updated: 2024/11/15 18:03:23 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/18 14:46:22 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,21 @@
 
 void	first_base( char	*line, t_ast	**ast, int	*operator)
 {
-	char	*tmp;
 	char	*temp;
+	char	*temp_bis;
 
-	tmp = ft_calloc(operator[0] + 1, sizeof(char));
-	ft_strlcat(tmp, line, operator[0]);
-	temp = rem_wspace(tmp);
+	temp = ft_calloc(operator[0] + 1, sizeof(char));
+	ft_strlcat(temp, line, operator[0]);
+	temp_bis = rem_wspace(temp);
+	free(temp);
 	(*ast)->base->cmd_op = e_pipe;
 	(*ast)->base->is_op = true;
 	(*ast)->left = ft_calloc(1, sizeof(t_ast));
 	(*ast)->left->base = ft_calloc(1, sizeof(t_ast_content));
-	(*ast)->left->base->cmd = ft_split_arg(temp, ' ');
+	free(temp_bis);
+	(*ast)->left->base->cmd = ft_split_arg(temp_bis, ' ');
 	(*ast)->left->base->cmd_op = is_builtins((*ast)->left->base->cmd[0]);
 	(*ast)->left->base->builtins = ((*ast)->left->base->cmd_op >= e_echo);
-	free(tmp);
-	free(temp);
 }
 
 void	add_new_pipe_head(t_ast	**ast)
