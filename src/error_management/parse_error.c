@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:30:37 by tom               #+#    #+#             */
-/*   Updated: 2024/11/18 14:41:07 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/18 15:38:37 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,22 @@ extern int	g_exit_code;
 
 void	parse_error_handler(int error_code, t_ast **ast)
 {
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	if (error_code == e_unexpected_newline)
-	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putstr_fd("syntax error near unexpected token `newline'\n",
 			STDERR_FILENO);
-	}
 	if (error_code == e_unexpected_pipe)
-	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putstr_fd("syntax error near unexpected token `|'\n",
 			STDERR_FILENO);
-	}
+	if (error_code == e_unexpected_redirect_input)
+		ft_putstr_fd("syntax error near unexpected token `<'\n",
+			STDERR_FILENO);
+	if (error_code == e_unexpected_redirect_output)
+		ft_putstr_fd("syntax error near unexpected token `>'\n",
+			STDERR_FILENO);
 	if (ast)
 		(*ast)->base->cmd_op = e_empty;
+	ft_printf("parse Error Handler\n");
 	g_exit_code = 1;
 	return ;
 }
