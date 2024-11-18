@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:40 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/18 14:35:40 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/18 15:22:28 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ typedef enum s_error_management
 	e_too_many_arg = 9,
 	e_no_such_file_or_dir = 10,
 	e_unexpected_pipe = 11,
+	e_unexpected_redirect_input = 12,
+	e_unexpected_redirect_output = 13,
 }	t_error;
 
 /**
