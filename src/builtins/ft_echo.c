@@ -6,13 +6,20 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 09:03:45 by tom               #+#    #+#             */
-/*   Updated: 2024/11/15 20:24:27 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/18 14:22:59 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 extern int	g_exit_code;
+
+void	empty_echo_handler(t_ast *cmd, t_env *env, t_pipex *pipex)
+{
+	g_exit_code = 0;
+	write(1, "\n", 1);
+	ft_exit(NULL, cmd, env, pipex);
+}
 
 void	ft_echo(char **arg, t_ast *cmd, t_env *env, t_pipex *pipex)
 {
@@ -22,6 +29,8 @@ void	ft_echo(char **arg, t_ast *cmd, t_env *env, t_pipex *pipex)
 	arg++;
 	i = -1;
 	flag = false;
+	if (!arg[0] || !arg[0][0])
+		empty_echo_handler(cmd, env, pipex);
 	if (arg[0][0] == '-' && arg[0][1] == 'n')
 	{
 		flag = true;
