@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:25:23 by tom               #+#    #+#             */
-/*   Updated: 2024/11/15 18:32:35 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/18 14:42:49 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@ int	quote_pipe_check(char	*line)
 	i = -1;
 	quote = 0;
 	temp = rem_wspace(line);
+	if (temp[0] == '|')
+	{
+		parse_error_handler(e_unexpected_pipe, NULL);
+		free(temp);
+		return (-1);
+	}
 	while (temp[++i])
 		if (temp[i] == '"' || temp[i] == '\'')
 			quote = quote_test(temp[i], quote);
@@ -50,6 +56,8 @@ bool	open_quote_pipe_test(char	*line, t_ast **ast, t_env *env)
 	quote_pipe_res = quote_pipe_check(line);
 	if (quote_pipe_res == 0)
 		return (true);
+	if (quote_pipe_res == -1)
+		return (false);
 	else if (quote_pipe_res == '|')
 		open_quote("pipe> ", ast, env, line);
 	else if (quote_pipe_res == '"')
