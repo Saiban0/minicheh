@@ -6,38 +6,11 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 16:07:13 by tom               #+#    #+#             */
-/*   Updated: 2024/11/15 20:18:46 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/18 14:13:48 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	result_length(char const *str, char c)
-{
-	int		i;
-	int		res;
-	bool	is_sep;
-	int		quote;
-
-	i = -1;
-	quote = 0;
-	res = 1;
-	is_sep = true;
-	while (str[++i])
-	{
-		if (str[i] == '"' || str[i] == '\'')
-		{
-			quote = quote_test(str[i], quote);
-			if (quote == 0)
-				res++;
-		}
-		else if (is_sep && str[i] != c && quote <= 0 && res++)
-			is_sep = false;
-		if (str[i] == c && quote <= 0)
-			is_sep = true;
-	}
-	return (res - 1);
-}
 
 char	*cuted(char const *str, int end)
 {
@@ -111,6 +84,11 @@ char	*test(int *tab_int, char *str, char **res, char sep)
 	return (str);
 }
 
+/*
+	tab_int[0] = -1;  i
+	tab_int[1] = -1;  j
+	tab_int[2] = 0;   quote
+*/
 char	**ft_split_arg(char *str, char sep)
 {
 	int		len;
@@ -118,9 +96,9 @@ char	**ft_split_arg(char *str, char sep)
 	int		*tab_int;
 
 	tab_int = ft_calloc(4, sizeof(int));
-	tab_int[0] = -1; // i
-	tab_int[1] = -1; // j
-	tab_int[2] = 0; // quote
+	tab_int[0] = -1;
+	tab_int[1] = -1;
+	tab_int[2] = 0;
 	len = result_length(str, sep);
 	res = ft_calloc((len + 2), sizeof(char *));
 	if (!res)
