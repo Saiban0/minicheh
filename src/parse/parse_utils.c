@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:30:08 by tom               #+#    #+#             */
-/*   Updated: 2024/11/15 18:45:07 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/18 17:37:24 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*rem_wspace(char *command)
 	return (res);
 }
 
-int	quote_test(int c, int quote)
+int	quote_test(char c, int quote)
 {
 	if (quote == 0)
 		return (c);
