@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:44:47 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/12 22:28:33 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/18 19:39:46 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,5 +217,12 @@ void	handle_heredocs(t_ast *cmd, t_pipex *pipex, t_env *env);
  * @param signal a simple int that conveys signals
  */
 void	heredoc_sigint_handler(int signal);
+/**
+ * @brief This function is called at the end of a pipeline execution it simply
+ * uses waitpid to wait for the last command to be executed.
+ * 
+ * @param ast The ast's base
+ */
+void	wait_last_command(t_ast *ast);
 
 #endif

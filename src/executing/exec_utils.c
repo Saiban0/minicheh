@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:25:44 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/12 22:28:22 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/18 19:38:40 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,19 @@ int	get_fd(char *file_name, int read_or_write, t_ast *cmd, t_pipex *pipex)
 	if (fd == -1)
 		error_management(e_file, cmd, pipex, NULL);
 	return (fd);
+}
+
+void	wait_last_command(t_ast *ast)
+{
+	int	status;
+
+	if (ast->left)
+		wait_last_command(ast->left);
+	else
+	{
+		if (waitpid(ast->base->pid, &status, 0) == -1)
+			g_exit_code = 1;
+		else if (WIFEXITED(status))
+			g_exit_code = WEXITSTATUS(status);
+	}
 }

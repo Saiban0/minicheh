@@ -64,6 +64,7 @@ void	error_management(int error_code, t_ast *cmd, t_pipex *pipex,
 void	error_free(t_ast *cmd, t_pipex *pipex, t_env *env);
 
 void	parse_error_handler(int error_code, t_ast **ast);
+
 bool	cd_error(char *home, t_error error_code, char *file);
 
 #endif
