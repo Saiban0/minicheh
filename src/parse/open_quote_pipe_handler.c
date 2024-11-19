@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:25:23 by tom               #+#    #+#             */
-/*   Updated: 2024/11/18 15:28:59 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/19 14:54:57 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,19 @@ bool	check_between_op(char *temp, int i)
 {
 	while (temp[i] && is_whitespace(temp[i]))
 		i--;
-	if (temp[i] == '|' || temp[i] == '<' || temp[i] == '>')
+	if (temp[i - 1] == '|' || (temp[i - 1] == '<' && temp[i - 2] != '<')
+		|| temp[i - 1] == '>')
 		return (false);
 	return (true);
 }
 
 bool	unexpected_token_test(int i, char *temp)
 {
-	if (temp[i - 1] == '|' || temp[i - 1] == '<' || temp[i - 1] == '>')
+	if (temp[i - 1] == '<' || temp[i - 1] == '>')
 	{
 		if (check_between_op(temp, i) == false)
 		{
-			if (temp[i - 1] == '|')
-				parse_error_handler(e_unexpected_pipe, NULL);
-			if (temp[i - 1] == '<')
+			if (temp[i - 1] == '<' && temp[i - 2] != '<')
 				parse_error_handler(e_unexpected_redirect_input, NULL);
 			if (temp[i - 1] == '>')
 				parse_error_handler(e_unexpected_redirect_output, NULL);
