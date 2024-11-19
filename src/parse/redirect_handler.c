@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_handler.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:43 by tom               #+#    #+#             */
-/*   Updated: 2024/10/29 17:33:00 by tom              ###   ########.fr       */
+/*   Updated: 2024/11/15 18:03:44 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	add_new_operator(t_ast	*node, char	*command, t_cmd_and_op op)
 	node->right = new_node;
 }
 
-bool	before_op_check(char	*line, int	i)
+bool	before_op_check(char *line, int i)
 {
 	int	j;
 
@@ -43,7 +43,7 @@ bool	before_op_check(char	*line, int	i)
 	return (false);
 }
 
-void	ast_else(char	*line, int	i, t_ast	**ast, t_cmd_and_op	op)
+void	ast_else(char *line, int i, t_ast **ast, t_cmd_and_op op)
 {
 	char	*command;
 	t_ast	*node;

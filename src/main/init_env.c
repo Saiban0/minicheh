@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 16:54:00 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/12 16:58:07 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/15 19:51:48 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ t_env	*init_env(char **envp)
 	i = -1;
 	env = ft_calloc(1, sizeof(t_env));
 	env->envv = ft_calloc(double_array_size(envp) + 1, sizeof(char *));
-	env->quote = false;
 	while (envp[++i])
 	{
 		env->envv[i] = ft_strdup(envp[i]);
