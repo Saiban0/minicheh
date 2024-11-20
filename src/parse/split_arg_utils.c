@@ -6,13 +6,13 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 14:13:14 by ttaquet           #+#    #+#             */
-/*   Updated: 2024/11/18 14:13:55 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/20 12:57:56 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	result_length(char const *str, char c)
+int	result_length(char const *str)
 {
 	int		i;
 	int		res;
@@ -31,9 +31,9 @@ int	result_length(char const *str, char c)
 			if (quote == 0)
 				res++;
 		}
-		else if (is_sep && str[i] != c && quote <= 0 && res++)
+		else if (is_sep && !is_whitespace(str[i]) && quote <= 0 && res++)
 			is_sep = false;
-		if (str[i] == c && quote <= 0)
+		if (is_whitespace(str[i]) && quote <= 0)
 			is_sep = true;
 	}
 	return (res - 1);
