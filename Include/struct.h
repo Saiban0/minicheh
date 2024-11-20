@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:13:38 by tom               #+#    #+#             */
-/*   Updated: 2024/11/15 19:02:38 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/20 14:03:23 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_minishell_env
 	char			*pwd;
 	char			*oldpwd;
 	char			**envv;
+	bool			envp;
 }	t_env;
 
 typedef struct s_ast
