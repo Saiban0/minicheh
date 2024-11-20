@@ -6,15 +6,40 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:25:23 by tom               #+#    #+#             */
-/*   Updated: 2024/11/19 16:24:25 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/20 13:18:14 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	unexpected_token_distrib(char *temp, int i, int op)
+{
+	if (temp[i] == '|' || temp[i] == '>' || temp[i] == '<')
+	{
+		if (op == 1)
+		{
+			if (temp[i] == '|')
+				parse_error_handler(e_unexpected_pipe, NULL);
+			if (temp[i] == '>')
+				parse_error_handler(e_unexpected_redirect_output, NULL);
+			if (temp[i] == '<')
+				parse_error_handler(e_unexpected_redirect_input, NULL);
+			free(temp);
+			return (-1);
+		}
+		if ((temp[i] == '<' && temp[i + 1] == '<')
+			|| (temp[i] == '>' && temp[i + 1] == '>'))
+			i++;
+		op = 1;
+	}
+	else if (is_whitespace(temp[i]) == false)
+		op = 0;
+	return (op);
+}
+
 bool	unexpected_token_test(int i, char *temp)
 {
-	int op;
+	int	op;
 
 	op = 0;
 	if ((temp[i - 1] == '<' && temp[i - 2] != '<') || temp[i - 1] == '>')
@@ -29,26 +54,9 @@ bool	unexpected_token_test(int i, char *temp)
 	i = -1;
 	while (temp[++i])
 	{
-		if (temp[i] == '|' || temp[i] == '>' || temp[i] == '<')
-		{
-			if (op == 1)
-			{
-				if (temp[i] == '|')
-					parse_error_handler(e_unexpected_pipe, NULL);
-				if (temp[i] == '>')
-					parse_error_handler(e_unexpected_redirect_output, NULL);
-				if (temp[i] == '<')
-					parse_error_handler(e_unexpected_redirect_input, NULL);
-				free(temp);
-				return (false);
-			}
-			if ((temp[i] == '<' && temp[i + 1] == '<')
-				|| (temp[i] == '>' && temp[i + 1] == '>'))
-				i++;
-			op = 1;
-		}
-		else if (is_whitespace(temp[i]) == false)
-			op = 0;
+		op = unexpected_token_distrib(temp, i, op);
+		if (op == -1)
+			return (false);
 	}
 	return (true);
 }
