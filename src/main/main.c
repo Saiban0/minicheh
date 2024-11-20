@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
-/*   Updated: 2024/11/20 14:10:07 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/20 16:33:29 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ static void	loop_bis(char *line, t_ast *ast, t_env *env)
 		if (env->oldpwd_position != -1)
 			temp[1] = ft_strdup(env->oldpwd);
 		temp[2] = NULL;
-		ft_export(temp, &env);
+		if (env->pwd_position != -1 && env->oldpwd_position != -1)
+			ft_export(temp, &env);
 	}
 	ft_free_double_array(temp);
 	rl_replace_line("", 0);
