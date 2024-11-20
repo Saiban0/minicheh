@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:03:46 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/20 16:18:09 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/20 17:26:42 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ char	*ft_getpath(char *cmd, t_env *env)
 	i = -1;
 	if (ft_strchr(cmd, '/') != NULL)
 		return (ft_strdup(cmd));
-	allpath = ft_split(find_env_var("PATH", env->envv), ':');
+	exec = find_env_var("PATH", env->envv);
+	allpath = ft_split(exec, ':');
+	free(exec);
 	while (allpath[++i])
 	{
 		temp_path = ft_strjoin(allpath[i], "/", 0);
