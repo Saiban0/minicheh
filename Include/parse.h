@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 20:06:37 by tom               #+#    #+#             */
-/*   Updated: 2024/11/18 17:43:22 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/20 12:44:39 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ bool			open_quote_pipe_test(char	*line, t_ast **ast, t_env *env);
 /*                                                                            */
 /******************************************************************************/
 
-char			**ft_split_arg(char *str, char sep);
+char			**ft_split_arg(char *str);
 char			*cuted(char const *str, int end);
-int				result_length(char const *str, char c);
+int				result_length(char const *str);
 bool			select_operator(char *line, int i, t_ast **ast);
 
 /******************************************************************************/
