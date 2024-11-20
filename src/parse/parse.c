@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/11/18 15:43:45 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/20 14:36:47 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	without_op(char *line, t_ast	**ast)
 	char	*temp;
 
 	temp = rem_wspace(line);
-	(*ast)->base->cmd = ft_split_arg(temp, ' ');
+	(*ast)->base->cmd = ft_split_arg(temp);
 	(*ast)->base->cmd_op = is_builtins((*ast)->base->cmd[0]);
 	(*ast)->base->builtins = (*ast)->base->cmd_op >= e_echo;
 	free(temp);
