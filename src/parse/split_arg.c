@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 16:07:13 by tom               #+#    #+#             */
-/*   Updated: 2024/11/18 14:13:48 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/20 12:57:04 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	**clear_res(char **d_array)
 	return (res);
 }
 
-char	*test(int *tab_int, char *str, char **res, char sep)
+char	*test(int *tab_int, char *str, char **res)
 {
 	if (str[tab_int[0]] == '"' || str[tab_int[0]] == '\'')
 	{
@@ -75,10 +75,12 @@ char	*test(int *tab_int, char *str, char **res, char sep)
 			tab_int[0] = -1;
 		}
 	}
-	if (str[tab_int[0]] == sep && tab_int[2] <= 0)
+	if (is_whitespace(str[tab_int[0]]) && tab_int[2] == 0)
 	{
+		while (is_whitespace(str[tab_int[0]]) && str[tab_int[0]])
+			tab_int[0]++;
 		res[++tab_int[1]] = cuted(str, tab_int[0] - 1);
-		str += tab_int[0] + 1;
+		str += tab_int[0];
 		tab_int[0] = -1;
 	}
 	return (str);
@@ -89,7 +91,7 @@ char	*test(int *tab_int, char *str, char **res, char sep)
 	tab_int[1] = -1;  j
 	tab_int[2] = 0;   quote
 */
-char	**ft_split_arg(char *str, char sep)
+char	**ft_split_arg(char *str)
 {
 	int		len;
 	char	**res;
@@ -99,12 +101,12 @@ char	**ft_split_arg(char *str, char sep)
 	tab_int[0] = -1;
 	tab_int[1] = -1;
 	tab_int[2] = 0;
-	len = result_length(str, sep);
+	len = result_length(str);
 	res = ft_calloc((len + 2), sizeof(char *));
 	if (!res)
 		return (NULL);
 	while (str[++tab_int[0]] && tab_int[1] < len)
-		str = test(tab_int, str, res, sep);
+		str = test(tab_int, str, res);
 	if (tab_int[1] < len)
 	{
 		tab_int[2] = quote_test(str[tab_int[0]], tab_int[2]);

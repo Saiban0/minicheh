@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 16:54:00 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/15 19:51:48 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/20 14:10:52 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ static void	init_env_bis(t_env *env)
 	int	i;
 
 	i = -1;
+	env->pwd_position = -1;
+	env->oldpwd_position = -1;
+	env->home_position = -1;
 	while (env->envv[++i])
 	{
 		if (ft_strncmp(env->envv[i], "PWD", 3) == 0)
@@ -42,15 +45,21 @@ t_env	*init_env(char **envp)
 	i = -1;
 	env = ft_calloc(1, sizeof(t_env));
 	env->envv = ft_calloc(double_array_size(envp) + 1, sizeof(char *));
-	while (envp[++i])
+	if (envp && envp[0])
 	{
-		env->envv[i] = ft_strdup(envp[i]);
-		if (errno == ENOMEM)
+		env->envp = true;
+		while (envp[++i])
 		{
-			ft_free_double_array(env->envv);
-			return (NULL);
+			env->envv[i] = ft_strdup(envp[i]);
+			if (errno == ENOMEM)
+			{
+				ft_free_double_array(env->envv);
+				return (NULL);
+			}
 		}
+		init_env_bis(env);
 	}
-	init_env_bis(env);
+	else
+		env->envp = false;
 	return (env);
 }

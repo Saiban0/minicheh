@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
-/*   Updated: 2024/11/18 15:54:48 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/20 14:10:07 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,17 @@ static void	loop_bis(char *line, t_ast *ast, t_env *env)
 	g_exit_code = 0;
 	exec_switch(ast, env);
 	ast = NULL;
-	temp = ft_calloc(3, sizeof(char *));
-	temp[0] = ft_strdup(env->pwd);
-	temp[1] = ft_strdup(env->oldpwd);
-	temp[2] = NULL;
-	ft_export(temp, &env);
+	temp = NULL;
+	if (env->envp == false)
+	{
+		temp = ft_calloc(3, sizeof(char *));
+		if (env->pwd_position != -1)
+			temp[0] = ft_strdup(env->pwd);
+		if (env->oldpwd_position != -1)
+			temp[1] = ft_strdup(env->oldpwd);
+		temp[2] = NULL;
+		ft_export(temp, &env);
+	}
 	ft_free_double_array(temp);
 	rl_replace_line("", 0);
 }
