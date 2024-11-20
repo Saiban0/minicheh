@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 09:04:41 by tom               #+#    #+#             */
-/*   Updated: 2024/11/05 17:22:36 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/20 17:36:32 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,9 @@ bool			check_special_char(char *str);
 bool			check_export_arg(char *arg, t_env **env);
 char			**double_array_cat(char **tab1, char **tab2);
 bool			ft_find_export(char *arg, t_env **env, char **to_find);
+
 void			ft_export(char **arg, t_env **env);
+char			*remove_quote(char *str);
 bool			only_char(char	*str, char c);
 bool			export_error_handler(char	**temp, char	*error_message);
 

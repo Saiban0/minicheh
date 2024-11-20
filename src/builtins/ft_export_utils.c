@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:08:21 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/04 15:12:29 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/20 17:36:07 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,29 @@ bool	export_error_handler(char	**temp, char	*error_message)
 	ft_putchar_fd('\n', STDERR_FILENO);
 	ft_free_double_array(temp);
 	return (false);
+}
+
+char	*remove_quote(char *str)
+{
+	char	*res;
+	int		i;
+	int		j;
+	int		str_size;
+
+	i = -1;
+	j = -1;
+	str_size = ft_strlen(str);
+	while (str[++i])
+		if (str[i] == '"')
+			str_size--;
+	res = ft_calloc(str_size + 1, sizeof(char));
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == '"')
+			continue ;
+		else
+			res[++j] = str[i];
+	}
+	return (res);
 }

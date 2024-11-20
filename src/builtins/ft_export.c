@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 11:31:22 by tom               #+#    #+#             */
-/*   Updated: 2024/11/20 17:33:48 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/20 17:36:01 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,32 +90,7 @@ bool	check_export_arg(char *arg, t_env **env)
 	return (true);
 }
 
-char	*remove_quote(char *str)
-{
-	char	*res;
-	int		i;
-	int		j;
-	int		str_size;
-
-	i = -1;
-	j = -1;
-	str_size = ft_strlen(str);
-	while (str[++i])
-		if (str[i] == '"')
-			str_size--;
-	res = ft_calloc(str_size + 1, sizeof(char));
-	i = -1;
-	while (str[++i])
-	{
-		if (str[i] == '"')
-			continue;
-		else
-			res[++j] = str[i];
-	}
-	return (res);
-}
-
-void	ft_export(char	**arg, t_env	**env)
+void	ft_export(char **arg, t_env **env)
 {
 	int		i;
 	int		j;
