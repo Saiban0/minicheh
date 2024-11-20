@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:07:12 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/08 04:52:23 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/20 16:01:22 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	child_execution(t_ast *cmd, t_pipex *pipex, t_env *env)
 		exec_builtins(cmd, env, pipex);
 	else
 	{
-		cmd->base->path = ft_getpath(cmd->base->cmd[0]);
+		cmd->base->path = ft_getpath(cmd->base->cmd[0], env);
 		execve(cmd->base->path, cmd->base->cmd, env->envv);
 		error_management(e_command_not_found, cmd, pipex, env);
 		g_exit_code = CMDNOTFOUND;

@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:44:47 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/18 19:39:46 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/20 16:01:11 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,10 @@ void	child_execution(t_ast *cmd, t_pipex *pipex, t_env *env);
  * return the found path of the command in a char *.
  * 
  * @param cmd The command name
+ * @param env The env struct initialized in main
  * @return char* The command path if found, else simply the command name.
  */
-char	*ft_getpath(char *cmd);
+char	*ft_getpath(char *cmd, t_env *env);
 /**
  * @brief This function is called at the start of the executing process, it
  * initializes every variable of the pipex_init function by default in_fd and

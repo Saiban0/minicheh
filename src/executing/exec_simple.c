@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:16:54 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/18 19:36:23 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/20 16:19:53 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	exec_only_child(t_ast *cmd, t_pipex *pipex, t_env *env)
 		exec_builtins(cmd, env, pipex);
 	else
 	{
-		cmd->base->path = ft_getpath(cmd->base->cmd[0]);
+		cmd->base->path = ft_getpath(cmd->base->cmd[0], env);
 		if (cmd->base->path != NULL)
 			execve(cmd->base->path, cmd->base->cmd, env->envv);
 		error_management(e_command_not_found, cmd, pipex, env);
