@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 11:31:22 by tom               #+#    #+#             */
-/*   Updated: 2024/11/04 15:12:46 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/20 17:33:48 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,31 @@ bool	check_export_arg(char *arg, t_env **env)
 	return (true);
 }
 
+char	*remove_quote(char *str)
+{
+	char	*res;
+	int		i;
+	int		j;
+	int		str_size;
+
+	i = -1;
+	j = -1;
+	str_size = ft_strlen(str);
+	while (str[++i])
+		if (str[i] == '"')
+			str_size--;
+	res = ft_calloc(str_size + 1, sizeof(char));
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == '"')
+			continue;
+		else
+			res[++j] = str[i];
+	}
+	return (res);
+}
+
 void	ft_export(char	**arg, t_env	**env)
 {
 	int		i;
@@ -106,7 +131,7 @@ void	ft_export(char	**arg, t_env	**env)
 	arg_to_add = ft_calloc(double_array_size(arg) + 1, sizeof(char *));
 	while (arg[++i])
 		if (check_export_arg(arg[i], env))
-			arg_to_add[j++] = ft_strdup(arg[i]);
+			arg_to_add[j++] = remove_quote(arg[i]);
 	(*env)->envv = double_array_cat((*env)->envv, arg_to_add);
 	return ;
 }
