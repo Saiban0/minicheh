@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/11/20 14:36:47 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/25 15:18:06 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,29 +25,11 @@ void	without_op(char *line, t_ast	**ast)
 	free(temp);
 }
 
-void	env_var_handle(t_ast **ast, t_env **env_start, char *temp, int i)
-{
-	if ((*ast)->base->cmd[i][0] == '$' && (*ast)->base->cmd[i][1] == '?')
-	{
-		free((*ast)->base->cmd[i]);
-		(*ast)->base->cmd[i] = ft_itoa(g_exit_code);
-	}
-	else if ((*ast)->base->cmd[i][0] == '$' && (*ast)->base->cmd[i][1] != '(')
-	{
-		temp = find_env_var((*ast)->base->cmd[i], (*env_start)->envv);
-		free((*ast)->base->cmd[i]);
-		(*ast)->base->cmd[i] = ft_strdup(temp);
-		free(temp);
-	}
-}
-
 void	add_env(t_env	**env_start, t_ast	**ast)
 {
 	int		i;
-	char	*temp;
 
 	i = -1;
-	temp = NULL;
 	(*ast)->t_env = env_start;
 	(*ast)->base->path = NULL;
 	(*env_start)->nb_commands += ((*ast)->base->cmd_op == e_external_control)
@@ -59,7 +41,7 @@ void	add_env(t_env	**env_start, t_ast	**ast)
 		(*ast)->base->cmd = NULL;
 	else
 		while ((*ast)->base->cmd[++i])
-			env_var_handle(ast, env_start, temp, i);
+			env_var_handler(ast, env_start, i);
 	if ((*ast)->left)
 		add_env(env_start, &(*ast)->left);
 	if ((*ast)->right)
