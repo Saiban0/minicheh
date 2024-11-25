@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:30:08 by tom               #+#    #+#             */
-/*   Updated: 2024/11/20 17:33:07 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/25 14:11:38 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,15 +81,24 @@ bool	select_operator(char *line, int i, t_ast **ast)
 
 char	*find_env_var(char	*var, char	**envv)
 {
-	int	i;
-	int	var_size;
+	int		i;
+	int		var_size;
+	char	*temp;
 
 	i = -1;
+	var += (var[0] == '$');
 	var_size = ft_strlen(var);
+	temp = ft_calloc(var_size + 2, sizeof(char));
+	ft_strlcat(temp, var, var_size + 1);
+	ft_strlcat(temp, "=", var_size + 2);
 	while (envv[++i])
 	{
-		if (ft_strncmp(var, envv[i], var_size - 1) == 0)
+		if (ft_strncmp(temp, envv[i], var_size + 1) == 0)
+		{
+			free(temp);
 			return (ft_strdup(envv[i] + var_size + 1));
+		}
 	}
+	free(temp);
 	return (ft_strdup(" "));
 }
