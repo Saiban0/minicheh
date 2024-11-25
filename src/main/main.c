@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
-/*   Updated: 2024/11/20 16:33:29 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/25 14:44:16 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	loop_bis(char *line, t_ast *ast, t_env *env)
 	exec_switch(ast, env);
 	ast = NULL;
 	temp = NULL;
-	if (env->envp == false)
+	if (env->envp == true)
 	{
 		temp = ft_calloc(3, sizeof(char *));
 		if (env->pwd_position != -1)
