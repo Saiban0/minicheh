@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 16:07:13 by tom               #+#    #+#             */
-/*   Updated: 2024/11/20 12:57:04 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/26 15:17:50 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ char	*test(int *tab_int, char *str, char **res)
 		if (tab_int[2] == 0)
 		{
 			res[++tab_int[1]] = cuted(str, tab_int[0] - 1);
-			if (res[tab_int[1]][0] == '"' || res[tab_int[1]][0] == '\'')
-				res[tab_int[1]][0] = ' ';
 			str += tab_int[0] + 1;
 			tab_int[0] = -1;
 		}

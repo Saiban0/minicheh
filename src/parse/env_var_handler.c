@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 15:14:57 by ttaquet           #+#    #+#             */
-/*   Updated: 2024/11/26 14:58:27 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/26 15:24:26 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,12 +122,21 @@ void	env_var_handler(t_ast **ast, t_env **env_start, int i)
 	char	**d_array_temp;
 	char	*temp;
 
+	if ((*ast)->base->cmd[i][0] == '\'')
+	{
+		temp = ft_strdup((*ast)->base->cmd[i] + 1);
+		free((*ast)->base->cmd[i]);
+		(*ast)->base->cmd[i] = temp;
+		return ;
+	}
+	if ((*ast)->base->cmd[i][0] == '"')
+		(*ast)->base->cmd[i] += 1;
 	if (ft_strrchr((*ast)->base->cmd[i], '$') == NULL)
 		return ;
 	temp = rem_wspace((*ast)->base->cmd[i]);
 	d_array_temp = ft_split_env_arg(temp,
 			count_tab_size((*ast)->base->cmd[i]) + 1, (*env_start)->envv);
-	free((*ast)->base->cmd[i]);
+	free((*ast)->base->cmd[i] - 1);
 	free(temp);
 	(*ast)->base->cmd[i] = ft_join_env_arg(d_array_temp);
 }
