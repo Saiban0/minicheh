@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 15:14:57 by ttaquet           #+#    #+#             */
-/*   Updated: 2024/11/25 20:12:30 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/26 14:33:13 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +53,20 @@ char	**ft_split_env_arg(char *command, int res_size, char **envv)
 	i = 0;
 	j = 0;
 	env_var = false;
-	res = ft_calloc(res_size, sizeof(char *));
+	res = ft_calloc(res_size + 1, sizeof(char *));
 	while (command[i])
 	{
 		if (command[i] == '$' && command[i + 1] != '(')
 		{
-			res[j] = ft_calloc(i + 1, sizeof(char));
-			ft_strlcat(res[j++], command, i);
+			res[j] = ft_calloc(i + 2, sizeof(char));
+			ft_strlcat(res[j++], command, i + 1);
 			env_var = true;
 			command += i;
 			i = 0;
 		}
 		else if (is_whitespace(command[i]) && env_var == true)
 		{
-			temp = ft_calloc(i + 2, sizeof(char));
+			temp = ft_calloc(i + 1, sizeof(char));
 			ft_strlcat(temp, command, i + 1);
 			res[j++] = find_env_var(temp, envv);
 			free(temp);
@@ -76,7 +76,7 @@ char	**ft_split_env_arg(char *command, int res_size, char **envv)
 		}
 		i++;
 	}
-	if (command[0] == '$')
+	if (command[0] == '$' && command[1] != '(')
 		res[j++] = find_env_var(command, envv);
 	else
 	{
@@ -84,27 +84,25 @@ char	**ft_split_env_arg(char *command, int res_size, char **envv)
 		ft_strlcat(res[j++], command, i + 1);
 	}
 	res[j] = NULL;
-	ft_print_double_array(res);
 	return (res);
 }
 
-// Compte le nombre de caracteres au total dans le double tableau
-// Il y a moyen que ca merde et compte les caractere nuls et donne un resultat plus grand que prevu
-// J'ai pas teste parceque je sais pas comment tu comptes finir ta fonction env_var_handler
-static int	caca_feur(char **array)
+static int	count_char_darray(char **array)
 {
 	int	i;
 	int	j;
+	int res;
 
 	i = 0;
-	j = 0;
+	res = 0;
 	while (array[i])
 	{
-		while (*array[i])
-			j++;
+		j = 0;
+		while (array[i][j++])
+			res++;
 		i++;
 	}
-	return (j);
+	return (res);
 }
 
 char	*ft_join_env_arg(char **array)
@@ -117,7 +115,7 @@ char	*ft_join_env_arg(char **array)
 	i = 0;
 	j = 0;
 	k = 0;
-	res = malloc(caca_feur(array) * sizeof(char));
+	res = ft_calloc(count_char_darray(array) + 2, sizeof(char));
 	while (array[i])
 	{
 		j = 0;
@@ -138,7 +136,14 @@ char	*ft_join_env_arg(char **array)
 void	env_var_handler(t_ast **ast, t_env **env_start, int i)
 {
 	char	**d_array_temp;
+	char	*temp;
 
-	d_array_temp = ft_split_env_arg(rem_wspace((*ast)->base->cmd[i]),
+	if (ft_strrchr((*ast)->base->cmd[i], '$') == NULL)
+		return ;
+	temp = rem_wspace((*ast)->base->cmd[i]);
+	d_array_temp = ft_split_env_arg(temp,
 			count_tab_size((*ast)->base->cmd[i]) + 1, (*env_start)->envv);
+	free((*ast)->base->cmd[i]);
+	free(temp);
+	(*ast)->base->cmd[i] = ft_join_env_arg(d_array_temp);
 }
