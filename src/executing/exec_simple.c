@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:16:54 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/20 16:19:53 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/11/26 15:47:38 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,6 @@ int	exec_switch(t_ast *cmd, t_env *env)
 		return (1);
 	if (test_empty_ast(cmd, pipex, env))
 		return (1);
-	if (!cmd->base->is_op)
-		if (!cmd->base->cmd[0][0])
-			error_management(e_empty_command, cmd, pipex, env);
 	if (cmd->base->is_op)
 	{
 		if (cmd->base->cmd_op == e_pipe)
