@@ -19,8 +19,8 @@ EXECUTING = exec_simple exec_utils exec_init exec_pipes exec_redirects \
 
 ERROR_MANAGEMENT = error_management parse_error
 
-PARSE = env_var_handler parse_utils parse parsing_test pipe_handler \
-redirect_handler split_arg_utils split_arg open_quote_pipe_handler 
+PARSE = env_var_handler_utils env_var_handler parse_utils parse parsing_test \
+pipe_handler redirect_handler split_arg_utils split_arg open_quote_pipe_handler 
 
 FILES = $(BUILTINS) \
 $(EXECUTING) \
