@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 15:14:57 by ttaquet           #+#    #+#             */
-/*   Updated: 2024/11/26 14:33:13 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/26 14:56:15 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,48 +42,60 @@ int	count_tab_size(char *command)
 	return (res);
 }
 
-char	**ft_split_env_arg(char *command, int res_size, char **envv)
+bool	cut_var(char *command, int *tab_int, char **res, char **envv)
 {
-	int		i;
-	int		j;
-	char	**res;
-	bool	env_var;
 	char	*temp;
 
-	i = 0;
-	j = 0;
-	env_var = false;
-	res = ft_calloc(res_size + 1, sizeof(char *));
-	while (command[i])
+	if (command[tab_int[0]] == '$' && command[tab_int[0] + 1] != '(')
 	{
-		if (command[i] == '$' && command[i + 1] != '(')
+		res[tab_int[1]] = ft_calloc(tab_int[0] + 2, sizeof(char));
+		ft_strlcat(res[tab_int[1]++], command, tab_int[0] + 1);
+		tab_int[2] = true;
+		return (true);
+	}
+	else if (is_whitespace(command[tab_int[0]]) && tab_int[2] == true)
+	{
+		temp = ft_calloc(tab_int[0] + 1, sizeof(char));
+		ft_strlcat(temp, command, tab_int[0] + 1);
+		res[tab_int[1]++] = find_env_var(temp, envv);
+		free(temp);
+		tab_int[2] = false;
+		return (true);
+	}
+	tab_int[0] += 1;
+	return (false);
+}
+/*
+ * tab_int[0] = i;
+ * tab_int[1] = j;
+ * tab_int[2] = env_var;
+ */
+char	**ft_split_env_arg(char *command, int res_size, char **envv)
+{
+	int		*tab_int;
+	char	**res;
+
+	tab_int = ft_calloc(4, sizeof(int));
+	ft_bzero(tab_int, 2);
+	tab_int[2] = false;
+	res = ft_calloc(res_size + 1, sizeof(char *));
+	while (command[tab_int[0]])
+	{
+		if (cut_var(command, tab_int, res, envv))
 		{
-			res[j] = ft_calloc(i + 2, sizeof(char));
-			ft_strlcat(res[j++], command, i + 1);
-			env_var = true;
-			command += i;
-			i = 0;
+			command += tab_int[0];
+			tab_int[0] = 1;
 		}
-		else if (is_whitespace(command[i]) && env_var == true)
-		{
-			temp = ft_calloc(i + 1, sizeof(char));
-			ft_strlcat(temp, command, i + 1);
-			res[j++] = find_env_var(temp, envv);
-			free(temp);
-			env_var = false;
-			command += i;
-			i = 0;
-		}
-		i++;
 	}
 	if (command[0] == '$' && command[1] != '(')
-		res[j++] = find_env_var(command, envv);
+		res[tab_int[1]++] = find_env_var(command, envv);
 	else
 	{
-		res[j] = ft_calloc(i + 1, sizeof(char));
-		ft_strlcat(res[j++], command, i + 1);
+		res[tab_int[1]] = ft_calloc(tab_int[0] + 1, sizeof(char));
+		ft_strlcat(res[tab_int[1]++], command, tab_int[0] + 1);
 	}
-	res[j] = NULL;
+	res[tab_int[1]] = NULL;
+	free(tab_int);
 	return (res);
 }
 
