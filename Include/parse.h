@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 20:06:37 by tom               #+#    #+#             */
-/*   Updated: 2024/11/25 17:04:22 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/26 13:31:41 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 char			**ft_split_env_arg(char *command, int res_size, char **envv);
 int				count_tab_size(char *command);
 void			env_var_handler(t_ast **ast, t_env **env_start, int i);
-
+char			*ft_join_env_arg(char **array);
 /******************************************************************************/
 /*                                                                            */
 /* env_var_handler                                                            */
