@@ -6,9 +6,10 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 15:14:57 by ttaquet           #+#    #+#             */
-/*   Updated: 2024/11/26 16:49:53 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/26 17:03:09 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 
 #include "minishell.h"
@@ -75,47 +76,63 @@ char	**ft_split_env_arg(char *command, int res_size, char **envv)
 {
 	int		*tab_int;
 	char	**res;
+	bool	env_var;
+	char	*temp;
 
-	tab_int = ft_calloc(4, sizeof(int));
-	ft_bzero(tab_int, 2);
-	tab_int[2] = false;
-	res = ft_calloc(res_size + 1, sizeof(char *));
-	while (command[tab_int[0]])
+	i = 0;
+	j = 0;
+	env_var = false;
+	res = ft_calloc(res_size, sizeof(char *));
+	while (command[i])
 	{
-		if (cut_var(command, tab_int, res, envv))
+		if (command[i] == '$' && command[i + 1] != '(')
 		{
-			command += tab_int[0];
-			tab_int[0] = 1;
+			res[j] = ft_calloc(i + 1, sizeof(char));
+			ft_strlcat(res[j++], command, i);
+			env_var = true;
+			command += i;
+			i = 0;
+		}
+		else if (is_whitespace(command[i]) && env_var == true)
+		{
+			temp = ft_calloc(i + 2, sizeof(char));
+			ft_strlcat(temp, command, i + 1);
+			res[j++] = find_env_var(temp, envv);
+			free(temp);
+			env_var = false;
+			command += i;
+			i = 0;
 		}
 	}
-	if (command[0] == '$' && command[1] != '(')
-		res[tab_int[1]++] = find_env_var(command, envv);
+	if (command[0] == '$')
+		res[j++] = find_env_var(command, envv);
 	else
 	{
 		res[tab_int[1]] = ft_calloc(tab_int[0] + 1, sizeof(char));
 		ft_strlcat(res[tab_int[1]++], command, tab_int[0] + 1);
 	}
-	res[tab_int[1]] = NULL;
-	free(tab_int);
+	res[j] = NULL;
+	ft_print_double_array(res);
 	return (res);
 }
 
-static int	count_char_darray(char **array)
+// Compte le nombre de caracteres au total dans le double tableau
+// Il y a moyen que ca merde et compte les caractere nuls et donne un resultat plus grand que prevu
+// J'ai pas teste parceque je sais pas comment tu comptes finir ta fonction env_var_handler
+static int	caca_feur(char **array)
 {
 	int	i;
 	int	j;
-	int res;
 
 	i = 0;
-	res = 0;
+	j = 0;
 	while (array[i])
 	{
-		j = 0;
-		while (array[i][j++])
-			res++;
+		while (*array[i])
+			j++;
 		i++;
 	}
-	return (res);
+	return (j);
 }
 
 char	*ft_join_env_arg(char **array)
@@ -128,7 +145,7 @@ char	*ft_join_env_arg(char **array)
 	i = 0;
 	j = 0;
 	k = 0;
-	res = ft_calloc(count_char_darray(array) + 2, sizeof(char));
+	res = malloc(caca_feur(array) * sizeof(char));
 	while (array[i])
 	{
 		j = 0;
@@ -149,23 +166,7 @@ char	*ft_join_env_arg(char **array)
 void	env_var_handler(t_ast **ast, t_env **env_start, int i)
 {
 	char	**d_array_temp;
-	char	*temp;
 
-	if ((*ast)->base->cmd[i][0] == '\'')
-	{
-		temp = ft_strdup((*ast)->base->cmd[i] + 1);
-		free((*ast)->base->cmd[i]);
-		(*ast)->base->cmd[i] = temp;
-		return ;
-	}
-	if ((*ast)->base->cmd[i][0] == '"')
-		(*ast)->base->cmd[i] += 1;
-	if (ft_strrchr((*ast)->base->cmd[i], '$') == NULL)
-		return ;
-	temp = rem_wspace((*ast)->base->cmd[i]);
-	d_array_temp = ft_split_env_arg(temp,
+	d_array_temp = ft_split_env_arg(rem_wspace((*ast)->base->cmd[i]),
 			count_tab_size((*ast)->base->cmd[i]) + 1, (*env_start)->envv);
-	free((*ast)->base->cmd[i] - 1);
-	free(temp);
-	(*ast)->base->cmd[i] = ft_join_env_arg(d_array_temp);
 }
