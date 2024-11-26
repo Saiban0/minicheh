@@ -6,13 +6,42 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 15:14:57 by ttaquet           #+#    #+#             */
-/*   Updated: 2024/11/26 15:24:26 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/11/26 16:49:53 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
 extern int g_exit_code;
+
+int	count_tab_size(char *command)
+{
+	int		i;
+	int		res;
+	bool	env_var;
+	char	*temp;
+
+	i = -1;
+	res = 1;
+	env_var = false;
+	temp = rem_wspace(command);
+	while (temp[++i])
+	{
+		if (temp[i] == '$' && temp[i + 1] != '(')
+		{
+			env_var = true;
+			res++;
+		}
+		else if (is_whitespace(temp[i]) && env_var == true)
+		{
+			env_var = false;
+			res++;
+		}
+	}
+	free(temp);
+	return (res);
+}
 
 bool	cut_var(char *command, int *tab_int, char **res, char **envv)
 {
