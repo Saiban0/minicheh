@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:30:08 by tom               #+#    #+#             */
-/*   Updated: 2024/11/20 17:33:07 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/02 15:58:46 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ char	*find_env_var(char	*var, char	**envv)
 	int	var_size;
 
 	i = -1;
+	var += (var[0] == '$');
 	var_size = ft_strlen(var);
 	while (envv[++i])
 	{
