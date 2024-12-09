@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 20:06:37 by tom               #+#    #+#             */
-/*   Updated: 2024/12/09 14:33:55 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/09 15:54:13 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ void			parse(char *line, t_ast	**ast, t_env	*env_start, int quote);
 /* Parsing_Test                                                               */
 /*                                                                            */
 /******************************************************************************/
+
+bool			open_quote_pipe_test(char	*line, t_ast **ast, t_env *env);
 
 /**
  * @brief This function return whether 'c' is an operator or not.
