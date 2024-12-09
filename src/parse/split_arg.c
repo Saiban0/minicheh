@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_arg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 16:07:13 by tom               #+#    #+#             */
-/*   Updated: 2024/12/02 16:13:57 by tom              ###   ########.fr       */
+/*   Updated: 2024/12/09 14:01:03 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@ char	*cuted(char const *str, int end)
 	return (res);
 }
 
-int	update_d_array(char **d_array, char *temp_str, int i)
+int	update_d_array(char **d_array, int i)
 {
+	char	*temp_str;
+
 	temp_str = rem_wspace(d_array[i]);
 	free(d_array[i]);
 	d_array[i] = ft_strdup(temp_str);
@@ -37,19 +39,17 @@ int	update_d_array(char **d_array, char *temp_str, int i)
 char	**clear_res(char **d_array)
 {
 	char	**res;
-	char	*temp_str;
 	int		temp_int;
 	int		i;
 
 	i = -1;
 	temp_int = 0;
-	temp_str = NULL;
 	while (d_array[++i])
 	{
 		if (only_wspace(d_array[i]))
 			d_array[i][0] = ' ';
 		else
-			temp_int += update_d_array(d_array, temp_str, i);
+			temp_int += update_d_array(d_array, i);
 	}
 	i = -1;
 	res = ft_calloc(temp_int + 2, sizeof(char *));
