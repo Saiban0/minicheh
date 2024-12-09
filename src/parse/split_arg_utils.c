@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 14:13:14 by ttaquet           #+#    #+#             */
-/*   Updated: 2024/12/09 14:07:17 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/09 14:18:57 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	result_length(char const *str)
 	}
 	return (res - 1);
 }
-
 
 /*
  * tab_int[0] = i;
