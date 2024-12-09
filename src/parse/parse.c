@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/12/09 16:25:22 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/09 18:04:08 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	parse(char *line, t_ast	**ast, t_env *env, int quote)
 	(*ast)->left = NULL;
 	(*ast)->right = NULL;
 	(*ast)->t_env = &env;
-	if (!open_quote_pipe_test(line, ast, env))
+	if (open_quote_pipe_test(line, ast, env) == false)
 		return ;
 	while (line[++i])
 	{
