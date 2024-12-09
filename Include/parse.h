@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 20:06:37 by tom               #+#    #+#             */
-/*   Updated: 2024/12/02 16:28:31 by tom              ###   ########.fr       */
+/*   Updated: 2024/12/09 14:33:55 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSE_H
 # define PARSE_H
 
-int				*result_quote_tab(const char *str);
+int				count_tab_size(char *command);
+void			env_var_handler(t_ast **ast, t_env **env_start, int i);
+int				*result_quote_tab(const char *str, int *res);
 
 int				quote_pipe_check(char	*line);
 void			open_quote(char	*text, t_ast	**ast, t_env	*env,
