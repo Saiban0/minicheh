@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:30:08 by tom               #+#    #+#             */
-/*   Updated: 2024/12/02 15:58:46 by tom              ###   ########.fr       */
+/*   Updated: 2024/12/09 16:32:43 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int g_exit_code;
 
 char	*rem_wspace(char *command)
 {
@@ -33,13 +35,13 @@ char	*rem_wspace(char *command)
 	return (res);
 }
 
-int	quote_test(char c, int quote)
+int	quote_test(int i, int quote, char *line)
 {
 	if (quote == 0)
-		return (c);
-	else if (quote == c)
+		return (line[i]);
+	else if (quote == line[i])
 		return (0);
-	if (quote != 0 && c != quote)
+	if (quote != 0 && line[i] != quote)
 		return (quote);
 	return (-1);
 }
@@ -60,10 +62,10 @@ bool	select_operator(char *line, int i, t_ast **ast)
 	int	j;
 
 	j = i + 1;
-	while (line[j] && is_whitespace(line[j]) == true)
-		j++;
 	if (!line[j])
 		return (false);
+	while (line[j] && is_whitespace(line[j]) == true)
+		j++;
 	if (line[i] == '|' && line[i + 1] == '|')
 		ft_exit(line, *ast, *(*ast)->t_env, NULL);
 	else if (line[i] == '|')
@@ -86,6 +88,8 @@ char	*find_env_var(char	*var, char	**envv)
 
 	i = -1;
 	var += (var[0] == '$');
+	if (var[0] == '?')
+		return (ft_itoa(g_exit_code));
 	var_size = ft_strlen(var);
 	while (envv[++i])
 	{
