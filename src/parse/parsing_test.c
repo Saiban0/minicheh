@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_test.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 02:52:39 by tom               #+#    #+#             */
-/*   Updated: 2024/12/02 16:19:20 by tom              ###   ########.fr       */
+/*   Updated: 2024/12/09 16:05:14 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,24 @@ t_cmd_and_op	is_builtins(char *command)
 		return (e_env);
 	else
 		return (e_external_control);
+}
+
+bool	open_quote_pipe_test(char	*line, t_ast **ast, t_env *env)
+{
+	int		quote_pipe_res;
+
+	if (only_wspace(line))
+		return (false);
+	quote_pipe_res = quote_pipe_check(line);
+	if (quote_pipe_res == 0)
+		return (true);
+	if (quote_pipe_res == -1)
+		return (false);
+	else if (quote_pipe_res == '|')
+		open_quote("pipe> ", ast, env, line);
+	else if (quote_pipe_res == '"')
+		open_quote("dquote> ", ast, env, line);
+	else if (quote_pipe_res == '\'')
+		open_quote("quote> ", ast, env, line);
+	return (false);
 }
