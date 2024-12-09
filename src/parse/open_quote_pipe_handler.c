@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:25:23 by tom               #+#    #+#             */
-/*   Updated: 2024/11/20 13:18:14 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/09 15:53:45 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,20 @@ bool	unexpected_token_test(int i, char *temp)
 	return (true);
 }
 
+bool	redirect_pipe_first(char *temp)
+{
+	if (temp[0] == '|')
+		parse_error_handler(e_unexpected_pipe, NULL);
+	else if (temp[0] == '<')
+		parse_error_handler(e_unexpected_redirect_input, NULL);
+	else if (temp[0] == '>')
+		parse_error_handler(e_unexpected_redirect_output, NULL);
+	else
+		return (false);
+	free(temp);
+	return (true);
+}
+
 int	quote_pipe_check(char	*line)
 {
 	int		i;
@@ -70,12 +84,8 @@ int	quote_pipe_check(char	*line)
 	i = -1;
 	quote = 0;
 	temp = rem_wspace(line);
-	if (temp[0] == '|')
-	{
-		parse_error_handler(e_unexpected_pipe, NULL);
-		free(temp);
+	if (redirect_pipe_first(temp))
 		return (-1);
-	}
 	while (temp[++i])
 		if (temp[i] == '"' || temp[i] == '\'')
 			quote = quote_test(temp[i], quote);
@@ -98,22 +108,4 @@ void	open_quote(char	*text, t_ast	**ast, t_env	*env, char	*oldline)
 	ft_strlcat(newline, temp, ft_strlen(temp) + ft_strlen(oldline) + 1);
 	parse(newline, ast, env, 0);
 	free(newline);
-}
-
-bool	open_quote_pipe_test(char	*line, t_ast **ast, t_env *env)
-{
-	int		quote_pipe_res;
-
-	quote_pipe_res = quote_pipe_check(line);
-	if (quote_pipe_res == 0)
-		return (true);
-	if (quote_pipe_res == -1)
-		return (false);
-	else if (quote_pipe_res == '|')
-		open_quote("pipe> ", ast, env, line);
-	else if (quote_pipe_res == '"')
-		open_quote("dquote> ", ast, env, line);
-	else if (quote_pipe_res == '\'')
-		open_quote("quote> ", ast, env, line);
-	return (false);
 }
