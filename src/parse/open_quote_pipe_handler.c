@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:25:23 by tom               #+#    #+#             */
-/*   Updated: 2024/12/09 16:31:10 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/09 18:05:58 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,19 @@ int	quote_pipe_check(char	*line)
 	temp = rem_wspace(line);
 	if (redirect_pipe_first(temp))
 		return (-1);
-	while (temp[++i])
-		if (temp[i] == '"' || temp[i] == '\'')
+	while (line[++i])
+	{
+		if ((line[i] == '"' || line[i] == '\'') && line[i] == line[i + 1])
+		{
+			line[i] = ' ';
+			line[i + 1] = ' ';
+		}
+		else if (line[i] == '"' || line[i] == '\'')
 			quote = quote_test(i, quote, line);
-	if (temp[i - 1] == '|' && quote == 0)
+	}
+	if (line[i - 1] == '|' && quote == 0)
 		quote = '|';
-	if (unexpected_token_test(i, temp) == false)
+	if (unexpected_token_test(i, line) == false)
 		return (-1);
 	free(temp);
 	return (quote);
