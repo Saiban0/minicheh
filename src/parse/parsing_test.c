@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 02:52:39 by tom               #+#    #+#             */
-/*   Updated: 2024/12/09 16:05:14 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/09 18:06:28 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ bool	open_quote_pipe_test(char	*line, t_ast **ast, t_env *env)
 	if (only_wspace(line))
 		return (false);
 	quote_pipe_res = quote_pipe_check(line);
+	if (only_wspace(line))
+		return (false);
 	if (quote_pipe_res == 0)
 		return (true);
 	if (quote_pipe_res == -1)
