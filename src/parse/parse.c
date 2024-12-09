@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/12/09 14:06:56 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/09 14:18:44 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,11 @@ void	without_op(char *line, t_ast	**ast)
 void	env_var_test(t_ast **ast, t_env **env_start)
 {
 	int		i;
-	
+
 	i = -1;
 	while ((*ast)->base->cmd[++i])
-		if ((*ast)->base->quote_tab[i] != '\'')
+		if ((*ast)->base->quote_tab[i] != '\''
+			&& ft_strchr((*ast)->base->cmd[i], '$') != NULL)
 			env_var_handler(ast, env_start, i);
 	free((*ast)->base->quote_tab);
 }
