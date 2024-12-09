@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 20:06:37 by tom               #+#    #+#             */
-/*   Updated: 2024/12/09 15:54:13 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/09 16:29:40 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,11 @@
 
 int				count_tab_size(char *command);
 void			env_var_handler(t_ast **ast, t_env **env_start, int i);
-int				*result_quote_tab(const char *str, int *res);
+int				*result_quote_tab(char *str, int *res);
 
 int				quote_pipe_check(char	*line);
 void			open_quote(char	*text, t_ast	**ast, t_env	*env,
 					char	*oldline);
-bool			open_quote_pipe_test(char	*line, t_ast **ast, t_env *env);
 
 /******************************************************************************/
 /*                                                                            */
@@ -30,7 +29,7 @@ bool			open_quote_pipe_test(char	*line, t_ast **ast, t_env *env);
 
 char			**ft_split_arg(char *str);
 char			*cuted(char const *str, int end);
-int				result_length(char const *str);
+int				result_length(char *str);
 bool			select_operator(char *line, int i, t_ast **ast);
 
 /******************************************************************************/
@@ -57,7 +56,7 @@ bool			only_wspace(char *str);
  * @param quote The result of the previous quote_test.
  * @return int An int.
  */
-int				quote_test(char c, int quote);
+int				quote_test(int i, int quote, char *line);
 
 /**
  * @brief This function search the environnement variable 'var' in 'envv'.
