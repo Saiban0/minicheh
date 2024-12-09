@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 16:07:13 by tom               #+#    #+#             */
-/*   Updated: 2024/12/09 14:01:03 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/09 16:39:50 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	*test(int *tab_int, char *str, char **res)
 {
 	if (str[tab_int[0]] == '"' || str[tab_int[0]] == '\'')
 	{
-		tab_int[2] = quote_test(str[tab_int[0]], tab_int[2]);
+		tab_int[2] = quote_test(tab_int[0], tab_int[2], str);
 		if (tab_int[2] == 0)
 		{
 			res[++tab_int[1]] = cuted(str, tab_int[0] - 1);
@@ -109,7 +109,7 @@ char	**ft_split_arg(char *str)
 		str = test(tab_int, str, res);
 	if (tab_int[1] < len)
 	{
-		tab_int[2] = quote_test(str[tab_int[0]], tab_int[2]);
+		tab_int[2] = quote_test(tab_int[0], tab_int[2], str);
 		res[++tab_int[1]] = cuted(str, tab_int[0] - 1);
 	}
 	res[++tab_int[1]] = NULL;

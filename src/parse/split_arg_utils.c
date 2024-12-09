@@ -6,13 +6,13 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 14:13:14 by ttaquet           #+#    #+#             */
-/*   Updated: 2024/12/09 14:18:57 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/09 16:39:41 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	result_length(char const *str)
+int	result_length(char *str)
 {
 	int		i;
 	int		res;
@@ -27,7 +27,7 @@ int	result_length(char const *str)
 	{
 		if (str[i] == '"' || str[i] == '\'')
 		{
-			quote = quote_test(str[i], quote);
+			quote = quote_test(i, quote, str);
 			if (quote == 0)
 				res++;
 		}
@@ -44,7 +44,7 @@ int	result_length(char const *str)
  * tab_int[1] = j;
  * tab_int[2] = quote;
  */
-int	*result_quote_tab(const char *str, int *res)
+int	*result_quote_tab(char *str, int *res)
 {
 	int		tab_int[3];
 	bool	is_sep;
@@ -58,7 +58,7 @@ int	*result_quote_tab(const char *str, int *res)
 	{
 		if (str[tab_int[0]] == '"' || str[tab_int[0]] == '\'')
 		{
-			tab_int[2] = quote_test(str[tab_int[0]], tab_int[2]);
+			tab_int[2] = quote_test(tab_int[0], tab_int[2], str);
 			if (tab_int[2] == 0)
 				res[++tab_int[1]] = str[tab_int[0]];
 		}

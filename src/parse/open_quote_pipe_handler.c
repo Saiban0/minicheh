@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:25:23 by tom               #+#    #+#             */
-/*   Updated: 2024/12/09 15:53:45 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/09 16:31:10 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ int	quote_pipe_check(char	*line)
 		return (-1);
 	while (temp[++i])
 		if (temp[i] == '"' || temp[i] == '\'')
-			quote = quote_test(temp[i], quote);
-	if (temp[i - 1] == '|')
+			quote = quote_test(i, quote, line);
+	if (temp[i - 1] == '|' && quote == 0)
 		quote = '|';
 	if (unexpected_token_test(i, temp) == false)
 		return (-1);

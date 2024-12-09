@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/12/09 14:18:44 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/09 16:25:22 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	parse(char *line, t_ast	**ast, t_env *env, int quote)
 	while (line[++i])
 	{
 		if (line[i] == '"' || line[i] == '\'')
-			quote = quote_test(line[i], quote);
+			quote = quote_test(i, quote, line);
 		if (is_op(line[i]) && quote == 0)
 		{
 			if (select_operator(line, i, ast) == false)
