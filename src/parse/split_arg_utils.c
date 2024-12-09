@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_arg_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 14:13:14 by ttaquet           #+#    #+#             */
-/*   Updated: 2024/12/02 16:26:53 by tom              ###   ########.fr       */
+/*   Updated: 2024/12/09 14:07:17 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,33 +39,36 @@ int	result_length(char const *str)
 	return (res - 1);
 }
 
-int *result_quote_tab(const char *str)
+
+/*
+ * tab_int[0] = i;
+ * tab_int[1] = j;
+ * tab_int[2] = quote;
+ */
+int	*result_quote_tab(const char *str, int *res)
 {
-	int		*res;
-	int		i;
-	int		j;
-	int		quote;
+	int		tab_int[3];
 	bool	is_sep;
 
-	j = -1;
-	i = -1;
-	quote = 0;
+	tab_int[0] = -1;
+	tab_int[1] = -1;
+	tab_int[2] = 0;
 	is_sep = true;
 	res = ft_calloc(result_length(str), sizeof(int));
-	while (str[++i])
+	while (str[++tab_int[0]])
 	{
-		if (str[i] == '"' || str[i] == '\'')
+		if (str[tab_int[0]] == '"' || str[tab_int[0]] == '\'')
 		{
-			quote = quote_test(str[i], quote);
-			if (quote == 0)
-				res[++j] = str[i];
+			tab_int[2] = quote_test(str[tab_int[0]], tab_int[2]);
+			if (tab_int[2] == 0)
+				res[++tab_int[1]] = str[tab_int[0]];
 		}
-		else if (is_sep && !is_whitespace(str[i]) && quote <= 0)
+		else if (is_sep && !is_whitespace(str[tab_int[0]]) && tab_int[2] <= 0)
 		{
-			res[++j] = 0;
+			res[++tab_int[1]] = 0;
 			is_sep = false;
 		}
-		if (is_whitespace(str[i]) && quote <= 0)
+		if (is_whitespace(str[tab_int[0]]) && tab_int[2] <= 0)
 			is_sep = true;
 	}
 	return (res);
