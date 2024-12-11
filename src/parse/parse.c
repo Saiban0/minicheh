@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/12/09 18:04:08 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/11 14:58:06 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	add_env(t_env	**env_start, t_ast	**ast)
 		add_env(env_start, &(*ast)->right);
 }
 
-void	parse(char *line, t_ast	**ast, t_env *env, int quote)
+bool	parse(char *line, t_ast	**ast, t_env *env, int quote)
 {
 	int		i;
 
@@ -66,8 +66,8 @@ void	parse(char *line, t_ast	**ast, t_env *env, int quote)
 	(*ast)->left = NULL;
 	(*ast)->right = NULL;
 	(*ast)->t_env = &env;
-	if (open_quote_pipe_test(line, ast, env) == false)
-		return ;
+	if (open_quote_pipe_test(line) == false)
+		return (false);
 	while (line[++i])
 	{
 		if (line[i] == '"' || line[i] == '\'')
@@ -75,7 +75,7 @@ void	parse(char *line, t_ast	**ast, t_env *env, int quote)
 		if (is_op(line[i]) && quote == 0)
 		{
 			if (select_operator(line, i, ast) == false)
-				return (parse_error_handler(e_unexpected_newline, ast));
+				return (parse_error_handler(e_unexp_newline, ast));
 			line += i + (line[i] == line[i + 1]);
 			i = 0;
 		}
@@ -84,4 +84,5 @@ void	parse(char *line, t_ast	**ast, t_env *env, int quote)
 		without_op(line, ast);
 	env->nb_commands = 0;
 	add_env(&env, ast);
+	return (true);
 }

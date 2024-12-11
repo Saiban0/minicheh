@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 20:06:37 by tom               #+#    #+#             */
-/*   Updated: 2024/12/09 16:29:40 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/11 14:41:18 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ int				count_tab_size(char *command);
 void			env_var_handler(t_ast **ast, t_env **env_start, int i);
 int				*result_quote_tab(char *str, int *res);
 
-int				quote_pipe_check(char	*line);
-void			open_quote(char	*text, t_ast	**ast, t_env	*env,
-					char	*oldline);
+int				quote_pipe_check(char	*line, bool first_test);
 
 /******************************************************************************/
 /*                                                                            */
@@ -90,7 +88,7 @@ char			*rem_wspace(char *command);
  * @param env_start A struct that contains the basic environment variables.
  * @return t_ast* The ast that is returned.
  */
-void			parse(char *line, t_ast	**ast, t_env	*env_start, int quote);
+bool			parse(char *line, t_ast	**ast, t_env	*env_start, int quote);
 
 /******************************************************************************/
 /*                                                                            */
@@ -98,7 +96,7 @@ void			parse(char *line, t_ast	**ast, t_env	*env_start, int quote);
 /*                                                                            */
 /******************************************************************************/
 
-bool			open_quote_pipe_test(char	*line, t_ast **ast, t_env *env);
+bool			open_quote_pipe_test(char	*line);
 
 /**
  * @brief This function return whether 'c' is an operator or not.

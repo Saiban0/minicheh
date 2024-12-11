@@ -6,76 +6,94 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:25:23 by tom               #+#    #+#             */
-/*   Updated: 2024/12/09 18:05:58 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/11 15:13:29 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	unexpected_token_distrib(char *temp, int i, int op)
+bool	unexpected_token_test(char *temp)
 {
-	if (temp[i] == '|' || temp[i] == '>' || temp[i] == '<')
-	{
-		if (op == 1)
-		{
-			if (temp[i] == '|')
-				parse_error_handler(e_unexpected_pipe, NULL);
-			if (temp[i] == '>')
-				parse_error_handler(e_unexpected_redirect_output, NULL);
-			if (temp[i] == '<')
-				parse_error_handler(e_unexpected_redirect_input, NULL);
-			free(temp);
-			return (-1);
-		}
-		if ((temp[i] == '<' && temp[i + 1] == '<')
-			|| (temp[i] == '>' && temp[i + 1] == '>'))
-			i++;
-		op = 1;
-	}
-	else if (is_whitespace(temp[i]) == false)
-		op = 0;
-	return (op);
-}
-
-bool	unexpected_token_test(int i, char *temp)
-{
+	int	i;
 	int	op;
 
-	op = 0;
-	if ((temp[i - 1] == '<' && temp[i - 2] != '<') || temp[i - 1] == '>')
-	{
-		if (temp[i - 1] == '<' && temp[i - 2] != '<')
-			parse_error_handler(e_unexpected_redirect_input, NULL);
-		if (temp[i - 1] == '>')
-			parse_error_handler(e_unexpected_redirect_output, NULL);
-		free(temp);
-		return (false);
-	}
 	i = -1;
+	op = 0;
 	while (temp[++i])
 	{
-		op = unexpected_token_distrib(temp, i, op);
-		if (op == -1)
-			return (false);
+		if (temp[i] == '|' || temp[i] == '>' || temp[i] == '<')
+		{
+			if (op == 1)
+			{
+				if (temp[i] == '|')
+					return (parse_error_handler(e_unexp_pipe, NULL));
+				if (temp[i] == '>')
+					return (parse_error_handler(e_unexp_redir_output, NULL));
+				if (temp[i] == '<')
+					return (parse_error_handler(e_unexp_redir_input, NULL));
+			}
+			op = 1;
+			if (temp[i + 1] == '|')
+				return (parse_error_handler(e_unexp_pipe, NULL));
+			else if (temp[i] == '<' && temp[i + 1] == '>')
+				return (parse_error_handler(e_unexp_redir_output, NULL));
+			else if (temp[i] == '>' && temp[i + 1] == '<')
+				return (parse_error_handler(e_unexp_redir_input, NULL));
+			else if (temp[i] == temp[i + 1] && temp[i - 1] == temp[i])
+			{	
+				if (temp[i] == '>')
+					return (parse_error_handler(e_unexp_redir_output, NULL));
+				if (temp[i] == '<')
+					return (parse_error_handler(e_unexp_redir_input, NULL));
+			}
+			else if (temp[i] == temp[i + 1] && temp[i - 1] != temp[i])
+				i++;
+		}
+		else if (!is_whitespace(temp[i]))
+			op = 0;
 	}
+	if (temp[i - 1] == '|')
+		return (parse_error_handler(e_unexp_pipe, NULL));
+	if (temp[i - 1] == '>')
+		return (parse_error_handler(e_unexp_redir_output, NULL));
+	if (temp[i - 1] == '<')
+		return (parse_error_handler(e_unexp_redir_input, NULL));
 	return (true);
 }
 
 bool	redirect_pipe_first(char *temp)
 {
 	if (temp[0] == '|')
-		parse_error_handler(e_unexpected_pipe, NULL);
+		parse_error_handler(e_unexp_pipe, NULL);
 	else if (temp[0] == '<')
-		parse_error_handler(e_unexpected_redirect_input, NULL);
+		parse_error_handler(e_unexp_redir_input, NULL);
 	else if (temp[0] == '>')
-		parse_error_handler(e_unexpected_redirect_output, NULL);
+		parse_error_handler(e_unexp_redir_output, NULL);
+	else if (temp[0] == '|')
+		parse_error_handler(e_unexp_pipe, NULL);
 	else
 		return (false);
 	free(temp);
 	return (true);
 }
 
-int	quote_pipe_check(char	*line)
+bool	pipe_end_line_test(char *line)
+{
+	char	*temp;
+	int		i;
+
+	i = 0;
+	temp = rem_wspace(line);
+	while (temp[i])
+		i++;
+	i = temp[i - 1];
+	free(temp);
+	if (i == '|')
+		return (true);
+	return (false);
+}
+
+int	quote_pipe_check(char	*line, bool first_test)
 {
 	int		i;
 	int		quote;
@@ -96,23 +114,15 @@ int	quote_pipe_check(char	*line)
 		else if (line[i] == '"' || line[i] == '\'')
 			quote = quote_test(i, quote, line);
 	}
-	if (line[i - 1] == '|' && quote == 0)
+	if (pipe_end_line_test(temp) && quote == 0)
 		quote = '|';
-	if (unexpected_token_test(i, line) == false)
+	if (unexpected_token_test(temp) == false)
+	{
+		free(temp);
 		return (-1);
+	}
 	free(temp);
+	if (first_test == true)
+		return (quote_pipe_check(line, false));
 	return (quote);
-}
-
-void	open_quote(char	*text, t_ast	**ast, t_env	*env, char	*oldline)
-{
-	char	*newline;
-	char	*temp;
-
-	temp = readline(text);
-	newline = ft_calloc(ft_strlen(temp) + ft_strlen(oldline) + 2, sizeof(char));
-	ft_strlcat(newline, oldline, ft_strlen(temp) + ft_strlen(oldline) + 1);
-	ft_strlcat(newline, temp, ft_strlen(temp) + ft_strlen(oldline) + 1);
-	parse(newline, ast, env, 0);
-	free(newline);
 }

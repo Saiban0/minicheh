@@ -6,13 +6,13 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:30:08 by tom               #+#    #+#             */
-/*   Updated: 2024/12/09 16:32:43 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/11 14:32:37 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern int g_exit_code;
+extern int	g_exit_code;
 
 char	*rem_wspace(char *command)
 {
@@ -67,7 +67,7 @@ bool	select_operator(char *line, int i, t_ast **ast)
 	while (line[j] && is_whitespace(line[j]) == true)
 		j++;
 	if (line[i] == '|' && line[i + 1] == '|')
-		ft_exit(line, *ast, *(*ast)->t_env, NULL);
+		return (parse_error_handler(e_unexp_pipe, ast));
 	else if (line[i] == '|')
 		ast_pipe(line, i, ast);
 	else if (line[i] == '<' && line[i + 1] == '<')
