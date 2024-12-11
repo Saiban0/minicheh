@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:25:23 by tom               #+#    #+#             */
-/*   Updated: 2024/12/11 15:13:29 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/11 16:54:32 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,25 @@ bool	unexpected_token_test(char *temp)
 			if (op == 1)
 			{
 				if (temp[i] == '|')
-					return (parse_error_handler(e_unexp_pipe, NULL));
+					return (parse_error_handler(e_unexp_pipe, NULL, false));
 				if (temp[i] == '>')
-					return (parse_error_handler(e_unexp_redir_output, NULL));
+					return (parse_error_handler(e_unexp_redir_output, NULL, false));
 				if (temp[i] == '<')
-					return (parse_error_handler(e_unexp_redir_input, NULL));
+					return (parse_error_handler(e_unexp_redir_input, NULL, false));
 			}
 			op = 1;
 			if (temp[i + 1] == '|')
-				return (parse_error_handler(e_unexp_pipe, NULL));
+				return (parse_error_handler(e_unexp_pipe, NULL, false));
 			else if (temp[i] == '<' && temp[i + 1] == '>')
-				return (parse_error_handler(e_unexp_redir_output, NULL));
+				return (parse_error_handler(e_unexp_redir_output, NULL, false));
 			else if (temp[i] == '>' && temp[i + 1] == '<')
-				return (parse_error_handler(e_unexp_redir_input, NULL));
+				return (parse_error_handler(e_unexp_redir_input, NULL, false));
 			else if (temp[i] == temp[i + 1] && temp[i - 1] == temp[i])
 			{	
 				if (temp[i] == '>')
-					return (parse_error_handler(e_unexp_redir_output, NULL));
+					return (parse_error_handler(e_unexp_redir_output, NULL, false));
 				if (temp[i] == '<')
-					return (parse_error_handler(e_unexp_redir_input, NULL));
+					return (parse_error_handler(e_unexp_redir_input, NULL, false));
 			}
 			else if (temp[i] == temp[i + 1] && temp[i - 1] != temp[i])
 				i++;
@@ -53,24 +53,24 @@ bool	unexpected_token_test(char *temp)
 			op = 0;
 	}
 	if (temp[i - 1] == '|')
-		return (parse_error_handler(e_unexp_pipe, NULL));
+		return (parse_error_handler(e_unexp_pipe, NULL, false));
 	if (temp[i - 1] == '>')
-		return (parse_error_handler(e_unexp_redir_output, NULL));
+		return (parse_error_handler(e_unexp_redir_output, NULL, false));
 	if (temp[i - 1] == '<')
-		return (parse_error_handler(e_unexp_redir_input, NULL));
+		return (parse_error_handler(e_unexp_redir_input, NULL, false));
 	return (true);
 }
 
 bool	redirect_pipe_first(char *temp)
 {
 	if (temp[0] == '|')
-		parse_error_handler(e_unexp_pipe, NULL);
+		parse_error_handler(e_unexp_pipe, NULL, false);
 	else if (temp[0] == '<')
-		parse_error_handler(e_unexp_redir_input, NULL);
+		parse_error_handler(e_unexp_redir_input, NULL, false);
 	else if (temp[0] == '>')
-		parse_error_handler(e_unexp_redir_output, NULL);
+		parse_error_handler(e_unexp_redir_output, NULL, false);
 	else if (temp[0] == '|')
-		parse_error_handler(e_unexp_pipe, NULL);
+		parse_error_handler(e_unexp_pipe, NULL, false);
 	else
 		return (false);
 	free(temp);
@@ -101,6 +101,8 @@ int	quote_pipe_check(char	*line, bool first_test)
 
 	i = -1;
 	quote = 0;
+	if (only_wspace(line))
+		return (-1);
 	temp = rem_wspace(line);
 	if (redirect_pipe_first(temp))
 		return (-1);

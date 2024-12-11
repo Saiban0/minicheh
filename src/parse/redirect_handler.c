@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:43 by tom               #+#    #+#             */
-/*   Updated: 2024/12/09 14:07:11 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/11 17:27:56 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ bool	before_op_check(char *line, int i)
 	return (false);
 }
 
-void	ast_else(char *line, int i, t_ast **ast, t_cmd_and_op op)
+bool	ast_else(char *line, int i, t_ast **ast, t_cmd_and_op op)
 {
 	char	*command;
 	t_ast	*node;
@@ -54,6 +54,8 @@ void	ast_else(char *line, int i, t_ast **ast, t_cmd_and_op op)
 		command = ft_calloc(i + 1, sizeof(char));
 		ft_strlcat(command, line, i);
 		(*ast)->base->cmd = ft_split_arg(command);
+		if ((*ast)->base->cmd == NULL)
+			return (cmd_error(command));
 		(*ast)->base->quote_tab = result_quote_tab(command, NULL);
 		(*ast)->base->cmd_op = is_builtins((*ast)->base->cmd[0]);
 		(*ast)->base->builtins = ((*ast)->base->cmd_op >= e_echo);
@@ -69,4 +71,5 @@ void	ast_else(char *line, int i, t_ast **ast, t_cmd_and_op op)
 	ft_strlcat(command, line, i + 1);
 	add_new_operator(node, command, op);
 	free(command);
+	return (true);
 }

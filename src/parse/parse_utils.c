@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:30:08 by tom               #+#    #+#             */
-/*   Updated: 2024/12/11 14:32:37 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/11 17:30:32 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,21 +63,21 @@ bool	select_operator(char *line, int i, t_ast **ast)
 
 	j = i + 1;
 	if (!line[j])
-		return (false);
+		return (parse_error_handler(e_unexp_pipe, ast, false));
 	while (line[j] && is_whitespace(line[j]) == true)
 		j++;
 	if (line[i] == '|' && line[i + 1] == '|')
-		return (parse_error_handler(e_unexp_pipe, ast));
+		return (parse_error_handler(e_unexp_pipe, ast, false));
 	else if (line[i] == '|')
-		ast_pipe(line, i, ast);
+		return (ast_pipe(line, i, ast, NULL));
 	else if (line[i] == '<' && line[i + 1] == '<')
-		ast_else(line, i + 1, ast, e_here_doc);
+		return (ast_else(line, i + 1, ast, e_here_doc));
 	else if (line[i] == '>' && line[i + 1] == '>')
-		ast_else(line, i + 1, ast, e_redirect_output_write_mod);
+		return (ast_else(line, i + 1, ast, e_redirect_output_write_mod));
 	else if (line[i] == '>')
-		ast_else(line, i, ast, e_redirect_output);
+		return (ast_else(line, i, ast, e_redirect_output));
 	else if (line[i] == '<')
-		ast_else(line, i, ast, e_redirect_input);
+		return (ast_else(line, i, ast, e_redirect_input));
 	return (true);
 }
 

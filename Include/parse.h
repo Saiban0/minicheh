@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 20:06:37 by tom               #+#    #+#             */
-/*   Updated: 2024/12/11 14:41:18 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/11 17:28:04 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ t_cmd_and_op	is_builtins(char *command);
  * @param i The position of the next pipe.
  * @param ast The ast that is returned in the parse function.
  */
-void			ast_pipe(char *line, int i, t_ast **ast);
+bool			ast_pipe(char *line, int i, t_ast **ast, char *temp);
 
 /******************************************************************************/
 /*                                                                            */
@@ -152,6 +152,6 @@ void			ast_pipe(char *line, int i, t_ast **ast);
  * @param i The position of '>'.
  * @param ast The ast that is returned in the parse function.
  */
-void			ast_else(char *line, int i, t_ast **ast, t_cmd_and_op op);
+bool			ast_else(char *line, int i, t_ast **ast, t_cmd_and_op op);
 
 #endif
