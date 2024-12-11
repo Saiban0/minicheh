@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
-/*   Updated: 2024/12/11 13:51:47 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/11 16:48:11 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,18 @@ void	sigint_handler(int signal)
 		rl_on_new_line();
 		rl_redisplay();
 	}
+}
+
+static void	handle_envp_false(char **temp, t_env *env)
+{
+	temp = ft_calloc(3, sizeof(char *));
+	if (env->pwd_position != -1)
+		temp[0] = ft_strdup(env->pwd);
+	if (env->oldpwd_position != -1)
+		temp[1] = ft_strdup(env->oldpwd);
+	temp[2] = NULL;
+	if (env->pwd_position != -1 && env->oldpwd_position != -1)
+		ft_export(temp, &env);
 }
 
 static void	loop_bis(char *line, t_ast *ast, t_env *env)
@@ -43,16 +55,7 @@ static void	loop_bis(char *line, t_ast *ast, t_env *env)
 	ast = NULL;
 	temp = NULL;
 	if (env->envp == false)
-	{
-		temp = ft_calloc(3, sizeof(char *));
-		if (env->pwd_position != -1)
-			temp[0] = ft_strdup(env->pwd);
-		if (env->oldpwd_position != -1)
-			temp[1] = ft_strdup(env->oldpwd);
-		temp[2] = NULL;
-		if (env->pwd_position != -1 && env->oldpwd_position != -1)
-			ft_export(temp, &env);
-	}
+		handle_envp_false(temp, env);
 	ft_free_double_array(temp);
 	rl_replace_line("", 0);
 }
