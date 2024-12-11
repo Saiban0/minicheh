@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:34:23 by tom               #+#    #+#             */
-/*   Updated: 2024/11/20 14:36:29 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/09 14:07:06 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	first_base( char	*line, t_ast	**ast, int	*operator)
 	(*ast)->left = ft_calloc(1, sizeof(t_ast));
 	(*ast)->left->base = ft_calloc(1, sizeof(t_ast_content));
 	(*ast)->left->base->cmd = ft_split_arg(temp_bis);
+	(*ast)->left->base->quote_tab = result_quote_tab(temp_bis, NULL);
 	free(temp_bis);
 	(*ast)->left->base->cmd_op = is_builtins((*ast)->left->base->cmd[0]);
 	(*ast)->left->base->builtins = ((*ast)->left->base->cmd_op >= e_echo);
@@ -64,6 +65,7 @@ void	ast_pipe(char *line, int i, t_ast **ast)
 	(*ast)->right = ft_calloc(1, sizeof(t_ast));
 	(*ast)->right->base = ft_calloc(1, sizeof(t_ast_content));
 	(*ast)->right->base->cmd = ft_split_arg(tmp);
+	(*ast)->right->base->quote_tab = result_quote_tab(tmp, NULL);
 	(*ast)->right->base->cmd_op = is_builtins((*ast)->right->base->cmd[0]);
 	(*ast)->right->base->builtins = ((*ast)->right->base->cmd_op >= e_echo);
 	free(tmp);

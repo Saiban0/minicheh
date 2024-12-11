@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
-/*   Updated: 2024/11/20 16:33:29 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/12/11 13:51:47 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,13 @@ static void	loop_bis(char *line, t_ast *ast, t_env *env)
 {
 	char	**temp;
 
-	parse(line, &ast, env, 0);
+	if (parse(line, &ast, env, 0) == false)
+	{
+		free(line);
+		if (ast)
+			free_ast(ast);
+		return ;
+	}
 	free(line);
 	line = NULL;
 	g_exit_code = 0;
@@ -65,15 +71,14 @@ bool	loop(t_env *env)
 	if (line[0] == '\0')
 		return (false);
 	add_history(line);
-	ast = ft_calloc(1, sizeof(t_ast) + 1);
-	ast->base = ft_calloc(1, sizeof(t_ast_content) + 1);
-	env->nb_commands = 0;
 	if (only_wspace(line))
 	{
 		free(line);
-		free_ast(ast);
 		return (false);
 	}
+	ast = ft_calloc(1, sizeof(t_ast) + 1);
+	ast->base = ft_calloc(1, sizeof(t_ast_content) + 1);
+	env->nb_commands = 0;
 	loop_bis(line, ast, env);
 	return (true);
 }

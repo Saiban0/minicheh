@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:43 by tom               #+#    #+#             */
-/*   Updated: 2024/11/20 14:36:17 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/09 14:07:11 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	ast_else(char *line, int i, t_ast **ast, t_cmd_and_op op)
 		command = ft_calloc(i + 1, sizeof(char));
 		ft_strlcat(command, line, i);
 		(*ast)->base->cmd = ft_split_arg(command);
+		(*ast)->base->quote_tab = result_quote_tab(command, NULL);
 		(*ast)->base->cmd_op = is_builtins((*ast)->base->cmd[0]);
 		(*ast)->base->builtins = ((*ast)->base->cmd_op >= e_echo);
 		free(command);

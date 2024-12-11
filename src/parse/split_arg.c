@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 16:07:13 by tom               #+#    #+#             */
-/*   Updated: 2024/11/20 12:57:04 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/09 16:39:50 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@ char	*cuted(char const *str, int end)
 	return (res);
 }
 
-int	update_d_array(char **d_array, char *temp_str, int i)
+int	update_d_array(char **d_array, int i)
 {
+	char	*temp_str;
+
 	temp_str = rem_wspace(d_array[i]);
 	free(d_array[i]);
 	d_array[i] = ft_strdup(temp_str);
@@ -37,19 +39,17 @@ int	update_d_array(char **d_array, char *temp_str, int i)
 char	**clear_res(char **d_array)
 {
 	char	**res;
-	char	*temp_str;
 	int		temp_int;
 	int		i;
 
 	i = -1;
 	temp_int = 0;
-	temp_str = NULL;
 	while (d_array[++i])
 	{
 		if (only_wspace(d_array[i]))
 			d_array[i][0] = ' ';
 		else
-			temp_int += update_d_array(d_array, temp_str, i);
+			temp_int += update_d_array(d_array, i);
 	}
 	i = -1;
 	res = ft_calloc(temp_int + 2, sizeof(char *));
@@ -65,7 +65,7 @@ char	*test(int *tab_int, char *str, char **res)
 {
 	if (str[tab_int[0]] == '"' || str[tab_int[0]] == '\'')
 	{
-		tab_int[2] = quote_test(str[tab_int[0]], tab_int[2]);
+		tab_int[2] = quote_test(tab_int[0], tab_int[2], str);
 		if (tab_int[2] == 0)
 		{
 			res[++tab_int[1]] = cuted(str, tab_int[0] - 1);
@@ -109,7 +109,7 @@ char	**ft_split_arg(char *str)
 		str = test(tab_int, str, res);
 	if (tab_int[1] < len)
 	{
-		tab_int[2] = quote_test(str[tab_int[0]], tab_int[2]);
+		tab_int[2] = quote_test(tab_int[0], tab_int[2], str);
 		res[++tab_int[1]] = cuted(str, tab_int[0] - 1);
 	}
 	res[++tab_int[1]] = NULL;
