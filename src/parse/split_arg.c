@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 16:07:13 by tom               #+#    #+#             */
-/*   Updated: 2024/12/13 13:47:27 by tom              ###   ########.fr       */
+/*   Updated: 2024/12/13 14:15:25 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	split_quote_handler(char **res, int *tab_int, char *str)
 	tab_int[3] = quote_test(tab_int[0], tab_int[3], str);
 	if (tab_int[3] == 0)
 		res[++tab_int[2]] = cuted(str, tab_int[1] + 1, tab_int[0] - 1);
+	if (res[tab_int[2]] == NULL)
+		res[tab_int[2]] = ft_strdup("");
 	tab_int[1] = tab_int[0] + (tab_int[3] == 0);
 }
 
