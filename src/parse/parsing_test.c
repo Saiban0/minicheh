@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_test.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 02:52:39 by tom               #+#    #+#             */
-/*   Updated: 2024/12/11 16:35:26 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/13 13:59:53 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,14 @@ bool	open_quote_pipe_test(char	*line)
 
 	if (only_wspace(line))
 		return (false);
-	quote_pipe_res = quote_pipe_check(line, true);
+	quote_pipe_res = quote_pipe_check(line);
 	if (quote_pipe_res == 0)
 		return (true);
+	if (quote_pipe_res == '|')
+		return (parse_error_handler(e_unexp_pipe, NULL, false));
+	if (quote_pipe_res == '>')
+		return (parse_error_handler(e_unexp_redir_output, NULL, false));
+	if (quote_pipe_res == '<')
+		return (parse_error_handler(e_unexp_redir_input, NULL, false));
 	return (false);
 }
