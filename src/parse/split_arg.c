@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 16:07:13 by tom               #+#    #+#             */
-/*   Updated: 2024/12/09 16:39:50 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/11 16:47:34 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ char	**clear_res(char **d_array)
 
 	i = -1;
 	temp_int = 0;
-	while (d_array[++i])
+	if (only_wspace(d_array[0]))
 	{
-		if (only_wspace(d_array[i]))
-			d_array[i][0] = ' ';
-		else
-			temp_int += update_d_array(d_array, i);
+		ft_free_double_array(d_array);
+		return (NULL);
 	}
+	while (d_array[++i])
+		temp_int += update_d_array(d_array, i);
 	i = -1;
 	res = ft_calloc(temp_int + 2, sizeof(char *));
 	temp_int = -1;
@@ -113,7 +113,9 @@ char	**ft_split_arg(char *str)
 		res[++tab_int[1]] = cuted(str, tab_int[0] - 1);
 	}
 	res[++tab_int[1]] = NULL;
-	res = clear_res(res);
 	free(tab_int);
+	res = clear_res(res);
+	if (res == NULL)
+		return (NULL);
 	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:30:37 by tom               #+#    #+#             */
-/*   Updated: 2024/12/11 14:35:06 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/11 17:21:08 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 extern int	g_exit_code;
 
-int	parse_error_handler(int error_code, t_ast **ast)
+int	parse_error_handler(int error_code, t_ast **ast, bool cmd_not_found)
 {
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	if (cmd_not_found)
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
 	if (error_code == e_unexp_newline)
 		ft_putstr_fd("syntax error near unexpected token `newline'\n",
 			STDERR_FILENO);
+	if (error_code == e_command_not_found)
+		ft_putstr_fd(": command not found\n", STDERR_FILENO);
 	if (error_code == e_unexp_pipe)
 		ft_putstr_fd("syntax error near unexpected token `|'\n",
 			STDERR_FILENO);
@@ -32,7 +35,17 @@ int	parse_error_handler(int error_code, t_ast **ast)
 	if (ast)
 		free_ast(*ast);
 	g_exit_code = 1;
+	if (cmd_not_found)
+		g_exit_code = CMDNOTFOUND;
 	return (0);
+}
+
+bool	cmd_error(char *to_free)
+{
+	if (to_free)
+		free(to_free);
+	parse_error_handler(e_command_not_found, NULL, false);
+	return (false);
 }
 
 bool	cd_error(char *home, t_error error_code, char *file)

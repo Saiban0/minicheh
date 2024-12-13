@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/12/11 14:58:06 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/11 17:30:38 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,19 @@
 
 extern int	g_exit_code;
 
-void	without_op(char *line, t_ast	**ast)
+bool	without_op(char *line, t_ast	**ast)
 {
 	char	*temp;
 
 	temp = rem_wspace(line);
 	(*ast)->base->cmd = ft_split_arg(temp);
+	if ((*ast)->base->cmd == NULL)
+		return (cmd_error(temp));
 	(*ast)->base->quote_tab = result_quote_tab(temp, NULL);
 	(*ast)->base->cmd_op = is_builtins((*ast)->base->cmd[0]);
 	(*ast)->base->builtins = (*ast)->base->cmd_op >= e_echo;
 	free(temp);
+	return (true);
 }
 
 void	env_var_test(t_ast **ast, t_env **env_start)
@@ -75,13 +78,14 @@ bool	parse(char *line, t_ast	**ast, t_env *env, int quote)
 		if (is_op(line[i]) && quote == 0)
 		{
 			if (select_operator(line, i, ast) == false)
-				return (parse_error_handler(e_unexp_newline, ast));
+				return (false);
 			line += i + (line[i] == line[i + 1]);
 			i = 0;
 		}
 	}
 	if ((*ast)->base->cmd_op == e_empty)
-		without_op(line, ast);
+		if (without_op(line, ast) == false)
+			return (false);
 	env->nb_commands = 0;
 	add_env(&env, ast);
 	return (true);
