@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 16:07:13 by tom               #+#    #+#             */
-/*   Updated: 2024/12/13 15:46:22 by tom              ###   ########.fr       */
+/*   Updated: 2024/12/13 15:54:55 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void	split_quote_handler(char **res, int *tab_int, char *str)
 	if (tab_int[3] == 0)
 		res[tab_int[2]] = cuted(str, tab_int[1] + 1, tab_int[0] - 1);
 	if (tab_int[3] == 0)
-	ft_printf("res = %s\n", res[tab_int[2]]);
 	if (res[tab_int[2]] == NULL)
 		res[tab_int[2]] = ft_strdup("");
 	tab_int[2]++;
@@ -67,7 +66,6 @@ char	**ft_split_arg(char *str)
 	char	**res;
 	int		*tab_int;
 	
-	ft_printf("line = %s\n", str);
 	tab_int = init_tab_int();
 	res = ft_calloc(result_length(str) + 2, sizeof(char *));
 	while (str[++tab_int[0]])
@@ -86,7 +84,6 @@ char	**ft_split_arg(char *str)
 			res[tab_int[2]++] = cuted(str, tab_int[1], tab_int[0]);
 			tab_int[4] = false;
 		}
-		ft_printf("i = %d x = %d quote = %d\n", tab_int[0], tab_int[1], tab_int[3]);
 	}
 	res[tab_int[2]] = NULL;
 	free(tab_int);
