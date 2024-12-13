@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:16:54 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/20 16:19:53 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/12/13 16:46:32 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,31 @@
 
 extern int	g_exit_code;
 
-static bool	test_empty_ast(t_ast *cmd, t_pipex *pipex, t_env *env)
+static bool	check_empty_nodes(t_ast *cmd, t_pipex *pipex, t_env *env)
 {
-	if (cmd->base->cmd_op == e_empty || cmd->base->cmd_op == e_test)
+	t_ast	*tmp;
+
+	tmp = cmd;
+	while (tmp)
 	{
-		error_management(e_empty, cmd, pipex, env);
-		return (true);
+		if (tmp->base->cmd_op == e_empty || cmd->base->cmd_op == e_test)
+		{
+			ft_putstr_fd(" : command not found", STDERR_FILENO);
+			error_management(e_empty, cmd, pipex, env);
+			return (true);
+		}
+		tmp = tmp->left;
+	}
+	tmp = cmd->right;
+	while (tmp)
+	{
+		if (tmp->base->cmd_op == e_empty || cmd->base->cmd_op == e_test)
+		{
+			ft_putstr_fd(" : command not found\n", STDERR_FILENO);
+			error_management(e_empty, cmd, pipex, env);
+			return (true);
+		}
+		tmp = tmp->right;
 	}
 	return (false);
 }
@@ -33,7 +52,7 @@ int	exec_switch(t_ast *cmd, t_env *env)
 		error_management(e_malloc_failure, cmd, pipex, env);
 	if (ft_pipex_init(cmd, pipex, env))
 		return (1);
-	if (test_empty_ast(cmd, pipex, env))
+	if (check_empty_nodes(cmd, pipex, env))
 		return (1);
 	if (!cmd->base->is_op)
 		if (!cmd->base->cmd[0][0])
