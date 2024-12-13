@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 20:06:37 by tom               #+#    #+#             */
-/*   Updated: 2024/12/11 17:28:04 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/13 12:55:44 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int				count_tab_size(char *command);
 void			env_var_handler(t_ast **ast, t_env **env_start, int i);
 int				*result_quote_tab(char *str, int *res);
 
-int				quote_pipe_check(char	*line, bool first_test);
+int				quote_pipe_check(char	*line);
 
 /******************************************************************************/
 /*                                                                            */
@@ -26,7 +26,6 @@ int				quote_pipe_check(char	*line, bool first_test);
 /******************************************************************************/
 
 char			**ft_split_arg(char *str);
-char			*cuted(char const *str, int end);
 int				result_length(char *str);
 bool			select_operator(char *line, int i, t_ast **ast);
 
