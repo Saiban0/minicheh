@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_handler.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:34:23 by tom               #+#    #+#             */
-/*   Updated: 2024/12/11 17:39:08 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/13 14:05:05 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ bool	ast_pipe(char *line, int i, t_ast **ast, char *tmp)
 	(*ast)->right->base = ft_calloc(1, sizeof(t_ast_content));
 	(*ast)->right->base->cmd = ft_split_arg(tmp);
 	(*ast)->right->base->quote_tab = result_quote_tab(tmp, NULL);
-	if ((*ast)->right->base->cmd == NULL)
-		return (cmd_error(tmp));
 	(*ast)->right->base->cmd_op = is_builtins((*ast)->right->base->cmd[0]);
 	(*ast)->right->base->builtins = ((*ast)->right->base->cmd_op >= e_echo);
 	free(tmp);
