@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 09:03:45 by tom               #+#    #+#             */
-/*   Updated: 2024/11/18 14:22:59 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/13 14:17:42 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_echo(char **arg, t_ast *cmd, t_env *env, t_pipex *pipex)
 	arg++;
 	i = -1;
 	flag = false;
-	if (!arg[0] || !arg[0][0])
+	if (!arg[0])
 		empty_echo_handler(cmd, env, pipex);
 	if (arg[0][0] == '-' && arg[0][1] == 'n')
 	{
@@ -37,11 +37,7 @@ void	ft_echo(char **arg, t_ast *cmd, t_env *env, t_pipex *pipex)
 		arg++;
 	}
 	while (arg[++i])
-	{
 		ft_putstr_fd(arg[i], STDOUT_FILENO);
-		if (arg[i + 1])
-			ft_putchar_fd(' ', STDOUT_FILENO);
-	}
 	if (flag == false)
 		write(1, "\n", 1);
 	g_exit_code = 0;

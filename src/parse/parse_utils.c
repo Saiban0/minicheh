@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:30:08 by tom               #+#    #+#             */
-/*   Updated: 2024/12/11 17:30:32 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/13 11:39:07 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ bool	select_operator(char *line, int i, t_ast **ast)
 
 	j = i + 1;
 	if (!line[j])
-		return (parse_error_handler(e_unexp_pipe, ast, false));
+		return (false);
 	while (line[j] && is_whitespace(line[j]) == true)
 		j++;
 	if (line[i] == '|' && line[i + 1] == '|')
