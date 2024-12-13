@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_arg_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 14:13:14 by ttaquet           #+#    #+#             */
-/*   Updated: 2024/12/09 16:39:41 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/13 14:28:31 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	result_length(char *str)
 			quote = quote_test(i, quote, str);
 			if (quote == 0)
 				res++;
+			is_sep = true;
 		}
 		else if (is_sep && !is_whitespace(str[i]) && quote <= 0 && res++)
 			is_sep = false;
