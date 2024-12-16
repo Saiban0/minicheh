@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 14:13:14 by ttaquet           #+#    #+#             */
-/*   Updated: 2024/12/13 16:24:45 by tom              ###   ########.fr       */
+/*   Updated: 2024/12/16 14:44:14 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	result_length(char *str)
 
 	i = -1;
 	quote = 0;
-	res = 1;
+	res = 0;
 	is_sep = true;
 	while (str[++i])
 	{
@@ -30,7 +30,6 @@ int	result_length(char *str)
 			quote = quote_test(i, quote, str);
 			if (quote == 0)
 				res++;
-			i = i + (quote == 0);
 			is_sep = true;
 		}
 		else if (is_sep && !is_whitespace(str[i]) && quote <= 0 && res++)
@@ -38,7 +37,7 @@ int	result_length(char *str)
 		if (is_whitespace(str[i]) && quote <= 0)
 			is_sep = true;
 	}
-	return (res - 1);
+	return (res);
 }
 
 /*
