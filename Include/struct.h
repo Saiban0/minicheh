@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:13:38 by tom               #+#    #+#             */
-/*   Updated: 2024/12/02 16:08:09 by tom              ###   ########.fr       */
+/*   Updated: 2024/12/16 18:56:40 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ typedef struct s_ast_content
 	bool			is_op;
 	t_cmd_and_op	cmd_op;
 	char			**cmd;
-	int				*quote_tab;
+	char			*quote_tab;
 	bool			builtins;
 	char			*file_name;
 	char			*path;
