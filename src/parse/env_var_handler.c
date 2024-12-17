@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:54:26 by ttaquet           #+#    #+#             */
-/*   Updated: 2024/12/09 14:33:06 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/17 15:43:39 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	**ft_split_env_arg(char *command, int res_size, char **envv)
 	tab_int[0] = 0;
 	tab_int[1] = 0;
 	tab_int[2] = false;
-	res = ft_calloc(res_size, sizeof(char *));
+	res = ft_calloc(res_size, 10 * sizeof(char *));
 	while (command[tab_int[0]])
 		command = split_arg_cut(tab_int, res, command, envv);
 	if (command[0] == '$')
@@ -119,7 +119,9 @@ void	env_var_handler(t_ast **ast, t_env **env_start, int i)
 	char	**d_array_temp;
 	char	*temp;
 
-	temp = rem_wspace((*ast)->base->cmd[i]);
+	if ((*ast)->base->quote_tab[i] == '\'')
+		return ;
+	temp = ft_strdup((*ast)->base->cmd[i]);
 	d_array_temp = ft_split_env_arg(temp,
 			count_tab_size((*ast)->base->cmd[i]) + 1, (*env_start)->envv);
 	free((*ast)->base->cmd[i]);
