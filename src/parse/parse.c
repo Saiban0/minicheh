@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/12/11 17:30:38 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/17 15:47:27 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,11 @@ bool	without_op(char *line, t_ast	**ast)
 
 void	env_var_test(t_ast **ast, t_env **env_start)
 {
-	int		i;
+	int	i;
 
 	i = -1;
 	while ((*ast)->base->cmd[++i])
-		if ((*ast)->base->quote_tab[i] != '\''
-			&& ft_strchr((*ast)->base->cmd[i], '$') != NULL)
+		if (ft_strchr((*ast)->base->cmd[i], '$') != NULL)
 			env_var_handler(ast, env_start, i);
 	free((*ast)->base->quote_tab);
 }
@@ -52,8 +51,7 @@ void	add_env(t_env	**env_start, t_ast	**ast)
 	if (!(((*ast)->base->cmd_op == e_external_control)
 			|| ((*ast)->base->cmd_op >= e_echo)))
 		(*ast)->base->cmd = NULL;
-	else
-		env_var_test(ast, env_start);
+	env_var_test(ast, env_start);
 	if ((*ast)->left)
 		add_env(env_start, &(*ast)->left);
 	if ((*ast)->right)
