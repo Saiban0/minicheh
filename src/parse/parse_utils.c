@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:30:08 by tom               #+#    #+#             */
-/*   Updated: 2024/12/13 11:39:07 by tom              ###   ########.fr       */
+/*   Updated: 2024/12/18 20:11:22 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ bool	select_operator(char *line, int i, t_ast **ast)
 	while (line[j] && is_whitespace(line[j]) == true)
 		j++;
 	if (line[i] == '|' && line[i + 1] == '|')
-		return (parse_error_handler(e_unexp_pipe, ast, false));
+		return (parse_error(e_unexp_pipe, ast, false));
 	else if (line[i] == '|')
 		return (ast_pipe(line, i, ast, NULL));
 	else if (line[i] == '<' && line[i + 1] == '<')
@@ -83,18 +83,26 @@ bool	select_operator(char *line, int i, t_ast **ast)
 
 char	*find_env_var(char	*var, char	**envv)
 {
-	int	i;
-	int	var_size;
+	int		i;
+	int		var_size;
+	char	*var_tmp;
 
 	i = -1;
 	var += (var[0] == '$');
 	if (var[0] == '?')
 		return (ft_itoa(g_exit_code));
 	var_size = ft_strlen(var);
+	var_tmp = ft_calloc((var_size + 3), sizeof(char));
+	ft_strlcat(var_tmp, var, var_size + 1);
+	ft_strlcat(var_tmp, "=", var_size + 2);
 	while (envv[++i])
 	{
-		if (ft_strncmp(var, envv[i], var_size - 1) == 0)
+		if (ft_strncmp(var_tmp, envv[i], var_size + 1) == 0)
+		{
+			free(var_tmp);
 			return (ft_strdup(envv[i] + var_size + 1));
+		}
 	}
+	free(var_tmp);
 	return (ft_strdup(" "));
 }
