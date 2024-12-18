@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_arg_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 14:13:14 by ttaquet           #+#    #+#             */
-/*   Updated: 2024/12/17 15:43:01 by tom              ###   ########.fr       */
+/*   Updated: 2024/12/18 19:37:25 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ char	*result_quote_tab(char *str, char *res)
 				res[++tab_int[1]] = str[tab_int[0]];
 			tab_int[3] = (tab_int[2] == 0);
 		}
-		else if (tab_int[3] && !is_whitespace(str[tab_int[0]]) && tab_int[2] <= 0)
+		else if (tab_int[3] && !is_whitespace(str[tab_int[0]])
+			&& tab_int[2] <= 0)
 		{
 			tab_int[3] = false;
 			res[++tab_int[1]] = ' ';

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_arg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 16:07:13 by tom               #+#    #+#             */
-/*   Updated: 2024/12/17 15:37:26 by tom              ###   ########.fr       */
+/*   Updated: 2024/12/18 19:37:13 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*cuted(char *str, int start, int end)
 {
 	char	*res;
 	int		i;
-	
+
 	if (start > end)
 		return (NULL);
 	i = 0;
@@ -72,9 +72,9 @@ char	**ft_split_arg(char *str)
 {
 	char	**res;
 	int		*tab_int;
-	
+
 	tab_int = init_tab_int();
-	res = ft_calloc(result_length(str) + 2, 10 * sizeof(char*));
+	res = ft_calloc(result_length(str) + 2, 10 * sizeof(char *));
 	while (str[++tab_int[0]])
 	{
 		if (str[tab_int[0]] == '"' || str[tab_int[0]] == '\'')

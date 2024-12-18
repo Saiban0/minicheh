@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:30:37 by tom               #+#    #+#             */
-/*   Updated: 2024/12/11 17:21:08 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/18 19:36:04 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern int	g_exit_code;
 
-int	parse_error_handler(int error_code, t_ast **ast, bool cmd_not_found)
+int	parse_error(int error_code, t_ast **ast, bool cmd_not_found)
 {
 	if (cmd_not_found)
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
@@ -44,7 +44,7 @@ bool	cmd_error(char *to_free)
 {
 	if (to_free)
 		free(to_free);
-	parse_error_handler(e_command_not_found, NULL, false);
+	parse_error(e_command_not_found, NULL, false);
 	return (false);
 }
 

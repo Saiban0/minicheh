@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_quote_pipe_handler.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:25:23 by tom               #+#    #+#             */
-/*   Updated: 2024/12/13 14:01:36 by tom              ###   ########.fr       */
+/*   Updated: 2024/12/18 19:36:35 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,23 @@
 int	unexpected_redirect_test(int i, char *temp)
 {
 	if (temp[i] == '<' && temp[i + 1] == '>')
-		return (parse_error_handler(e_unexp_redir_output, NULL, false) - 1);
+		return (parse_error(e_unexp_redir_output, NULL, false) - 1);
 	else if (temp[i] == '>' && temp[i + 1] == '<')
-		return (parse_error_handler(e_unexp_redir_input, NULL, false) - 1);
+		return (parse_error(e_unexp_redir_input, NULL, false) - 1);
 	else if (temp[i] == temp[i + 1] && temp[i - 1] == temp[i])
-	{	
+	{
 		if (temp[i] == '>')
-			return (parse_error_handler(e_unexp_redir_output, NULL, false) - 1);
+			return (parse_error(e_unexp_redir_output, NULL, false) - 1);
 		if (temp[i] == '<')
-			return (parse_error_handler(e_unexp_redir_input, NULL, false) - 1);
+			return (parse_error(e_unexp_redir_input, NULL, false) - 1);
 	}
 	else if (temp[i] == temp[i + 1] && temp[i - 1] != temp[i])
 		i++;
 	return (i);
 }
 
-bool	unexpected_token_test(char *temp, int op)
+bool	unexpected_token_test(char *temp, int op, int i)
 {
-	int	i;
-
-	i = -1;
 	while (temp[++i])
 	{
 		if (temp[i] == '|' || temp[i] == '>' || temp[i] == '<')
@@ -42,11 +39,11 @@ bool	unexpected_token_test(char *temp, int op)
 			if (op > 0)
 			{
 				if (temp[i] == '|')
-					return (parse_error_handler(e_unexp_pipe, NULL, false));
+					return (parse_error(e_unexp_pipe, NULL, false));
 				if (temp[i] == '>')
-					return (parse_error_handler(e_unexp_redir_output, NULL, false));
+					return (parse_error(e_unexp_redir_output, NULL, false));
 				if (temp[i] == '<')
-					return (parse_error_handler(e_unexp_redir_input, NULL, false));
+					return (parse_error(e_unexp_redir_input, NULL, false));
 			}
 			op = temp[i];
 			if (op == '<' || op == '>')
@@ -63,11 +60,11 @@ bool	unexpected_token_test(char *temp, int op)
 bool	redirect_pipe_first(char *temp)
 {
 	if (temp[0] == '|')
-		parse_error_handler(e_unexp_pipe, NULL, false);
+		parse_error(e_unexp_pipe, NULL, false);
 	else if (temp[0] == '<')
-		parse_error_handler(e_unexp_redir_input, NULL, false);
+		parse_error(e_unexp_redir_input, NULL, false);
 	else if (temp[0] == '>')
-		parse_error_handler(e_unexp_redir_output, NULL, false);
+		parse_error(e_unexp_redir_output, NULL, false);
 	else
 		return (false);
 	free(temp);
@@ -112,7 +109,7 @@ int	quote_pipe_check(char	*line)
 			quote = quote_test(i, quote, line);
 	if (quote == 0)
 		quote = op_end_line_test(line);
-	if (unexpected_token_test(temp, 0) == false)
+	if (unexpected_token_test(temp, 0, -1) == false)
 	{
 		free(temp);
 		return (-1);

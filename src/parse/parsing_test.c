@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_test.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 02:52:39 by tom               #+#    #+#             */
-/*   Updated: 2024/12/13 13:59:53 by tom              ###   ########.fr       */
+/*   Updated: 2024/12/18 19:36:04 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ bool	open_quote_pipe_test(char	*line)
 	if (quote_pipe_res == 0)
 		return (true);
 	if (quote_pipe_res == '|')
-		return (parse_error_handler(e_unexp_pipe, NULL, false));
+		return (parse_error(e_unexp_pipe, NULL, false));
 	if (quote_pipe_res == '>')
-		return (parse_error_handler(e_unexp_redir_output, NULL, false));
+		return (parse_error(e_unexp_redir_output, NULL, false));
 	if (quote_pipe_res == '<')
-		return (parse_error_handler(e_unexp_redir_input, NULL, false));
+		return (parse_error(e_unexp_redir_input, NULL, false));
 	return (false);
 }

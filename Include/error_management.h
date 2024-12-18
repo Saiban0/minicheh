@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:40 by bchedru           #+#    #+#             */
-/*   Updated: 2024/12/11 17:27:04 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/18 19:36:04 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	error_free(t_ast *cmd, t_pipex *pipex, t_env *env);
 
 bool	cmd_error(char *to_free);
 
-int		parse_error_handler(int error_code, t_ast **ast, bool cmd_not_found);
+int		parse_error(int error_code, t_ast **ast, bool cmd_not_found);
 
 bool	cd_error(char *home, t_error error_code, char *file);
 
