@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:49:21 by bchedru           #+#    #+#             */
-/*   Updated: 2024/10/29 19:23:20 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/12/16 19:55:34 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,6 @@ void	search_redirects(t_ast *ast, t_pipex *pipex, t_env *env)
 	}
 }
 
-static void	heredoc_end(int heredoc_fd, t_ast *cmd, t_pipex *pipex)
-{
-	close(heredoc_fd);
-	pipex->in_fd = open("/tmp/heredoc_tmp", O_RDONLY);
-	if (pipex->in_fd == -1)
-		error_management(e_file_name, cmd, pipex, NULL);
-}
-
 void	handle_heredocs(t_ast *cmd, t_pipex *pipex, t_env *env)
 {
 	int		heredoc_fd;
@@ -73,15 +65,16 @@ void	handle_heredocs(t_ast *cmd, t_pipex *pipex, t_env *env)
 		signal(SIGQUIT, SIG_IGN);
 		line = readline("heredoc> ");
 		if (line == NULL)
+		{
+			close(heredoc_fd);
 			ft_exit(NULL, cmd, env, pipex);
+		}
 		if (ft_strcmp(line, cmd->right->right->base->file_name) == 0)
 		{
 			free(line);
 			break ;
 		}
-		ft_putstr_fd(line, heredoc_fd);
-		ft_putstr_fd("\n", heredoc_fd);
-		free(line);
+		heredoc_loop_cleanup(heredoc_fd, line);
 	}
 	heredoc_end(heredoc_fd, cmd, pipex);
 }

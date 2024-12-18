@@ -6,11 +6,13 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:03:46 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/20 17:26:42 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/12/16 20:01:00 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_exit_code;
 
 int	ft_pipex_init(t_ast *cmd, t_pipex *pipex, t_env *env)
 {
@@ -77,5 +79,9 @@ int	check_redirect_type(t_ast *ast)
 void	heredoc_sigint_handler(int signal)
 {
 	if (signal == SIGINT)
+	{
+		write(STDIN_FILENO, "\n", 1);
 		close(STDIN_FILENO);
+		g_exit_code = 130;
+	}
 }

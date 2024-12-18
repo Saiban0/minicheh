@@ -6,7 +6,7 @@
 /*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:44:47 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/20 16:01:11 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/12/16 19:59:52 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,5 +225,22 @@ void	heredoc_sigint_handler(int signal);
  * @param ast The ast's base
  */
 void	wait_last_command(t_ast *ast);
+/**
+ * @brief This function simply copies the content of line inside the heredoc
+ * file and frees it.
+ * 
+ * @param heredoc_fd The heredoc file's fd
+ * @param line The line filled by readline
+ */
+void	heredoc_loop_cleanup(int heredoc_fd, char *line);
+/**
+ * @brief This function is called at the end of the heredoc function
+ * It simply prepares the fd to be used properly in the execution of the command
+ * 
+ * @param heredoc_fd The heredoc file's fd
+ * @param cmd The current command's ast
+ * @param pipex The pipex struct
+ */
+void	heredoc_end(int heredoc_fd, t_ast *cmd, t_pipex *pipex);
 
 #endif
