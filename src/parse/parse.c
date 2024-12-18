@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/12/17 15:47:27 by tom              ###   ########.fr       */
+/*   Updated: 2024/12/18 16:22:40 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void	add_env(t_env	**env_start, t_ast	**ast)
 	if (!(((*ast)->base->cmd_op == e_external_control)
 			|| ((*ast)->base->cmd_op >= e_echo)))
 		(*ast)->base->cmd = NULL;
-	env_var_test(ast, env_start);
+	else
+		env_var_test(ast, env_start);
 	if ((*ast)->left)
 		add_env(env_start, &(*ast)->left);
 	if ((*ast)->right)
