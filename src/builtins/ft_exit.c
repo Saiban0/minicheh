@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:02:11 by tom               #+#    #+#             */
-/*   Updated: 2024/12/19 17:50:06 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/19 18:07:05 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ void	free_ast(t_ast	*node)
 
 void	ft_exit(char *line, t_ast *ast, t_env *env, t_pipex *pipex)
 {
-	if (ast && pipex)
-		free_ast(pipex->ast_origin);
-	else if (ast && !pipex)
+	if (ast && !pipex)
 		free_ast(ast);
+	else if (pipex && ast)
+		free_ast(pipex->ast_origin);
 	if (pipex)
 	{
 		free(pipex);
