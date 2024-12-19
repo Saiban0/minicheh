@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 16:07:13 by tom               #+#    #+#             */
-/*   Updated: 2024/12/18 19:37:13 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/19 14:23:13 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	split_quote_handler(char **res, int *tab_int, char *str)
 		is_cuted = true;
 	}
 	if (res[tab_int[2]] == NULL && is_cuted)
-		res[tab_int[2]] = ft_strdup("");
+		res[tab_int[2]] = ft_strdup(" ");
 	if (is_cuted)
 		tab_int[2]++;
 	tab_int[1] = tab_int[0] + (tab_int[3] == 0);
