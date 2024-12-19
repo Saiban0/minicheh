@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:16:54 by bchedru           #+#    #+#             */
-/*   Updated: 2024/12/19 14:09:42 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/19 15:30:26 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static bool	check_empty_nodes(t_ast *cmd, t_pipex *pipex, t_env *env)
 		if (cmd->base->cmd_op == e_empty || cmd->base->cmd_op == e_test)
 		{
 			ft_putstr_fd(" : command not found\n", STDERR_FILENO);
-			error_management(e_empty, cmd, pipex, env);
+			error_management(e_none, cmd, pipex, env);
 			return (true);
 		}
 		cmd = cmd->left;
@@ -32,7 +32,7 @@ static bool	check_empty_nodes(t_ast *cmd, t_pipex *pipex, t_env *env)
 		if (cmd->base->cmd_op == e_empty || cmd->base->cmd_op == e_test)
 		{
 			ft_putstr_fd(" : command not found\n", STDERR_FILENO);
-			error_management(e_empty, cmd, pipex, env);
+			error_management(e_none, cmd, pipex, env);
 			return (true);
 		}
 		cmd = cmd->right;

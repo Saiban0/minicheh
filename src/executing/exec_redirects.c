@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:49:21 by bchedru           #+#    #+#             */
-/*   Updated: 2024/12/18 17:12:22 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/19 15:30:08 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ void	handle_heredocs(t_ast *cmd, t_pipex *pipex, t_env *env)
 	int		heredoc_fd;
 	char	*line;
 
-	heredoc_fd = open("/tmp/hhheredoc_tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	heredoc_fd = open("/tmp/hheredoc_tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (heredoc_fd == -1)
-		error_management(e_file_name, cmd, pipex, NULL);
+		error_management(e_file, cmd, pipex, NULL);
 	while (true)
 	{
 		signal(SIGINT, &heredoc_sigint_handler);

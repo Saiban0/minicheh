@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:40 by bchedru           #+#    #+#             */
-/*   Updated: 2024/12/18 19:36:04 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/19 15:18:06 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef enum s_error_management
  * @param env The env struct initialized in main.c is only used here with the
  * error codes 1 and 4 to call ft_exit
  */
-void	error_management(int error_code, t_ast *cmd, t_pipex *pipex,
+void	error_management(t_error error_code, t_ast *cmd, t_pipex *pipex,
 			t_env *env);
 /**
  * @brief This function behaves very similarly to ft_exit, except it is called

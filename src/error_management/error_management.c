@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_management.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:04 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/08 04:58:37 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/12/19 15:32:10 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	error_management_bis(int error_code, t_ast *cmd, t_pipex *pipex,
 	}
 }
 
-void	error_management(int error_code, t_ast *cmd, t_pipex *pipex, t_env *env)
+void	error_management(t_error error_code, t_ast *cmd, t_pipex *pipex, t_env *env)
 {
 	if (error_code == 1)
 	{
