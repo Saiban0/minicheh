@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_simple.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:16:54 by bchedru           #+#    #+#             */
-/*   Updated: 2024/12/13 16:46:32 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/12/19 14:09:42 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,26 @@ extern int	g_exit_code;
 
 static bool	check_empty_nodes(t_ast *cmd, t_pipex *pipex, t_env *env)
 {
-	t_ast	*tmp;
-
-	tmp = cmd;
-	while (tmp)
+	while (cmd)
 	{
-		if (tmp->base->cmd_op == e_empty || cmd->base->cmd_op == e_test)
-		{
-			ft_putstr_fd(" : command not found", STDERR_FILENO);
-			error_management(e_empty, cmd, pipex, env);
-			return (true);
-		}
-		tmp = tmp->left;
-	}
-	tmp = cmd->right;
-	while (tmp)
-	{
-		if (tmp->base->cmd_op == e_empty || cmd->base->cmd_op == e_test)
+		if (cmd->base->cmd_op == e_empty || cmd->base->cmd_op == e_test)
 		{
 			ft_putstr_fd(" : command not found\n", STDERR_FILENO);
 			error_management(e_empty, cmd, pipex, env);
 			return (true);
 		}
-		tmp = tmp->right;
+		cmd = cmd->left;
+	}
+	cmd = pipex->ast_origin;
+	while (cmd)
+	{
+		if (cmd->base->cmd_op == e_empty || cmd->base->cmd_op == e_test)
+		{
+			ft_putstr_fd(" : command not found\n", STDERR_FILENO);
+			error_management(e_empty, cmd, pipex, env);
+			return (true);
+		}
+		cmd = cmd->right;
 	}
 	return (false);
 }
