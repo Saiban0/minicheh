@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:08:21 by bchedru           #+#    #+#             */
-/*   Updated: 2024/12/18 20:15:03 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/21 15:53:00 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,10 @@ int	find_env_var_pos(char	*var, char	**envv)
 void	replace_env(t_env **env, char **arg_to_add)
 {
 	int		i;
-	int		j;
 	int		temp;
 	char	**temp_arg;
 
 	i = -1;
-	j = -1;
 	while (arg_to_add[++i])
 	{
 		temp_arg = ft_split(arg_to_add[i], '=');

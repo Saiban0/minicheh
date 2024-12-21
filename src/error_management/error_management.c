@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_management.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:04 by bchedru           #+#    #+#             */
-/*   Updated: 2024/12/19 19:17:37 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/12/21 16:03:42 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	error_management(t_error e_cod, t_ast *cmd, t_pipex *pipex, t_env *env)
 	{
 		ft_putstr_fd("minicheh: can't open file\n", STDERR_FILENO);
 		g_exit_code = 1;
-		ft_exit(NULL, cmd, env, pipex);
+		ft_exit(NULL, cmd, NULL, pipex);
 	}
 	if (e_cod == 3)
 		ft_putstr_fd("minicheh : empty command\n", STDERR_FILENO);
