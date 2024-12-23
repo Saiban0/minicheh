@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 11:10:19 by tom               #+#    #+#             */
-/*   Updated: 2024/12/19 18:12:42 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/23 17:47:55 by bchedru          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ bool	ft_cd(char	**arg, t_env	**env)
 	char	*home;
 
 	home = ft_strdup((*env)->envv[(*env)->home_position] + 5);
-	if (!arg[1] || ft_strcmp(arg[1], "~")  == 0 || ft_strcmp(arg[1], "~/") == 0)
+	if (!arg[1] || ft_strcmp(arg[1], "~") == 0 || ft_strcmp(arg[1], "~/") == 0)
 	{
 		chdir(home);
 		free((*env)->pwd);
