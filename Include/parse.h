@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 20:06:37 by tom               #+#    #+#             */
-/*   Updated: 2024/12/17 15:31:19 by tom              ###   ########.fr       */
+/*   Updated: 2024/12/23 16:59:08 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PARSE_H
 
 int				count_tab_size(char *command);
-void			env_var_handler(t_ast **ast, t_env **env_start, int i);
+void			env_var_handler(t_ast **ast, t_env *env_start, int i);
 char			*result_quote_tab(char *str, char *res);
 
 int				quote_pipe_check(char	*line);

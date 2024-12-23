@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:54:26 by ttaquet           #+#    #+#             */
-/*   Updated: 2024/12/17 15:43:39 by tom              ###   ########.fr       */
+/*   Updated: 2024/12/23 16:58:32 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ char	*ft_join_env_arg(char **array)
 	return (res);
 }
 
-void	env_var_handler(t_ast **ast, t_env **env_start, int i)
+void	env_var_handler(t_ast **ast, t_env *env_start, int i)
 {
 	char	**d_array_temp;
 	char	*temp;
@@ -123,7 +123,7 @@ void	env_var_handler(t_ast **ast, t_env **env_start, int i)
 		return ;
 	temp = ft_strdup((*ast)->base->cmd[i]);
 	d_array_temp = ft_split_env_arg(temp,
-			count_tab_size((*ast)->base->cmd[i]) + 1, (*env_start)->envv);
+			count_tab_size((*ast)->base->cmd[i]) + 1, env_start->envv);
 	free((*ast)->base->cmd[i]);
 	free(temp);
 	(*ast)->base->cmd[i] = ft_join_env_arg(d_array_temp);

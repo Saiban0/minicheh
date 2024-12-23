@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/12/18 19:41:07 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/23 16:58:10 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	without_op(char *line, t_ast	**ast)
 	free(temp);
 }
 
-void	env_var_test(t_ast **ast, t_env **env_start)
+void	env_var_test(t_ast **ast, t_env *env_start)
 {
 	int	i;
 
@@ -37,11 +37,11 @@ void	env_var_test(t_ast **ast, t_env **env_start)
 	free((*ast)->base->quote_tab);
 }
 
-void	add_env(t_env	**env_start, t_ast	**ast)
+void	add_env(t_env	*env_start, t_ast	**ast)
 {
-	(*ast)->t_env = env_start;
+	(*ast)->t_env = &env_start;
 	(*ast)->base->path = NULL;
-	(*env_start)->nb_commands += ((*ast)->base->cmd_op == e_external_control)
+	env_start->nb_commands += ((*ast)->base->cmd_op == e_external_control)
 		|| ((*ast)->base->cmd_op >= e_echo);
 	if ((*ast)->base->cmd_op != e_file_name)
 		(*ast)->base->file_name = NULL;
@@ -87,6 +87,6 @@ bool	parse(char *line, t_ast	**ast, t_env *env, int quote)
 	if ((*ast)->base->cmd_op == e_empty)
 		without_op(line, ast);
 	env->nb_commands = 0;
-	add_env(&env, ast);
+	add_env(env, ast);
 	return (true);
 }
