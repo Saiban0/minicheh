@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/12/23 16:58:10 by tom              ###   ########.fr       */
+/*   Updated: 2024/12/23 17:33:01 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	env_var_test(t_ast **ast, t_env *env_start)
 
 void	add_env(t_env	*env_start, t_ast	**ast)
 {
-	(*ast)->t_env = &env_start;
+	(*ast)->t_env = env_start;
 	(*ast)->base->path = NULL;
 	env_start->nb_commands += ((*ast)->base->cmd_op == e_external_control)
 		|| ((*ast)->base->cmd_op >= e_echo);
@@ -61,7 +61,7 @@ void	init_ast(t_ast **ast, t_env *env)
 	(*ast)->base->cmd_op = e_empty;
 	(*ast)->left = NULL;
 	(*ast)->right = NULL;
-	(*ast)->t_env = &env;
+	(*ast)->t_env = env;
 }
 
 bool	parse(char *line, t_ast	**ast, t_env *env, int quote)

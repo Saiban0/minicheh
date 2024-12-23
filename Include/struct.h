@@ -6,7 +6,7 @@
 /*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:13:38 by tom               #+#    #+#             */
-/*   Updated: 2024/12/16 18:56:40 by tom              ###   ########.fr       */
+/*   Updated: 2024/12/23 17:32:08 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ typedef struct s_minishell_env
 
 typedef struct s_ast
 {
-	t_env			**t_env;
+	t_env			*t_env;
 	t_ast_content	*base;
 	struct s_ast	*left;
 	struct s_ast	*right;
