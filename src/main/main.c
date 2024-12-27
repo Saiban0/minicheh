@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:09:02 by tom               #+#    #+#             */
-/*   Updated: 2024/11/20 16:33:29 by bchedru          ###   ########.fr       */
+/*   Updated: 2024/12/11 17:47:34 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,29 @@ void	sigint_handler(int signal)
 	}
 }
 
+static void	handle_envp_false(char **temp, t_env *env)
+{
+	temp = ft_calloc(3, sizeof(char *));
+	if (env->pwd_position != -1)
+		temp[0] = ft_strdup(env->pwd);
+	if (env->oldpwd_position != -1)
+		temp[1] = ft_strdup(env->oldpwd);
+	temp[2] = NULL;
+	if (env->pwd_position != -1 && env->oldpwd_position != -1)
+		ft_export(temp, &env);
+}
+
 static void	loop_bis(char *line, t_ast *ast, t_env *env)
 {
 	char	**temp;
 
-	parse(line, &ast, env, 0);
+	if (parse(line, &ast, env, 0) == false)
+	{
+		free(line);
+		if (ast)
+			free_ast(ast);
+		return ;
+	}
 	free(line);
 	line = NULL;
 	g_exit_code = 0;
@@ -37,16 +55,7 @@ static void	loop_bis(char *line, t_ast *ast, t_env *env)
 	ast = NULL;
 	temp = NULL;
 	if (env->envp == false)
-	{
-		temp = ft_calloc(3, sizeof(char *));
-		if (env->pwd_position != -1)
-			temp[0] = ft_strdup(env->pwd);
-		if (env->oldpwd_position != -1)
-			temp[1] = ft_strdup(env->oldpwd);
-		temp[2] = NULL;
-		if (env->pwd_position != -1 && env->oldpwd_position != -1)
-			ft_export(temp, &env);
-	}
+		handle_envp_false(temp, env);
 	ft_free_double_array(temp);
 	rl_replace_line("", 0);
 }
@@ -65,15 +74,14 @@ bool	loop(t_env *env)
 	if (line[0] == '\0')
 		return (false);
 	add_history(line);
-	ast = ft_calloc(1, sizeof(t_ast) + 1);
-	ast->base = ft_calloc(1, sizeof(t_ast_content) + 1);
-	env->nb_commands = 0;
 	if (only_wspace(line))
 	{
 		free(line);
-		free_ast(ast);
 		return (false);
 	}
+	ast = ft_calloc(1, sizeof(t_ast) + 1);
+	ast->base = ft_calloc(1, sizeof(t_ast_content) + 1);
+	env->nb_commands = 0;
 	loop_bis(line, ast, env);
 	return (true);
 }

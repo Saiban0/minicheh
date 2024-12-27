@@ -16,11 +16,13 @@ BUILTINS = ft_cd ft_echo ft_env ft_exit ft_export ft_export_utils\
 MAIN = main init_env
 
 EXECUTING = exec_simple exec_utils exec_init exec_pipes exec_redirects\
+			exec_redirects_utils
 
 ERROR_MANAGEMENT = error_management parse_error
 
 PARSE = parse_utils parse parsing_test pipe_handler redirect_handler \
-split_arg_utils split_arg open_quote_pipe_handler 
+split_arg_utils split_arg open_quote_pipe_handler env_var_handler \
+env_var_utils
 
 FILES = $(BUILTINS) \
 $(EXECUTING) \

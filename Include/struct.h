@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:13:38 by tom               #+#    #+#             */
-/*   Updated: 2024/11/20 14:03:23 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/23 17:32:08 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_ast_content
 	bool			is_op;
 	t_cmd_and_op	cmd_op;
 	char			**cmd;
+	char			*quote_tab;
 	bool			builtins;
 	char			*file_name;
 	char			*path;
@@ -78,7 +79,7 @@ typedef struct s_minishell_env
 
 typedef struct s_ast
 {
-	t_env			**t_env;
+	t_env			*t_env;
 	t_ast_content	*base;
 	struct s_ast	*left;
 	struct s_ast	*right;

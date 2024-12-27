@@ -6,114 +6,93 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 16:07:13 by tom               #+#    #+#             */
-/*   Updated: 2024/11/20 12:57:04 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/19 14:23:13 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*cuted(char const *str, int end)
+char	*cuted(char *str, int start, int end)
 {
 	char	*res;
 	int		i;
 
-	i = -1;
-	res = ft_calloc(1, end + 2);
-	while (str[++i] && i <= end)
-		res[i] = str[i];
+	if (start > end)
+		return (NULL);
+	i = 0;
+	res = ft_calloc(end - start + 2, sizeof(char));
+	while (start <= end)
+		res[i++] = str[start++];
 	res[i] = '\0';
 	return (res);
 }
 
-int	update_d_array(char **d_array, char *temp_str, int i)
-{
-	temp_str = rem_wspace(d_array[i]);
-	free(d_array[i]);
-	d_array[i] = ft_strdup(temp_str);
-	free(temp_str);
-	return (1);
-}
-
-char	**clear_res(char **d_array)
-{
-	char	**res;
-	char	*temp_str;
-	int		temp_int;
-	int		i;
-
-	i = -1;
-	temp_int = 0;
-	temp_str = NULL;
-	while (d_array[++i])
-	{
-		if (only_wspace(d_array[i]))
-			d_array[i][0] = ' ';
-		else
-			temp_int += update_d_array(d_array, temp_str, i);
-	}
-	i = -1;
-	res = ft_calloc(temp_int + 2, sizeof(char *));
-	temp_int = -1;
-	while (d_array[++i])
-		if (d_array[i][0] != ' ')
-			res[++temp_int] = ft_strdup(d_array[i]);
-	ft_free_double_array(d_array);
-	return (res);
-}
-
-char	*test(int *tab_int, char *str, char **res)
-{
-	if (str[tab_int[0]] == '"' || str[tab_int[0]] == '\'')
-	{
-		tab_int[2] = quote_test(str[tab_int[0]], tab_int[2]);
-		if (tab_int[2] == 0)
-		{
-			res[++tab_int[1]] = cuted(str, tab_int[0] - 1);
-			if (res[tab_int[1]][0] == '"' || res[tab_int[1]][0] == '\'')
-				res[tab_int[1]][0] = ' ';
-			str += tab_int[0] + 1;
-			tab_int[0] = -1;
-		}
-	}
-	if (is_whitespace(str[tab_int[0]]) && tab_int[2] == 0)
-	{
-		while (is_whitespace(str[tab_int[0]]) && str[tab_int[0]])
-			tab_int[0]++;
-		res[++tab_int[1]] = cuted(str, tab_int[0] - 1);
-		str += tab_int[0];
-		tab_int[0] = -1;
-	}
-	return (str);
-}
-
 /*
-	tab_int[0] = -1;  i
-	tab_int[1] = -1;  j
-	tab_int[2] = 0;   quote
-*/
+	tab_int[0] = i;
+	tab_int[1] = x;
+	tab_int[2] = j;
+	tab_int[3] = quote;
+	tab_int[4] = is_sep;
+ */
+int	*init_tab_int(void)
+{
+	int	*tab_int;
+
+	tab_int = ft_calloc(5, sizeof(int));
+	tab_int[0] = -1;
+	tab_int[1] = 0;
+	tab_int[2] = 0;
+	tab_int[3] = 0;
+	tab_int[4] = true;
+	return (tab_int);
+}
+
+void	split_quote_handler(char **res, int *tab_int, char *str)
+{
+	bool	is_cuted;
+
+	is_cuted = false;
+	tab_int[3] = quote_test(tab_int[0], tab_int[3], str);
+	if (tab_int[3] != 0 && str[tab_int[0]] != tab_int[3])
+		return ;
+	if (tab_int[3] == 0)
+	{
+		res[tab_int[2]] = cuted(str, tab_int[1] + 1, tab_int[0] - 1);
+		is_cuted = true;
+	}
+	if (res[tab_int[2]] == NULL && is_cuted)
+		res[tab_int[2]] = ft_strdup(" ");
+	if (is_cuted)
+		tab_int[2]++;
+	tab_int[1] = tab_int[0] + (tab_int[3] == 0);
+	tab_int[4] = (tab_int[3] == 0);
+}
+
 char	**ft_split_arg(char *str)
 {
-	int		len;
 	char	**res;
 	int		*tab_int;
 
-	tab_int = ft_calloc(4, sizeof(int));
-	tab_int[0] = -1;
-	tab_int[1] = -1;
-	tab_int[2] = 0;
-	len = result_length(str);
-	res = ft_calloc((len + 2), sizeof(char *));
-	if (!res)
-		return (NULL);
-	while (str[++tab_int[0]] && tab_int[1] < len)
-		str = test(tab_int, str, res);
-	if (tab_int[1] < len)
+	tab_int = init_tab_int();
+	res = ft_calloc(result_length(str) + 2, 10 * sizeof(char *));
+	while (str[++tab_int[0]])
 	{
-		tab_int[2] = quote_test(str[tab_int[0]], tab_int[2]);
-		res[++tab_int[1]] = cuted(str, tab_int[0] - 1);
+		if (str[tab_int[0]] == '"' || str[tab_int[0]] == '\'')
+			split_quote_handler(res, tab_int, str);
+		else if (is_whitespace(str[tab_int[0]]) && tab_int[3] <= 0)
+			tab_int[4] = true;
+		else if (tab_int[4] == true && tab_int[3] <= 0)
+		{
+			tab_int[1] = tab_int[0];
+			while (str[tab_int[0]] && !is_whitespace(str[tab_int[0]])
+				&& str[tab_int[0]] != '"' && str[tab_int[0]] != '\'')
+				tab_int[0]++;
+			tab_int[0]--;
+			res[tab_int[2]++] = cuted(str, tab_int[1], tab_int[0]);
+			tab_int[4] = false;
+		}
 	}
-	res[++tab_int[1]] = NULL;
-	res = clear_res(res);
+	res[tab_int[2]] = NULL;
 	free(tab_int);
 	return (res);
 }

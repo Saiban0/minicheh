@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bchedru <bchedru@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:30:08 by tom               #+#    #+#             */
-/*   Updated: 2024/11/20 17:33:07 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/18 20:11:22 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_exit_code;
 
 char	*rem_wspace(char *command)
 {
@@ -33,13 +35,13 @@ char	*rem_wspace(char *command)
 	return (res);
 }
 
-int	quote_test(char c, int quote)
+int	quote_test(int i, int quote, char *line)
 {
 	if (quote == 0)
-		return (c);
-	else if (quote == c)
+		return (line[i]);
+	else if (quote == line[i])
 		return (0);
-	if (quote != 0 && c != quote)
+	if (quote != 0 && line[i] != quote)
 		return (quote);
 	return (-1);
 }
@@ -60,36 +62,47 @@ bool	select_operator(char *line, int i, t_ast **ast)
 	int	j;
 
 	j = i + 1;
-	while (line[j] && is_whitespace(line[j]) == true)
-		j++;
 	if (!line[j])
 		return (false);
+	while (line[j] && is_whitespace(line[j]) == true)
+		j++;
 	if (line[i] == '|' && line[i + 1] == '|')
-		ft_exit(line, *ast, *(*ast)->t_env, NULL);
+		return (parse_error(e_unexp_pipe, ast, false));
 	else if (line[i] == '|')
-		ast_pipe(line, i, ast);
+		return (ast_pipe(line, i, ast, NULL));
 	else if (line[i] == '<' && line[i + 1] == '<')
-		ast_else(line, i + 1, ast, e_here_doc);
+		return (ast_else(line, i + 1, ast, e_here_doc));
 	else if (line[i] == '>' && line[i + 1] == '>')
-		ast_else(line, i + 1, ast, e_redirect_output_write_mod);
+		return (ast_else(line, i + 1, ast, e_redirect_output_write_mod));
 	else if (line[i] == '>')
-		ast_else(line, i, ast, e_redirect_output);
+		return (ast_else(line, i, ast, e_redirect_output));
 	else if (line[i] == '<')
-		ast_else(line, i, ast, e_redirect_input);
+		return (ast_else(line, i, ast, e_redirect_input));
 	return (true);
 }
 
 char	*find_env_var(char	*var, char	**envv)
 {
-	int	i;
-	int	var_size;
+	int		i;
+	int		var_size;
+	char	*var_tmp;
 
 	i = -1;
+	var += (var[0] == '$');
+	if (var[0] == '?')
+		return (ft_itoa(g_exit_code));
 	var_size = ft_strlen(var);
+	var_tmp = ft_calloc((var_size + 3), sizeof(char));
+	ft_strlcat(var_tmp, var, var_size + 1);
+	ft_strlcat(var_tmp, "=", var_size + 2);
 	while (envv[++i])
 	{
-		if (ft_strncmp(var, envv[i], var_size - 1) == 0)
+		if (ft_strncmp(var_tmp, envv[i], var_size + 1) == 0)
+		{
+			free(var_tmp);
 			return (ft_strdup(envv[i] + var_size + 1));
+		}
 	}
+	free(var_tmp);
 	return (ft_strdup(" "));
 }

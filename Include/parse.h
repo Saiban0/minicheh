@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 20:06:37 by tom               #+#    #+#             */
-/*   Updated: 2024/11/20 12:44:39 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/23 16:59:08 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSE_H
 # define PARSE_H
 
+int				count_tab_size(char *command);
+void			env_var_handler(t_ast **ast, t_env *env_start, int i);
+char			*result_quote_tab(char *str, char *res);
+
 int				quote_pipe_check(char	*line);
-void			open_quote(char	*text, t_ast	**ast, t_env	*env,
-					char	*oldline);
-bool			open_quote_pipe_test(char	*line, t_ast **ast, t_env *env);
 
 /******************************************************************************/
 /*                                                                            */
@@ -25,8 +26,7 @@ bool			open_quote_pipe_test(char	*line, t_ast **ast, t_env *env);
 /******************************************************************************/
 
 char			**ft_split_arg(char *str);
-char			*cuted(char const *str, int end);
-int				result_length(char const *str);
+int				result_length(char *str);
 bool			select_operator(char *line, int i, t_ast **ast);
 
 /******************************************************************************/
@@ -53,7 +53,7 @@ bool			only_wspace(char *str);
  * @param quote The result of the previous quote_test.
  * @return int An int.
  */
-int				quote_test(char c, int quote);
+int				quote_test(int i, int quote, char *line);
 
 /**
  * @brief This function search the environnement variable 'var' in 'envv'.
@@ -87,13 +87,15 @@ char			*rem_wspace(char *command);
  * @param env_start A struct that contains the basic environment variables.
  * @return t_ast* The ast that is returned.
  */
-void			parse(char *line, t_ast	**ast, t_env	*env_start, int quote);
+bool			parse(char *line, t_ast	**ast, t_env	*env_start, int quote);
 
 /******************************************************************************/
 /*                                                                            */
 /* Parsing_Test                                                               */
 /*                                                                            */
 /******************************************************************************/
+
+bool			open_quote_pipe_test(char	*line);
 
 /**
  * @brief This function return whether 'c' is an operator or not.
@@ -134,7 +136,7 @@ t_cmd_and_op	is_builtins(char *command);
  * @param i The position of the next pipe.
  * @param ast The ast that is returned in the parse function.
  */
-void			ast_pipe(char *line, int i, t_ast **ast);
+bool			ast_pipe(char *line, int i, t_ast **ast, char *temp);
 
 /******************************************************************************/
 /*                                                                            */
@@ -149,6 +151,6 @@ void			ast_pipe(char *line, int i, t_ast **ast);
  * @param i The position of '>'.
  * @param ast The ast that is returned in the parse function.
  */
-void			ast_else(char *line, int i, t_ast **ast, t_cmd_and_op op);
+bool			ast_else(char *line, int i, t_ast **ast, t_cmd_and_op op);
 
 #endif

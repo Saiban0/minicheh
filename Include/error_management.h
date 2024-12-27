@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:21:40 by bchedru           #+#    #+#             */
-/*   Updated: 2024/11/18 15:22:28 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/19 15:18:06 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ typedef enum s_error_management
 	e_pipe_failure = 5,
 	e_env_error = 6,
 	e_malloc_failure = 7,
-	e_unexpected_newline = 8,
+	e_unexp_newline = 8,
 	e_too_many_arg = 9,
 	e_no_such_file_or_dir = 10,
-	e_unexpected_pipe = 11,
-	e_unexpected_redirect_input = 12,
-	e_unexpected_redirect_output = 13,
+	e_unexp_pipe = 11,
+	e_unexp_redir_input = 12,
+	e_unexp_redir_output = 13,
 }	t_error;
 
 /**
@@ -48,7 +48,7 @@ typedef enum s_error_management
  * @param env The env struct initialized in main.c is only used here with the
  * error codes 1 and 4 to call ft_exit
  */
-void	error_management(int error_code, t_ast *cmd, t_pipex *pipex,
+void	error_management(t_error error_code, t_ast *cmd, t_pipex *pipex,
 			t_env *env);
 /**
  * @brief This function behaves very similarly to ft_exit, except it is called
@@ -63,7 +63,9 @@ void	error_management(int error_code, t_ast *cmd, t_pipex *pipex,
  */
 void	error_free(t_ast *cmd, t_pipex *pipex, t_env *env);
 
-void	parse_error_handler(int error_code, t_ast **ast);
+bool	cmd_error(char *to_free);
+
+int		parse_error(int error_code, t_ast **ast, bool cmd_not_found);
 
 bool	cd_error(char *home, t_error error_code, char *file);
 

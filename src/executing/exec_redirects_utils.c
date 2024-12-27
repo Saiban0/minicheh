@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   exec_redirects_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/11 12:19:03 by tom               #+#    #+#             */
-/*   Updated: 2024/12/11 16:26:36 by ttaquet          ###   ########.fr       */
+/*   Created: 2024/12/16 19:55:57 by bchedru           #+#    #+#             */
+/*   Updated: 2024/12/19 15:21:31 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern int	g_exit_code;
-
-void	ft_pwd(char	**arg, t_env *env, t_ast *ast, t_pipex *pipex)
+void	heredoc_end(int heredoc_fd, t_ast *cmd, t_pipex *pipex)
 {
-	if (arg != NULL)
-	{
-		if (arg[1])
-		{
-			ft_putstr_fd("pwd: too many arguments\n", STDERR_FILENO);
-			return ;
-		}
-	}
-	ft_putstr_fd(env->pwd, STDOUT_FILENO);
-	ft_putchar_fd('\n', STDOUT_FILENO);
-	g_exit_code = 0;
-	ft_exit(NULL, ast, env, pipex);
+	close(heredoc_fd);
+	pipex->in_fd = open("/tmp/hheredoc_tmp", O_RDONLY);
+	if (pipex->in_fd == -1)
+		error_management(e_file, cmd, pipex, NULL);
+}
+
+void	heredoc_loop_cleanup(int heredoc_fd, char *line)
+{
+	ft_putstr_fd(line, heredoc_fd);
+	ft_putstr_fd("\n", heredoc_fd);
+	free(line);
 }

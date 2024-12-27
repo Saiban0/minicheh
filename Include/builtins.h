@@ -6,7 +6,7 @@
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 09:04:41 by tom               #+#    #+#             */
-/*   Updated: 2024/11/20 17:36:32 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/18 20:15:19 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ void			ft_pwd(char **arg, t_env *env, t_ast *ast, t_pipex *pipex);
  * @return false The string not contain a special character.
  */
 bool			check_special_char(char *str);
-bool			check_export_arg(char *arg, t_env **env);
 char			**double_array_cat(char **tab1, char **tab2);
+void			replace_env(t_env **env, char **arg_to_add);
+int				find_env_var_pos(char	*var, char	**envv);
 bool			ft_find_export(char *arg, t_env **env, char **to_find);
 
 void			ft_export(char **arg, t_env **env);

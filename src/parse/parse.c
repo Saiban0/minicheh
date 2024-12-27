@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:12:58 by tom               #+#    #+#             */
-/*   Updated: 2024/11/20 14:36:47 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/23 17:33:01 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,37 +20,28 @@ void	without_op(char *line, t_ast	**ast)
 
 	temp = rem_wspace(line);
 	(*ast)->base->cmd = ft_split_arg(temp);
+	(*ast)->base->quote_tab = result_quote_tab(temp, NULL);
 	(*ast)->base->cmd_op = is_builtins((*ast)->base->cmd[0]);
 	(*ast)->base->builtins = (*ast)->base->cmd_op >= e_echo;
 	free(temp);
 }
 
-void	env_var_handle(t_ast **ast, t_env **env_start, char *temp, int i)
+void	env_var_test(t_ast **ast, t_env *env_start)
 {
-	if ((*ast)->base->cmd[i][0] == '$' && (*ast)->base->cmd[i][1] == '?')
-	{
-		free((*ast)->base->cmd[i]);
-		(*ast)->base->cmd[i] = ft_itoa(g_exit_code);
-	}
-	else if ((*ast)->base->cmd[i][0] == '$' && (*ast)->base->cmd[i][1] != '(')
-	{
-		temp = find_env_var((*ast)->base->cmd[i], (*env_start)->envv);
-		free((*ast)->base->cmd[i]);
-		(*ast)->base->cmd[i] = ft_strdup(temp);
-		free(temp);
-	}
-}
-
-void	add_env(t_env	**env_start, t_ast	**ast)
-{
-	int		i;
-	char	*temp;
+	int	i;
 
 	i = -1;
-	temp = NULL;
+	while ((*ast)->base->cmd[++i])
+		if (ft_strchr((*ast)->base->cmd[i], '$') != NULL)
+			env_var_handler(ast, env_start, i);
+	free((*ast)->base->quote_tab);
+}
+
+void	add_env(t_env	*env_start, t_ast	**ast)
+{
 	(*ast)->t_env = env_start;
 	(*ast)->base->path = NULL;
-	(*env_start)->nb_commands += ((*ast)->base->cmd_op == e_external_control)
+	env_start->nb_commands += ((*ast)->base->cmd_op == e_external_control)
 		|| ((*ast)->base->cmd_op >= e_echo);
 	if ((*ast)->base->cmd_op != e_file_name)
 		(*ast)->base->file_name = NULL;
@@ -58,48 +49,44 @@ void	add_env(t_env	**env_start, t_ast	**ast)
 			|| ((*ast)->base->cmd_op >= e_echo)))
 		(*ast)->base->cmd = NULL;
 	else
-		while ((*ast)->base->cmd[++i])
-			env_var_handle(ast, env_start, temp, i);
+		env_var_test(ast, env_start);
 	if ((*ast)->left)
 		add_env(env_start, &(*ast)->left);
 	if ((*ast)->right)
 		add_env(env_start, &(*ast)->right);
 }
 
-void	end_of_parse(int quote, char *line, t_ast	**ast, t_env *env)
+void	init_ast(t_ast **ast, t_env *env)
 {
-	if (quote == '"')
-		open_quote("dquote> ", ast, env, line);
-	if (quote == '\'')
-		open_quote("quote> ", ast, env, line);
-	if ((*ast)->base->cmd_op == e_empty)
-		without_op(line, ast);
+	(*ast)->base->cmd_op = e_empty;
+	(*ast)->left = NULL;
+	(*ast)->right = NULL;
+	(*ast)->t_env = env;
 }
 
-void	parse(char *line, t_ast	**ast, t_env *env, int quote)
+bool	parse(char *line, t_ast	**ast, t_env *env, int quote)
 {
 	int		i;
 
 	i = -1;
-	(*ast)->base->cmd_op = e_empty;
-	(*ast)->left = NULL;
-	(*ast)->right = NULL;
-	(*ast)->t_env = &env;
-	if (!open_quote_pipe_test(line, ast, env))
-		return ;
+	init_ast(ast, env);
+	if (open_quote_pipe_test(line) == false)
+		return (false);
 	while (line[++i])
 	{
 		if (line[i] == '"' || line[i] == '\'')
-			quote = quote_test(line[i], quote);
+			quote = quote_test(i, quote, line);
 		if (is_op(line[i]) && quote == 0)
 		{
 			if (select_operator(line, i, ast) == false)
-				return (parse_error_handler(e_unexpected_newline, ast));
+				return (false);
 			line += i + (line[i] == line[i + 1]);
 			i = 0;
 		}
 	}
-	end_of_parse(quote, line, ast, env);
+	if ((*ast)->base->cmd_op == e_empty)
+		without_op(line, ast);
 	env->nb_commands = 0;
-	add_env(&env, ast);
+	add_env(env, ast);
+	return (true);
 }

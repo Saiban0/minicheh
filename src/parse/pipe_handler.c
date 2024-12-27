@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_handler.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tom <tom@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:34:23 by tom               #+#    #+#             */
-/*   Updated: 2024/11/20 14:36:29 by ttaquet          ###   ########.fr       */
+/*   Updated: 2024/12/13 14:05:05 by tom              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	first_base( char	*line, t_ast	**ast, int	*operator)
+bool	first_base( char	*line, t_ast	**ast, int	*operator)
 {
 	char	*temp;
 	char	*temp_bis;
@@ -26,9 +26,13 @@ void	first_base( char	*line, t_ast	**ast, int	*operator)
 	(*ast)->left = ft_calloc(1, sizeof(t_ast));
 	(*ast)->left->base = ft_calloc(1, sizeof(t_ast_content));
 	(*ast)->left->base->cmd = ft_split_arg(temp_bis);
+	if ((*ast)->left->base->cmd == NULL)
+		return (cmd_error(temp_bis));
+	(*ast)->left->base->quote_tab = result_quote_tab(temp_bis, NULL);
 	free(temp_bis);
 	(*ast)->left->base->cmd_op = is_builtins((*ast)->left->base->cmd[0]);
 	(*ast)->left->base->builtins = ((*ast)->left->base->cmd_op >= e_echo);
+	return (true);
 }
 
 void	add_new_pipe_head(t_ast	**ast)
@@ -45,18 +49,18 @@ void	add_new_pipe_head(t_ast	**ast)
 	(*ast) = new_head;
 }
 
-void	ast_pipe(char *line, int i, t_ast **ast)
+bool	ast_pipe(char *line, int i, t_ast **ast, char *tmp)
 {
 	int		operator[2];
-	char	*tmp;
 
 	operator[0] = i;
 	operator[1] = i + 1;
 	while (line[operator[1]] && !is_op(line[operator[1]]))
 		operator[1]++;
 	if ((*ast)->base->cmd_op == e_empty)
-		first_base(line, ast, operator);
-	else
+		if (first_base(line, ast, operator) == false)
+			return (cmd_error(NULL));
+	if ((*ast)->base->cmd_op != e_empty)
 		add_new_pipe_head(ast);
 	line += i + 1;
 	tmp = ft_calloc(operator[1] - i + 1, sizeof(char));
@@ -64,7 +68,9 @@ void	ast_pipe(char *line, int i, t_ast **ast)
 	(*ast)->right = ft_calloc(1, sizeof(t_ast));
 	(*ast)->right->base = ft_calloc(1, sizeof(t_ast_content));
 	(*ast)->right->base->cmd = ft_split_arg(tmp);
+	(*ast)->right->base->quote_tab = result_quote_tab(tmp, NULL);
 	(*ast)->right->base->cmd_op = is_builtins((*ast)->right->base->cmd[0]);
 	(*ast)->right->base->builtins = ((*ast)->right->base->cmd_op >= e_echo);
 	free(tmp);
+	return (true);
 }

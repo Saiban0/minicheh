@@ -1,31 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   env_var_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ttaquet <ttaquet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/11 12:19:03 by tom               #+#    #+#             */
-/*   Updated: 2024/12/11 16:26:36 by ttaquet          ###   ########.fr       */
+/*   Created: 2024/12/09 14:32:49 by ttaquet           #+#    #+#             */
+/*   Updated: 2024/12/09 14:33:11 by ttaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern int	g_exit_code;
-
-void	ft_pwd(char	**arg, t_env *env, t_ast *ast, t_pipex *pipex)
+int	count_tab_size(char *command)
 {
-	if (arg != NULL)
+	int		i;
+	int		res;
+	bool	env_var;
+	char	*temp;
+
+	i = -1;
+	res = 1;
+	env_var = false;
+	temp = rem_wspace(command);
+	while (temp[++i])
 	{
-		if (arg[1])
+		if (temp[i] == '$' && temp[i + 1] != '(')
 		{
-			ft_putstr_fd("pwd: too many arguments\n", STDERR_FILENO);
-			return ;
+			env_var = true;
+			res++;
+		}
+		else if ((is_whitespace(temp[i]) || temp[i] == '\'' || temp[i] == '"')
+			&& env_var == true)
+		{
+			env_var = false;
+			res++;
 		}
 	}
-	ft_putstr_fd(env->pwd, STDOUT_FILENO);
-	ft_putchar_fd('\n', STDOUT_FILENO);
-	g_exit_code = 0;
-	ft_exit(NULL, ast, env, pipex);
+	free(temp);
+	return (res);
 }
